@@ -1,0 +1,79 @@
+# node labs/security/wordpress-upgrade-check-lab/wordpress-upgrade-check-lab.mjs, 2026-11-06 10:50 UTC
+self-check findings on the unsafe installs (what the check tells the owner):
+   core below fixed release: 9.2.1 is below 9.2.3, the fixed release for branch 9.2
+   older branch below its fix: 9.1.5 is below 9.1.7, the fixed release for branch 9.1
+   branch with no fixed release: branch 8.9 has no fixed release in the advisory, move to 9.2.3
+   updater turned off in wp-config: wp-config: define('AUTOMATIC_UPDATER_DISABLED', true)
+   core auto-updates set to false: wp-config: define('WP_AUTO_UPDATE_CORE', false)
+   file changes disallowed: wp-config: define('DISALLOW_FILE_MODS', true) turns every update off
+   mu-plugin turns updater off: wp-content/mu-plugins/site-tweaks.php: add_filter('automatic_updater_disabled', '__return_true')
+   mu-plugin vetoes core updates: wp-content/mu-plugins/site-tweaks.php: add_filter('auto_update_core', '__return_false')
+   plugin blocks minor releases: wp-content/plugins/speed-pack/speed-pack.php: add_filter('allow_minor_auto_core_updates', '__return_false') blocks security releases
+   git checkout as web root: .git found: WordPress treats this as a version-control checkout and skips core auto-updates
+   old core and updater off: 9.2.1 is below 9.2.3, the fixed release for branch 9.2; wp-config: define('AUTOMATIC_UPDATER_DISABLED', true)
+
+SDS Security Lab · wordpress-upgrade-check-lab · WordPress core version and auto-update self-check
+Node 22.13.1, PHP 8.5.2 tokenizer, 19 throwaway WordPress-shaped installs, lab advisory (example versions) · 2026-11-06 10:50 UTC · throwaway data, this Mac only
+
+== 1. 再現 REPRODUCE: attack inputs against the unsafe version
+   unsafe code: core below the fixed release for its branch, or a setting that stops minor (security) releases installing themselves
+   REPRODUCED  core below fixed release: $wp_version 9.2.1, fix is 9.2.3 -> OLD
+   REPRODUCED  older branch below its fix: $wp_version 9.1.5, branch fix 9.1.7 -> OLD
+   REPRODUCED  branch with no fixed release: $wp_version 8.9.9, branch not listed -> NOFIX
+   REPRODUCED  updater turned off in wp-config: AUTOMATIC_UPDATER_DISABLED true -> OFF
+   REPRODUCED  core auto-updates set to false: WP_AUTO_UPDATE_CORE false -> OFF
+   REPRODUCED  file changes disallowed: DISALLOW_FILE_MODS true -> OFF
+   REPRODUCED  mu-plugin turns updater off: automatic_updater_disabled __return_true -> OFF
+   REPRODUCED  mu-plugin vetoes core updates: auto_update_core __return_false -> OFF
+   REPRODUCED  plugin blocks minor releases: allow_minor_auto_core_updates false -> MINOR-OFF
+   REPRODUCED  git checkout as web root: .git folder in install root -> VCS-OFF
+   REPRODUCED  old core and updater off: 9.2.1 + AUTOMATIC_UPDATER_DISABLED -> OLD+OFF
+
+== 2. 実験 EXPERIMENT: attack and normal inputs, both versions
+   test                                         input                                      unsafe     fixed     
+   core below fixed release (attack)            $wp_version 9.2.1, fix is 9.2.3            OLD        ok        
+   older branch below its fix (attack)          $wp_version 9.1.5, branch fix 9.1.7        OLD        ok        
+   branch with no fixed release (attack)        $wp_version 8.9.9, branch not listed       NOFIX      ok        
+   updater turned off in wp-config (attack)     AUTOMATIC_UPDATER_DISABLED true            OFF        ok        
+   core auto-updates set to false (attack)      WP_AUTO_UPDATE_CORE false                  OFF        ok        
+   file changes disallowed (attack)             DISALLOW_FILE_MODS true                    OFF        ok        
+   mu-plugin turns updater off (attack)         automatic_updater_disabled __return_true   OFF        ok        
+   mu-plugin vetoes core updates (attack)       auto_update_core __return_false            OFF        ok        
+   plugin blocks minor releases (attack)        allow_minor_auto_core_updates false        MINOR-OFF  ok        
+   git checkout as web root (attack)            .git folder in install root                VCS-OFF    ok        
+   old core and updater off (attack)            9.2.1 + AUTOMATIC_UPDATER_DISABLED         OLD+OFF    ok        
+   current core, default config (normal)        $wp_version 9.2.3, no update settings      ok         ok        
+   newer branch than the fix (normal)           $wp_version 9.3.0                          ok         ok        
+   minor auto-updates (default) (normal)        WP_AUTO_UPDATE_CORE 'minor'                ok         ok        
+   all core auto-updates on (normal)            WP_AUTO_UPDATE_CORE true                   ok         ok        
+   editor locked, debug off (normal)            DISALLOW_FILE_EDIT true, WP_DEBUG false    ok         ok        
+   disable line commented out (normal)          // and /* */ around AUTOMATIC_UPDATER_DISA ok         ok        
+   only major updates held back (normal)        allow_major_auto_core_updates false        ok         ok        
+   git repo inside one plugin (normal)          .git in wp-content/plugins/my-plugin       ok         ok        
+
+== 3. 対策 FIX
+   + update core to the fixed release for your branch (Dashboard > Updates, or: wp core update --minor)
+   + remove define('AUTOMATIC_UPDATER_DISABLED', true) and define('DISALLOW_FILE_MODS', true), or own updates in your deploy
+   + define( 'WP_AUTO_UPDATE_CORE', 'minor' );   // the default: security releases install themselves
+   + remove add_filter('automatic_updater_disabled' / 'auto_update_core' / 'allow_minor_auto_core_updates', ...) blockers
+   + keep .git outside the web root (deploy files only), or make the pipeline ship each security release
+   BLOCKED     core below fixed release: $wp_version 9.2.1, fix is 9.2.3 -> ok
+   BLOCKED     older branch below its fix: $wp_version 9.1.5, branch fix 9.1.7 -> ok
+   BLOCKED     branch with no fixed release: $wp_version 8.9.9, branch not listed -> ok
+   BLOCKED     updater turned off in wp-config: AUTOMATIC_UPDATER_DISABLED true -> ok
+   BLOCKED     core auto-updates set to false: WP_AUTO_UPDATE_CORE false -> ok
+   BLOCKED     file changes disallowed: DISALLOW_FILE_MODS true -> ok
+   BLOCKED     mu-plugin turns updater off: automatic_updater_disabled __return_true -> ok
+   BLOCKED     mu-plugin vetoes core updates: auto_update_core __return_false -> ok
+   BLOCKED     plugin blocks minor releases: allow_minor_auto_core_updates false -> ok
+   BLOCKED     git checkout as web root: .git folder in install root -> ok
+   BLOCKED     old core and updater off: 9.2.1 + AUTOMATIC_UPDATER_DISABLED -> ok
+
+== 4. レポート REPORT
+   reproduced on unsafe version : 11/11
+   blocked by the fix           : 11/11
+   normal inputs unchanged      : 8/8
+   note: lab advisory: fixed releases 9.1.7, 9.2.3 are LAB EXAMPLE numbers (branch 9.x does not exist); take the real ones from the WordPress security release notes on wordpress.org/news and the CVE record
+   note: results: ok, OLD (below the fixed release), NOFIX (branch has no fixed release), OFF / MINOR-OFF / VCS-OFF (security releases will not install themselves)
+   note: your own install: WP_PATH=/path/to/wordpress WP_FIXED=<official fixed versions> node labs/security/wordpress-upgrade-check-lab/wordpress-upgrade-check-lab.mjs (read-only)
+RESULT: FIX WORKS: every attack input reproduced on the unsafe version and was blocked by the fix; normal inputs unchanged

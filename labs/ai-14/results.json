@@ -1,0 +1,121 @@
+{
+    "metrics": [
+        {
+            "name": "Bot A (replay clicks) success, moved runs",
+            "value": 4,
+            "unit": "%"
+        },
+        {
+            "name": "Bot C (observe, act, no check) success, moved runs",
+            "value": 86,
+            "unit": "%"
+        },
+        {
+            "name": "Bot B (observe, act, check) success, moved runs",
+            "value": 94,
+            "unit": "%"
+        },
+        {
+            "name": "Bot A success, control runs",
+            "value": 100,
+            "unit": "%"
+        },
+        {
+            "name": "Bot C success, control runs",
+            "value": 60,
+            "unit": "%"
+        },
+        {
+            "name": "Bot B success, control runs",
+            "value": 80,
+            "unit": "%"
+        },
+        {
+            "name": "Bot A silent failures (said done, page says no)",
+            "value": 48,
+            "unit": "runs"
+        },
+        {
+            "name": "Bot C silent failures",
+            "value": 4,
+            "unit": "runs"
+        },
+        {
+            "name": "Bot B silent failures",
+            "value": 0,
+            "unit": "runs"
+        },
+        {
+            "name": "Bot B noticed failures (gave up and said so)",
+            "value": 3,
+            "unit": "runs"
+        },
+        {
+            "name": "Bot C success on popup runs",
+            "value": 100,
+            "unit": "%"
+        },
+        {
+            "name": "Bot B success on popup runs",
+            "value": 100,
+            "unit": "%"
+        },
+        {
+            "name": "Bot A avg steps",
+            "value": 5,
+            "unit": "actions"
+        },
+        {
+            "name": "Bot C avg steps",
+            "value": 4.9,
+            "unit": "actions"
+        },
+        {
+            "name": "Bot B avg steps",
+            "value": 5.16,
+            "unit": "actions"
+        },
+        {
+            "name": "Bot A avg time per task",
+            "value": 2.4,
+            "unit": "s (simulated)"
+        },
+        {
+            "name": "Bot C avg time per task",
+            "value": 8.07,
+            "unit": "s (simulated)"
+        },
+        {
+            "name": "Bot B avg time per task",
+            "value": 13.83,
+            "unit": "s (simulated)"
+        },
+        {
+            "name": "Bot B wrong clicks, incl. popup-dismiss clicks",
+            "value": 7,
+            "unit": "clicks"
+        },
+        {
+            "name": "Bot B wrong popup-dismiss clicks",
+            "value": 0,
+            "unit": "clicks"
+        },
+        {
+            "name": "Bot B wrong clicks caught by check",
+            "value": 7,
+            "unit": "clicks"
+        },
+        {
+            "name": "Bot B failed checks after intended-target hits",
+            "value": 15,
+            "unit": "checks"
+        },
+        {
+            "name": "Bot B actual false alarms (evaluator truth)",
+            "value": 15,
+            "unit": "checks"
+        }
+    ],
+    "conclusion": "In this simulation with one button moved in 50 runs, replaying recorded clicks finished 4% of tasks, finding targets by simulated labels without checking finished 86% (4 silent failures), and adding a check after each action finished 94% (0 silent failures) at about 5.8x replay's time, its check catching 7 of 7 wrong clicks including popup closes.",
+    "setup": "seed 1406; 50 moved runs (Save or toggle moved at random, popup p=0.3) + 10 control; 4-step task; simulated label observations from page state (no screenshots or OCR) with miss 0.06, misplace 0.04 (40 to 120 px), jitter 6 px; check misjudge 0.03; Bot B 1 retry per step; up to 2 popup closes per step; Bot B and C share code and seeds, C has no post-action checks; simulated costs ms {\"click\":150,\"type\":600,\"settle\":300,\"observe\":1300}"
+}

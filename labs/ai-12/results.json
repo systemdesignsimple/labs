@@ -1,0 +1,226 @@
+{
+    "metrics": [
+        {
+            "name": "run completed",
+            "value": 1,
+            "unit": "boolean"
+        },
+        {
+            "name": "total run time",
+            "value": 3.2,
+            "unit": "s"
+        },
+        {
+            "name": "vectors stored",
+            "value": 20000,
+            "unit": "vectors"
+        },
+        {
+            "name": "dimensions",
+            "value": 64,
+            "unit": "dims"
+        },
+        {
+            "name": "HNSW build time",
+            "value": 2.49,
+            "unit": "s"
+        },
+        {
+            "name": "indexed vector data (computed float32 bytes)",
+            "value": 5.12,
+            "unit": "MB"
+        },
+        {
+            "name": "HNSW link payload (estimated as int32 ids, not measured heap)",
+            "value": 1.61,
+            "unit": "MB"
+        },
+        {
+            "name": "full scan avg latency",
+            "value": 2.175,
+            "unit": "ms"
+        },
+        {
+            "name": "full scan p95 latency",
+            "value": 2.243,
+            "unit": "ms"
+        },
+        {
+            "name": "full scan distance evaluations per query",
+            "value": 20000,
+            "unit": "evaluations"
+        },
+        {
+            "name": "HNSW efSearch=10 avg latency",
+            "value": 0.037,
+            "unit": "ms"
+        },
+        {
+            "name": "HNSW efSearch=10 p95 latency",
+            "value": 0.057,
+            "unit": "ms"
+        },
+        {
+            "name": "HNSW efSearch=10 distance evaluations per query",
+            "value": 155,
+            "unit": "evaluations"
+        },
+        {
+            "name": "HNSW efSearch=10 unique vectors touched per query",
+            "value": 145,
+            "unit": "vectors"
+        },
+        {
+            "name": "HNSW efSearch=10 recall@10",
+            "value": 0.75,
+            "unit": "fraction"
+        },
+        {
+            "name": "HNSW efSearch=20 avg latency",
+            "value": 0.047,
+            "unit": "ms"
+        },
+        {
+            "name": "HNSW efSearch=20 p95 latency",
+            "value": 0.077,
+            "unit": "ms"
+        },
+        {
+            "name": "HNSW efSearch=20 distance evaluations per query",
+            "value": 192,
+            "unit": "evaluations"
+        },
+        {
+            "name": "HNSW efSearch=20 unique vectors touched per query",
+            "value": 181,
+            "unit": "vectors"
+        },
+        {
+            "name": "HNSW efSearch=20 recall@10",
+            "value": 0.788,
+            "unit": "fraction"
+        },
+        {
+            "name": "HNSW efSearch=40 avg latency",
+            "value": 0.064,
+            "unit": "ms"
+        },
+        {
+            "name": "HNSW efSearch=40 p95 latency",
+            "value": 0.101,
+            "unit": "ms"
+        },
+        {
+            "name": "HNSW efSearch=40 distance evaluations per query",
+            "value": 237,
+            "unit": "evaluations"
+        },
+        {
+            "name": "HNSW efSearch=40 unique vectors touched per query",
+            "value": 225,
+            "unit": "vectors"
+        },
+        {
+            "name": "HNSW efSearch=40 recall@10",
+            "value": 0.823,
+            "unit": "fraction"
+        },
+        {
+            "name": "HNSW efSearch=80 avg latency",
+            "value": 0.096,
+            "unit": "ms"
+        },
+        {
+            "name": "HNSW efSearch=80 p95 latency",
+            "value": 0.147,
+            "unit": "ms"
+        },
+        {
+            "name": "HNSW efSearch=80 distance evaluations per query",
+            "value": 291,
+            "unit": "evaluations"
+        },
+        {
+            "name": "HNSW efSearch=80 unique vectors touched per query",
+            "value": 277,
+            "unit": "vectors"
+        },
+        {
+            "name": "HNSW efSearch=80 recall@10",
+            "value": 0.856,
+            "unit": "fraction"
+        },
+        {
+            "name": "HNSW efSearch=160 avg latency",
+            "value": 0.141,
+            "unit": "ms"
+        },
+        {
+            "name": "HNSW efSearch=160 p95 latency",
+            "value": 0.249,
+            "unit": "ms"
+        },
+        {
+            "name": "HNSW efSearch=160 distance evaluations per query",
+            "value": 345,
+            "unit": "evaluations"
+        },
+        {
+            "name": "HNSW efSearch=160 unique vectors touched per query",
+            "value": 331,
+            "unit": "vectors"
+        },
+        {
+            "name": "HNSW efSearch=160 recall@10",
+            "value": 0.89,
+            "unit": "fraction"
+        },
+        {
+            "name": "HNSW efSearch=320 avg latency",
+            "value": 0.296,
+            "unit": "ms"
+        },
+        {
+            "name": "HNSW efSearch=320 p95 latency",
+            "value": 0.45,
+            "unit": "ms"
+        },
+        {
+            "name": "HNSW efSearch=320 distance evaluations per query",
+            "value": 794,
+            "unit": "evaluations"
+        },
+        {
+            "name": "HNSW efSearch=320 unique vectors touched per query",
+            "value": 776,
+            "unit": "vectors"
+        },
+        {
+            "name": "HNSW efSearch=320 recall@10",
+            "value": 0.944,
+            "unit": "fraction"
+        },
+        {
+            "name": "chosen efSearch",
+            "value": 320,
+            "unit": "setting"
+        },
+        {
+            "name": "chosen setting reached target recall",
+            "value": 0,
+            "unit": "boolean"
+        },
+        {
+            "name": "speedup vs full scan at chosen efSearch (avg latency ratio)",
+            "value": 7.36,
+            "unit": "x"
+        },
+        {
+            "name": "share of distinct vectors touched at chosen efSearch",
+            "value": 3.88,
+            "unit": "%"
+        }
+    ],
+    "conclusion": "On 20000 synthetic vectors, HNSW at efSearch=320 (best recall; target 0.95 not reached) touched 776 distinct vectors (3.9%) per query, answered 7.4x faster than the full scan and found 94.3% of the true top-10; recall was 75% at efSearch=10 and 94.3% at efSearch=320, after a 2.5 s index build.",
+    "setup": "20000 synthetic clustered vectors (100 clusters, 64 dims, 8-dim latent shape per cluster, seed 12); 200 fresh queries from the same distribution (+20 untimed warmup), top-10; teaching HNSW in JS, M=12, M0=24, efConstruction=60, efSearch sweep 10/20/40/80/160/320; target recall 0.95; single thread, Node v22.13.1; whole-run deadline 50 s"
+}

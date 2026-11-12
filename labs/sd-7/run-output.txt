@@ -1,0 +1,23 @@
+serial reference bank (one copy, no cut): final balance 835
+
+=== CP === (requested withdrawals total 5497, same for every mode)
+before total=398 served=398 refused=0 staleReads=0 declinedForFunds=0 overdrawnLedgerWithdrawals=0 refusedByReference=0
+during total=442 served=218 refused=224 staleReads=0 declinedForFunds=0 overdrawnLedgerWithdrawals=0 refusedByReference=0
+after  total=398 served=398 refused=0 staleReads=0 declinedForFunds=0 overdrawnLedgerWithdrawals=0 refusedByReference=0
+at repair: Europe showed 760, Asia showed 1336, cut writes Europe=105 Asia=0, replayed log low point 584; balance after repair 760 vs ledger 760 (off by 0)
+lowest ledger balance=584; end: ledger=803, Europe=803, Asia=803
+
+=== AP-merge === (requested withdrawals total 5497, same for every mode)
+before total=398 served=398 refused=0 staleReads=0 declinedForFunds=0 overdrawnLedgerWithdrawals=0 refusedByReference=0
+during total=442 served=442 refused=0 staleReads=241 declinedForFunds=0 overdrawnLedgerWithdrawals=15 refusedByReference=1
+after  total=398 served=398 refused=0 staleReads=0 declinedForFunds=0 overdrawnLedgerWithdrawals=0 refusedByReference=0
+at repair: Europe showed 760, Asia showed 668, cut writes Europe=105 Asia=94, replayed log low point -135; balance after repair 92 vs ledger 92 (off by 0)
+lowest ledger balance=-135; end: ledger=135, Europe=135, Asia=135
+
+=== AP-LWW === (requested withdrawals total 5497, same for every mode)
+before total=398 served=398 refused=0 staleReads=0 declinedForFunds=0 overdrawnLedgerWithdrawals=0 refusedByReference=0
+during total=442 served=442 refused=0 staleReads=241 declinedForFunds=0 overdrawnLedgerWithdrawals=15 refusedByReference=1
+after  total=398 served=398 refused=0 staleReads=223 declinedForFunds=0 overdrawnLedgerWithdrawals=0 refusedByReference=0
+at repair: Europe showed 760, Asia showed 668, cut writes Europe=105 Asia=94, LWW kept Europe and dropped 94 writes; balance after repair 760 vs ledger 92 (off by 668)
+lowest ledger balance=-135; end: ledger=135, Europe=803, Asia=803
+RESULT {"metrics":[{"name":"Requests during the cut (same stream and amounts, every mode)","value":442,"unit":"requests"},{"name":"CP refused during the cut","value":50.7,"unit":"%"},{"name":"CP stale reads during the cut","value":0,"unit":"reads"},{"name":"CP lowest balance in the accepted-operation ledger","value":584,"unit":"money units"},{"name":"AP served during the cut","value":100,"unit":"%"},{"name":"AP stale reads during the cut","value":241,"unit":"reads"},{"name":"AP withdrawals accepted while the accepted-operation ledger lacked funds","value":15,"unit":"withdrawals"},{"name":"AP withdrawals accepted that the serial reference bank refused","value":1,"unit":"withdrawals"},{"name":"AP lowest balance in the accepted-operation ledger","value":-135,"unit":"money units"},{"name":"AP-merge balance error after repair","value":0,"unit":"money units"},{"name":"AP-LWW writes dropped at repair","value":94,"unit":"writes"},{"name":"AP-LWW balance error after repair","value":668,"unit":"money units"},{"name":"AP-LWW reads after repair that differ from the ledger","value":223,"unit":"reads"}],"conclusion":"During the 20s cut, CP refused 50.7% of requests with 0 stale reads, while AP answered 100% but gave 241 stale reads and accepted 1 withdrawals a serial bank refused (ledger low -135); merging logs at repair left a balance error of 0, while last-writer-wins dropped 94 writes and left it off by 668.","setup":"simulated 2-replica account (Europe, Asia), seed 7, 60s at 20 req/s, cut 20s to 40s, start balance 1000, mix read/deposit/withdraw 0.5/0.25/0.25, amounts 5 to 25 precomputed, one scripted withdrawal of 700 on each side at 30s, CP majority (with witness) in Europe, AP repaired two ways: per-replica log merge, and last-writer-wins on balance"}

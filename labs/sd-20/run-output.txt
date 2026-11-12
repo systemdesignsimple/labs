@@ -1,0 +1,21 @@
+sd #20 service discovery lab
+500 instances, 50 killed at t=20s, 20 callers x 100 req/s, run 60s, caller cache 3s
+
+Failed requests per 5 s window (kill happens at 20 s):
+setup                      0     5    10    15    20    25    30    35    40    45    50    55
+Hardcoded list             0     0     0     0  1000  1000  1000  1000  1000  1000  1000  1000
+Registry, 10 s TTL         0     0     0     0  1000   923   112     0     0     0     0     0
+Registry, 2 s TTL          0     0     0     0   623     0     0     0     0     0     0     0
+
+Hardcoded list         failed  8000 of 120000, stale window 40 s and still failing at end of run, no registry traffic
+Registry, 10 s TTL     failed  2035 of 120000, stale window 12.5 s, heartbeats 186.2/s, registry lookups 6.7/s
+Registry, 2 s TTL      failed   623 of 120000, stale window 4.8 s, heartbeats 924/s, registry lookups 6.7/s
+
+Cached pick: 0 ms (measured CPU)
+Registry query: 0.0157 ms (measured CPU, in-process)
+Registry round trip: 0.7022 ms mean (assumed from the RTT model, not measured)
+Uncached lookup estimate: 0.7179 ms (measured CPU + assumed round trip)
+2 s TTL setup: 399 background refreshes for 120000 requests, registry CPU 0.0001 ms per request; requests never wait on a refresh
+Wall time 0.3 s
+
+RESULT {"metrics":[{"name":"Failed requests, hardcoded list","value":8000,"unit":"requests"},{"name":"Failed requests, registry 10 s TTL","value":2035,"unit":"requests"},{"name":"Failed requests, registry 2 s TTL","value":623,"unit":"requests"},{"name":"Stale window, hardcoded list (until end of run)","value":40,"unit":"s"},{"name":"Stale window, registry 10 s TTL","value":12.5,"unit":"s"},{"name":"Stale window, registry 2 s TTL","value":4.8,"unit":"s"},{"name":"Heartbeats to registry, 10 s TTL","value":186.2,"unit":"per s"},{"name":"Heartbeats to registry, 2 s TTL","value":924,"unit":"per s"},{"name":"Cached pick, measured CPU","value":0,"unit":"ms"},{"name":"Registry query, measured CPU","value":0.0157,"unit":"ms"},{"name":"Registry round trip, assumed (not measured)","value":0.7022,"unit":"ms"},{"name":"Uncached lookup estimate (measured CPU + assumed round trip)","value":0.7179,"unit":"ms"}],"conclusion":"A hardcoded list kept sending traffic to dead instances for all 40 s after the crash (8000 failed requests), while a registry stopped it after 12.5 s with a 10 s TTL (2035 failures) and 4.8 s with a 2 s TTL (623 failures), and the faster configuration (2 s TTL with heartbeats every 0.5 s instead of 2.5 s) paid for that with 5x the heartbeat traffic.","setup":"500 in-process instances, 50 killed at 20 s, 20 callers at 100 req/s each, 60 s virtual run in 10 ms ticks, caller cache 3 s, TTL 10 s with 2.5 s heartbeat vs TTL 2 s with 0.5 s heartbeat (+/-10% jitter), same caller start positions and cache phases in all setups, registry round trip assumed as 0.25 ms + exp(mean 0.5 ms) and scheduled on the virtual clock (a refresh lands on the first tick at or after it), no retries, seed 20"}

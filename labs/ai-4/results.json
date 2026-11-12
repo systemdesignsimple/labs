@@ -1,0 +1,198 @@
+{
+ "metrics": {
+  "keyword_bm25_recall_at_1_same": {
+   "value": 96.7,
+   "unit": "%"
+  },
+  "keyword_bm25_recall_at_3_same": {
+   "value": 96.7,
+   "unit": "%"
+  },
+  "keyword_bm25_recall_at_5_same": {
+   "value": 100,
+   "unit": "%"
+  },
+  "keyword_bm25_recall_at_1_para": {
+   "value": 3.3,
+   "unit": "%"
+  },
+  "keyword_bm25_recall_at_3_para": {
+   "value": 13.3,
+   "unit": "%"
+  },
+  "keyword_bm25_recall_at_5_para": {
+   "value": 20,
+   "unit": "%"
+  },
+  "keyword_bm25_recall_at_3_para_tuning": {
+   "value": 6.7,
+   "unit": "%"
+  },
+  "keyword_bm25_recall_at_3_para_later": {
+   "value": 20,
+   "unit": "%"
+  },
+  "keyword_bm25_paired_at_3_both": {
+   "value": 4,
+   "unit": "facts"
+  },
+  "keyword_bm25_paired_at_3_same_only": {
+   "value": 25,
+   "unit": "facts"
+  },
+  "keyword_bm25_paired_at_3_para_only": {
+   "value": 0,
+   "unit": "facts"
+  },
+  "keyword_bm25_paired_at_3_neither": {
+   "value": 1,
+   "unit": "facts"
+  },
+  "keyword_bm25_top3_tokens_avg": {
+   "value": 1357,
+   "unit": "tokens"
+  },
+  "keyword_bm25_reading_reduction": {
+   "value": 55.6,
+   "unit": "x"
+  },
+  "synonym_tfidf_recall_at_1_same": {
+   "value": 93.3,
+   "unit": "%"
+  },
+  "synonym_tfidf_recall_at_3_same": {
+   "value": 96.7,
+   "unit": "%"
+  },
+  "synonym_tfidf_recall_at_5_same": {
+   "value": 100,
+   "unit": "%"
+  },
+  "synonym_tfidf_recall_at_1_para": {
+   "value": 36.7,
+   "unit": "%"
+  },
+  "synonym_tfidf_recall_at_3_para": {
+   "value": 50,
+   "unit": "%"
+  },
+  "synonym_tfidf_recall_at_5_para": {
+   "value": 60,
+   "unit": "%"
+  },
+  "synonym_tfidf_recall_at_3_para_tuning": {
+   "value": 60,
+   "unit": "%"
+  },
+  "synonym_tfidf_recall_at_3_para_later": {
+   "value": 40,
+   "unit": "%"
+  },
+  "synonym_tfidf_paired_at_3_both": {
+   "value": 14,
+   "unit": "facts"
+  },
+  "synonym_tfidf_paired_at_3_same_only": {
+   "value": 15,
+   "unit": "facts"
+  },
+  "synonym_tfidf_paired_at_3_para_only": {
+   "value": 1,
+   "unit": "facts"
+  },
+  "synonym_tfidf_paired_at_3_neither": {
+   "value": 0,
+   "unit": "facts"
+  },
+  "synonym_tfidf_top3_tokens_avg": {
+   "value": 1353,
+   "unit": "tokens"
+  },
+  "synonym_tfidf_reading_reduction": {
+   "value": 55.7,
+   "unit": "x"
+  },
+  "full_document_tokens": {
+   "value": 75440,
+   "unit": "tokens"
+  },
+  "chunks": {
+   "value": 167,
+   "unit": "chunks"
+  }
+ },
+ "conclusion": "On this synthetic handbook, top-3 retrieval cut reading from about 75440 tokens to about 1357 with keyword BM25 or 1353 with synonym TF-IDF; asking the same 30 facts two ways, keyword BM25 found 29/30 same-word but only 4/30 paraphrased questions, while the hand-tailored synonym TF-IDF found 29/30 and 15/30 (9/15 on paraphrases its synonym map was written for, 6/15 on paraphrases written after the map was frozen).",
+ "setup": "seed=404; synthetic handbook 100 pages, 50870 words; 30 planted facts, each asked with same words and paraphrased (60 questions); paraphrase sets tuning=15, later=15; sentence-aligned chunks of ~300 words (167); BM25 k1=1.2 b=0.75; synonym TF-IDF = frozen hand-written synonym map + char trigrams (weight 0.2), TF-IDF cosine, not an embedding model; tokens = chars/4",
+ "printout": [
+  "Handbook: 100 pages, 50870 words, 167 chunks of about 300 words, about 75440 tokens in total.",
+  "Facts: 30, each asked twice (same words, paraphrased) = 60 questions. Seed 404.",
+  "Paraphrase sets: tuning = 15 (synonym map written against them), later = 15 (written after the map was frozen).",
+  "",
+  "Recall: is the chunk holding the answer in the top k? (same facts for both wordings)",
+  "method          wording       @1      @3      @5",
+  "keyword BM25    same words    96.7%   96.7%   100%    ",
+  "keyword BM25    paraphrased   3.3%    13.3%   20%     ",
+  "synonym TF-IDF  same words    93.3%   96.7%   100%    ",
+  "synonym TF-IDF  paraphrased   36.7%   50%     60%     ",
+  "",
+  "Paraphrased recall@3 by set:",
+  "  keyword BM25     tuning 1/15   later 3/15",
+  "  synonym TF-IDF   tuning 9/15   later 6/15",
+  "",
+  "Paired @3, same fact asked two ways: both found / same words only / paraphrase only / neither",
+  "  keyword BM25     4 / 25 / 0 / 1",
+  "  synonym TF-IDF   14 / 15 / 1 / 0",
+  "",
+  "What the model reads, averaged over all 60 questions. Whole document: about 75440 tokens.",
+  "  keyword BM25     top 3 chunks about 1357 tokens (55.6x less)",
+  "  synonym TF-IDF   top 3 chunks about 1353 tokens (55.7x less)",
+  "",
+  "keyword BM25 misses (answer not in top 3): 27",
+  "  [paraphrased/later] rank 9: How often does the internet code for visitors change?",
+  "  [paraphrased/later] rank 112: What is the daily food budget on a work journey?",
+  "  [paraphrased/later] rank 47: How much do I pay if I misplace my ID card?",
+  "  [paraphrased/later] rank 37: How long does it take for a work computer to reach someone who works from home?",
+  "  [paraphrased/later] rank 33: Until what time can I leave my car in the company car park during the week?",
+  "  [paraphrased/later] rank 115: Which day of the month do salaries arrive in our bank accounts?",
+  "  [paraphrased/later] rank 58: How early do I have to ask for vacation days?",
+  "  [paraphrased/later] rank 36: What do I need to get into the room where the company machines run?",
+  "  [paraphrased/later] rank 85: Where do we gather outside if the building has to be evacuated?",
+  "  [paraphrased/later] rank 93: How long do we hold on to copies of the main live data?",
+  "  [paraphrased/later] rank 15: How much are trainees paid each month?",
+  "  [paraphrased/later] rank 5: How long do reviewers have to look at a colleague's changes?",
+  "  [paraphrased/tuning] rank 5: How warm is the workplace heating kept during the cold months?",
+  "  [paraphrased/tuning] rank 125: What happens to old documents in the team folder that nobody has opened in a long time?",
+  "  [paraphrased/tuning] rank 72: What should a guest do when they arrive at the front desk?",
+  "  [paraphrased/tuning] rank 155: How fast does IT support respond to a request?",
+  "  [paraphrased/tuning] rank 71: Where can I keep my bike at the office?",
+  "  [paraphrased/tuning] rank 61: What is the deadline to submit proof of spending?",
+  "  [same words] rank 4: How long is parental leave?",
+  "  [paraphrased/tuning] rank 20: How much time off do new mothers and fathers get?",
+  "  [paraphrased/tuning] rank 10: When are we not allowed to release software to live servers?",
+  "  [paraphrased/tuning] rank 17: How do I get rid of secret paperwork?",
+  "  [paraphrased/tuning] rank 95: Do employees pay to use the fitness center?",
+  "  [paraphrased/tuning] rank 21: Which credential storage tools are we allowed to use?",
+  "  [paraphrased/tuning] rank 54: How much extra do I earn for working additional hours?",
+  "  [paraphrased/tuning] rank 46: When are staff evaluations held?",
+  "  [paraphrased/tuning] rank 122: What should I do if a beverage damages my computer?",
+  "synonym TF-IDF misses (answer not in top 3): 16",
+  "  [paraphrased/later] rank 13: How often does the internet code for visitors change?",
+  "  [paraphrased/later] rank 5: What is the daily food budget on a work journey?",
+  "  [paraphrased/later] rank 39: How much do I pay if I misplace my ID card?",
+  "  [paraphrased/later] rank 10: How long does it take for a work computer to reach someone who works from home?",
+  "  [paraphrased/later] rank 8: Until what time can I leave my car in the company car park during the week?",
+  "  [paraphrased/later] rank 87: Which day of the month do salaries arrive in our bank accounts?",
+  "  [paraphrased/later] rank 30: What do I need to get into the room where the company machines run?",
+  "  [paraphrased/later] rank 4: How much are trainees paid each month?",
+  "  [paraphrased/later] rank 9: How long do reviewers have to look at a colleague's changes?",
+  "  [paraphrased/tuning] rank 60: What should a guest do when they arrive at the front desk?",
+  "  [same words] rank 4: How long is parental leave?",
+  "  [paraphrased/tuning] rank 4: When are we not allowed to release software to live servers?",
+  "  [paraphrased/tuning] rank 19: How do I get rid of secret paperwork?",
+  "  [paraphrased/tuning] rank 10: Do employees pay to use the fitness center?",
+  "  [paraphrased/tuning] rank 11: How much extra do I earn for working additional hours?",
+  "  [paraphrased/tuning] rank 53: When are staff evaluations held?"
+ ],
+ "command": "node run.mjs",
+ "captured": "2026-11-05, fresh run, seed 404"
+}

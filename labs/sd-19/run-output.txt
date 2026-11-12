@@ -1,0 +1,16 @@
+sd-19 lab: monolith vs split services (simulated, virtual clock, seed 19)
+
+scenario   arch      checkout p50  p95      error%  orders/s   recs error%
+baseline   monolith  20.14 ms      29.75 ms    0.0      39.7          0.0
+baseline   split     22.72 ms      32.34 ms    0.0      39.7          0.0
+slow       monolith  974.33 ms     999.96 ms   97.5       1.0        100.0
+slow       split     22.66 ms      32.42 ms    0.0      39.7        100.0
+crash      monolith  17.19 ms      29.47 ms   98.7       0.5        100.0
+crash      split     22.78 ms      32.30 ms    0.0      39.7        100.0
+redeploy   monolith  20.19 ms      29.78 ms   22.0      31.0         22.8
+redeploy   split     22.71 ms      32.38 ms    0.0      39.7          9.0
+
+Note: the bad feature (recs) still fails in the split version. The split only stops it from taking checkout down with it.
+Wall time: 41 ms
+
+RESULT {"metrics":[{"name":"baseline checkout p50, monolith","value":20.14,"unit":"ms"},{"name":"baseline checkout p50, split","value":22.72,"unit":"ms"},{"name":"extra checkout p50 from the hop on a normal day","value":2.58,"unit":"ms"},{"name":"baseline checkout p95, monolith","value":29.75,"unit":"ms"},{"name":"baseline checkout p95, split","value":32.34,"unit":"ms"},{"name":"slow recs: checkout errors, monolith","value":97.5,"unit":"%"},{"name":"slow recs: checkout errors, split","value":0,"unit":"%"},{"name":"slow recs: orders per second, monolith","value":1,"unit":"orders/s"},{"name":"slow recs: orders per second, split","value":39.7,"unit":"orders/s"},{"name":"slow recs: checkout p95, split","value":32.42,"unit":"ms"},{"name":"crash-loop recs: checkout errors, monolith","value":98.7,"unit":"%"},{"name":"crash-loop recs: checkout errors, split","value":0,"unit":"%"},{"name":"crash-loop recs: orders per second, monolith","value":0.5,"unit":"orders/s"},{"name":"crash-loop recs: orders per second, split","value":39.7,"unit":"orders/s"},{"name":"redeploy recs: failed checkouts, monolith","value":157,"unit":"orders"},{"name":"redeploy recs: failed checkouts, split","value":0,"unit":"orders"},{"name":"baseline orders per second (both)","value":39.7,"unit":"orders/s"}],"conclusion":"In this toy shop the split cost about 2.6 ms extra checkout latency on a normal day, but when recommendations slowed to 2 s checkout errors were 97.5% in the monolith versus 0.0% split, and in a crash loop 98.7% versus 0.0%.","setup":"virtual-clock simulation, seed 19, 200 req/s Poisson, mix checkout/search/recs 0.2/0.4/0.4, base service time 20/10/15 ms (uniform 0.5x to 1.5x, 3% of calls x3, so expected mean 21.2/10.6/15.9 ms), 16 workers total (monolith 1x16, split 4/6/6), simulated hop 0.8 to 1.6 ms each way + 0.2 ms gateway, client timeout 1000 ms, 20 s per scenario (first 2 s not counted), slow recs 2000 ms, crash after 50 ms with 2000 ms restart, redeploy at 8 s: monolith restart 4000 ms vs one service 1500 ms; hop, gateway and restart durations are assumed inputs, the metrics are their simulated effect on checkout"}

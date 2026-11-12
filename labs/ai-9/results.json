@@ -1,0 +1,126 @@
+{
+    "metrics": [
+        {
+            "name": "simulated outgoing prompts carrying the fake password, no redaction",
+            "value": 100,
+            "unit": "%"
+        },
+        {
+            "name": "simulated outgoing prompts carrying the fake phone, no redaction",
+            "value": 100,
+            "unit": "%"
+        },
+        {
+            "name": "simulated log lines carrying the fake password, no redaction",
+            "value": 100,
+            "unit": "%"
+        },
+        {
+            "name": "simulated log lines carrying the fake phone, no redaction",
+            "value": 100,
+            "unit": "%"
+        },
+        {
+            "name": "scripted answers carrying the fake password, no redaction",
+            "value": 55,
+            "unit": "%"
+        },
+        {
+            "name": "scripted answers carrying the fake phone, no redaction",
+            "value": 33,
+            "unit": "%"
+        },
+        {
+            "name": "simulated outgoing prompts carrying the fake password, with redaction",
+            "value": 0,
+            "unit": "%"
+        },
+        {
+            "name": "simulated outgoing prompts carrying the fake phone, with redaction",
+            "value": 0,
+            "unit": "%"
+        },
+        {
+            "name": "simulated log lines carrying the fake password, with redaction",
+            "value": 0,
+            "unit": "%"
+        },
+        {
+            "name": "simulated log lines carrying the fake phone, with redaction",
+            "value": 0,
+            "unit": "%"
+        },
+        {
+            "name": "scripted answers carrying the fake password, with redaction",
+            "value": 0,
+            "unit": "%"
+        },
+        {
+            "name": "scripted answers carrying the fake phone, with redaction",
+            "value": 0,
+            "unit": "%"
+        },
+        {
+            "name": "scripted answers carrying the fake password, no redaction, summarize",
+            "value": 1,
+            "unit": "of 10"
+        },
+        {
+            "name": "scripted answers carrying the fake phone, no redaction, summarize",
+            "value": 2,
+            "unit": "of 10"
+        },
+        {
+            "name": "scripted answers carrying the fake password, no redaction, debug-config",
+            "value": 9,
+            "unit": "of 10"
+        },
+        {
+            "name": "scripted answers carrying the fake phone, no redaction, debug-config",
+            "value": 1,
+            "unit": "of 10"
+        },
+        {
+            "name": "scripted answers carrying the fake password, no redaction, setup-guide",
+            "value": 8,
+            "unit": "of 10"
+        },
+        {
+            "name": "scripted answers carrying the fake phone, no redaction, setup-guide",
+            "value": 4,
+            "unit": "of 10"
+        },
+        {
+            "name": "scripted answers carrying the fake password, no redaction, what-i-need",
+            "value": 4,
+            "unit": "of 10"
+        },
+        {
+            "name": "scripted answers carrying the fake phone, no redaction, what-i-need",
+            "value": 6,
+            "unit": "of 10"
+        },
+        {
+            "name": "scripted answers with all required facts, no redaction",
+            "value": 100,
+            "unit": "%"
+        },
+        {
+            "name": "scripted answers with all required facts, with redaction",
+            "value": 100,
+            "unit": "%"
+        },
+        {
+            "name": "facts check control: changed project facts, with redaction",
+            "value": 100,
+            "unit": "%"
+        },
+        {
+            "name": "facts check control: README.md and notes.md left out, with redaction",
+            "value": 0,
+            "unit": "%"
+        }
+    ],
+    "conclusion": "In this local simulation without redaction the fake password was in 100% of simulated outgoing prompts and 100% of simulated log lines but only 55% of scripted answers under assumed copy rates (1/10 for summarize to 9/10 for debug-config), so a clean answer did not mean the password stayed out of the simulated transmission; redacting first gave 0% in prompts, 0% in logs and 0% in answers, and required facts were present in 100% of redacted versus 100% of unredacted scripted answers (a check that fell to 0% when README.md and notes.md were left out); how often a real model leaks is not measured here.",
+    "setup": "local simulation only: scripted stand-in model, simulated sending and provider log, nothing transmitted; folder README.md + config.env + notes.md, canaries: password CANARY-7Q2X-FAKE (twice, incl. inside DATABASE_URL) and phone +1-555-0142 in free text, counted separately; 4 requests x 10 runs x 2 setups, seed 9009; assumed (not measured) copy chances summarize 0.1, debug-config 0.8, setup-guide 0.6, what-i-need 0.3, assumed quote-notes chances summarize 0.2, debug-config 0.1, setup-guide 0.4, what-i-need 0.3; redaction = 4 regex patterns with stable placeholders; usefulness = required facts from the true project present in the answer, with controls for changed facts and left-out files; exact string match"
+}

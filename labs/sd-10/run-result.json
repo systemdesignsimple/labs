@@ -1,0 +1,59 @@
+{
+  "lab": "sd-10 availability in sequence vs parallel",
+  "seed": 1010,
+  "requestsPerPath": 200000,
+  "startedAt": "2026-11-03T16:29:25.052Z",
+  "finishedAt": "2026-11-03T16:29:25.118Z",
+  "simulatedSeconds": 2002.7,
+  "params": {
+    "RATE_PER_SEC": 100,
+    "UP_MEAN_MS": 1980,
+    "DOWN_MIN_MS": 10,
+    "DOWN_MAX_MS": 30,
+    "HOP_MS": 1,
+    "RETRY_DELAY_MS": 5
+  },
+  "servers": [
+    {
+      "name": "solo",
+      "outages": 1003,
+      "measuredUptimePct": 99.0243
+    },
+    {
+      "name": "A",
+      "outages": 997,
+      "measuredUptimePct": 99.01
+    },
+    {
+      "name": "B",
+      "outages": 976,
+      "measuredUptimePct": 99.0064
+    }
+  ],
+  "paths": {
+    "single": {
+      "ok": 198024,
+      "fail": 1976,
+      "measuredSuccessPct": 99.012,
+      "formulaPct": 99.0243
+    },
+    "sequence": {
+      "ok": 195864,
+      "fail": 4136,
+      "measuredSuccessPct": 97.932,
+      "formulaPct": 98.0262
+    },
+    "parallel": {
+      "ok": 199987,
+      "fail": 13,
+      "measuredSuccessPct": 99.9935,
+      "formulaPct": 99.9902,
+      "fellBackToB": 2067
+    }
+  },
+  "formulas": {
+    "single": "pSolo",
+    "sequence": "pA * pB",
+    "parallel": "1 - (1 - pA) * (1 - pB)"
+  }
+}

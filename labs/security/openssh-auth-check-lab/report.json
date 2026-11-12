@@ -1,0 +1,171 @@
+{
+ "id": "openssh-auth-check-lab",
+ "title": "OpenSSH password authentication self-check against 10.6p2",
+ "env": "Node 22.13.1, 13 throwaway host profiles (ssh -V, libc, sshd_config), sshd password rule before and after 90f9c2f733",
+ "at": "2026-11-06T11:10:07.443Z",
+ "unsafe": "OpenSSH below 10.6p2 on musl Linux with PAM off and password authentication reachable; old sys_auth_passwd() trusts crypt() alone",
+ "fix": [
+  "upgrade to OpenSSH 10.6p2 or your distro's patched package (Alpine: apk upgrade openssh), then restart sshd",
+  "or, until then: PasswordAuthentication no at the top of sshd_config, and in every drop-in and Match block (keys only)",
+  "sshd -T | grep -i passwordauthentication   (the value sshd really uses)",
+  "the code fix: accept only if strlen(stored hash) >= 4 && strcmp(crypt(password, salt), stored) == 0"
+ ],
+ "notes": [
+  "official record: Portable OpenSSH 10.6p2 release notes (openssh.com/releasenotes.html, 2026-11-05) and openssh-portable commit 90f9c2f733; Linux distributions may ship the fix as a patched package, so also read your distro's advisory (Alpine: apk info -v openssh)",
+  "results: AFFECTED = version below the fix + musl libc + PAM off + password authentication reachable; ok = at least one of those is not true",
+  "part B never produces a real crypt() collision; echoCrypt only asks whether the rule itself would refuse a short stored entry",
+  "this machine: OpenSSH_10.2p1, LibreSSL 3.3.6 (below 10.6p2, but macOS has no musl libc, so not the affected setup)",
+  "/etc/ssh/sshd_config: PasswordAuthentication yes (default), UsePAM yes, Match blocks with passwords on: 0; libc darwin (not musl)"
+ ],
+ "rows": [
+  {
+   "test": "Alpine host, default config",
+   "input": "10.6p1, musl, no PasswordAuthentication line",
+   "kind": "attack",
+   "unsafe": "AFFECTED",
+   "fixed": "ok"
+  },
+  {
+   "test": "older release, passwords on",
+   "input": "9.9p2, musl, PasswordAuthentication yes",
+   "kind": "attack",
+   "unsafe": "AFFECTED",
+   "fixed": "ok"
+  },
+  {
+   "test": "Alpine package version string",
+   "input": "apk 10.4_p1-r0, UsePAM no",
+   "kind": "attack",
+   "unsafe": "AFFECTED",
+   "fixed": "ok"
+  },
+  {
+   "test": "passwords only in a Match block",
+   "input": "global no, Match Group staff yes",
+   "kind": "attack",
+   "unsafe": "AFFECTED",
+   "fixed": "ok"
+  },
+  {
+   "test": "drop-in turns passwords on first",
+   "input": "sshd_config.d/50-cloud.conf yes",
+   "kind": "attack",
+   "unsafe": "AFFECTED",
+   "fixed": "ok"
+  },
+  {
+   "test": "two lines, first one wins",
+   "input": "yes then no later in the file",
+   "kind": "attack",
+   "unsafe": "AFFECTED",
+   "fixed": "ok"
+  },
+  {
+   "test": "glibc distro, same version",
+   "input": "10.6p1, glibc, UsePAM yes",
+   "kind": "normal",
+   "unsafe": "ok",
+   "fixed": "ok"
+  },
+  {
+   "test": "already on the fixed release",
+   "input": "10.6p2, musl, passwords on",
+   "kind": "normal",
+   "unsafe": "ok",
+   "fixed": "ok"
+  },
+  {
+   "test": "newer release",
+   "input": "10.7p1, musl",
+   "kind": "normal",
+   "unsafe": "ok",
+   "fixed": "ok"
+  },
+  {
+   "test": "keys only on an old release",
+   "input": "10.6p1, musl, PasswordAuthentication no",
+   "kind": "normal",
+   "unsafe": "ok",
+   "fixed": "ok"
+  },
+  {
+   "test": "commented-out yes line",
+   "input": "#PasswordAuthentication yes + no",
+   "kind": "normal",
+   "unsafe": "ok",
+   "fixed": "ok"
+  },
+  {
+   "test": "musl build with PAM on",
+   "input": "10.6p1, musl, UsePAM yes",
+   "kind": "normal",
+   "unsafe": "ok",
+   "fixed": "ok"
+  },
+  {
+   "test": "macOS client and server",
+   "input": "OpenSSH_10.2p1, LibreSSL, darwin libc",
+   "kind": "normal",
+   "unsafe": "ok",
+   "fixed": "ok"
+  },
+  {
+   "test": "rule: right password, real hash",
+   "input": "throwaway account, $lab$ hash",
+   "kind": "normal",
+   "unsafe": true,
+   "fixed": true
+  },
+  {
+   "test": "rule: wrong password, real hash",
+   "input": "throwaway account, $lab$ hash",
+   "kind": "normal",
+   "unsafe": false,
+   "fixed": false
+  },
+  {
+   "test": "rule: very long password, real hash",
+   "input": "1024 chars (MAX_PASSWORD_LEN), wrong",
+   "kind": "normal",
+   "unsafe": false,
+   "fixed": false
+  },
+  {
+   "test": "rule: short stored entry \"!\"",
+   "input": "crypt() result equals stored entry",
+   "kind": "attack",
+   "unsafe": "accepted",
+   "fixed": "refused"
+  },
+  {
+   "test": "rule: short stored entry \"*\"",
+   "input": "crypt() result equals stored entry",
+   "kind": "attack",
+   "unsafe": "accepted",
+   "fixed": "refused"
+  },
+  {
+   "test": "rule: short stored entry \"x\"",
+   "input": "crypt() result equals stored entry",
+   "kind": "attack",
+   "unsafe": "accepted",
+   "fixed": "refused"
+  },
+  {
+   "test": "rule: short stored entry \"!!\"",
+   "input": "crypt() result equals stored entry",
+   "kind": "attack",
+   "unsafe": "accepted",
+   "fixed": "refused"
+  }
+ ],
+ "counts": {
+  "attacks": 10,
+  "reproduced": 10,
+  "blocked": 10,
+  "normal": 10,
+  "same": 10
+ },
+ "verdict": "FIX WORKS: every attack input reproduced on the unsafe version and was blocked by the fix; normal inputs unchanged",
+ "text": "SDS Security Lab · openssh-auth-check-lab · OpenSSH password authentication self-check against 10.6p2\nNode 22.13.1, 13 throwaway host profiles (ssh -V, libc, sshd_config), sshd password rule before and after 90f9c2f733 · 2026-11-06 11:10 UTC · throwaway data, this Mac only\n\n== 1. REPRODUCE: attack inputs against the unsafe version\n   unsafe code: OpenSSH below 10.6p2 on musl Linux with PAM off and password authentication reachable; old sys_auth_passwd() trusts crypt() alone\n   REPRODUCED  Alpine host, default config: 10.6p1, musl, no PasswordAuthentication line -> AFFECTED\n   REPRODUCED  older release, passwords on: 9.9p2, musl, PasswordAuthentication yes -> AFFECTED\n   REPRODUCED  Alpine package version string: apk 10.4_p1-r0, UsePAM no -> AFFECTED\n   REPRODUCED  passwords only in a Match block: global no, Match Group staff yes -> AFFECTED\n   REPRODUCED  drop-in turns passwords on first: sshd_config.d/50-cloud.conf yes -> AFFECTED\n   REPRODUCED  two lines, first one wins: yes then no later in the file -> AFFECTED\n   REPRODUCED  rule: short stored entry \"!\": crypt() result equals stored entry -> accepted\n   REPRODUCED  rule: short stored entry \"*\": crypt() result equals stored entry -> accepted\n   REPRODUCED  rule: short stored entry \"x\": crypt() result equals stored entry -> accepted\n   REPRODUCED  rule: short stored entry \"!!\": crypt() result equals stored entry -> accepted\n\n== 2. EXPERIMENT: attack and normal inputs, both versions\n   test                                         input                                      unsafe     fixed     \n   Alpine host, default config (attack)         10.6p1, musl, no PasswordAuthentication li AFFECTED   ok        \n   older release, passwords on (attack)         9.9p2, musl, PasswordAuthentication yes    AFFECTED   ok        \n   Alpine package version string (attack)       apk 10.4_p1-r0, UsePAM no                  AFFECTED   ok        \n   passwords only in a Match block (attack)     global no, Match Group staff yes           AFFECTED   ok        \n   drop-in turns passwords on first (attack)    sshd_config.d/50-cloud.conf yes            AFFECTED   ok        \n   two lines, first one wins (attack)           yes then no later in the file              AFFECTED   ok        \n   glibc distro, same version (normal)          10.6p1, glibc, UsePAM yes                  ok         ok        \n   already on the fixed release (normal)        10.6p2, musl, passwords on                 ok         ok        \n   newer release (normal)                       10.7p1, musl                               ok         ok        \n   keys only on an old release (normal)         10.6p1, musl, PasswordAuthentication no    ok         ok        \n   commented-out yes line (normal)              #PasswordAuthentication yes + no           ok         ok        \n   musl build with PAM on (normal)              10.6p1, musl, UsePAM yes                   ok         ok        \n   macOS client and server (normal)             OpenSSH_10.2p1, LibreSSL, darwin libc      ok         ok        \n   rule: right password, real hash (normal)     throwaway account, $lab$ hash              true       true      \n   rule: wrong password, real hash (normal)     throwaway account, $lab$ hash              false      false     \n   rule: very long password, real hash (normal) 1024 chars (MAX_PASSWORD_LEN), wrong       false      false     \n   rule: short stored entry \"!\" (attack)        crypt() result equals stored entry         accepted   refused   \n   rule: short stored entry \"*\" (attack)        crypt() result equals stored entry         accepted   refused   \n   rule: short stored entry \"x\" (attack)        crypt() result equals stored entry         accepted   refused   \n   rule: short stored entry \"!!\" (attack)       crypt() result equals stored entry         accepted   refused   \n\n== 3. FIX\n   + upgrade to OpenSSH 10.6p2 or your distro's patched package (Alpine: apk upgrade openssh), then restart sshd\n   + or, until then: PasswordAuthentication no at the top of sshd_config, and in every drop-in and Match block (keys only)\n   + sshd -T | grep -i passwordauthentication   (the value sshd really uses)\n   + the code fix: accept only if strlen(stored hash) >= 4 && strcmp(crypt(password, salt), stored) == 0\n   BLOCKED     Alpine host, default config: 10.6p1, musl, no PasswordAuthentication line -> ok\n   BLOCKED     older release, passwords on: 9.9p2, musl, PasswordAuthentication yes -> ok\n   BLOCKED     Alpine package version string: apk 10.4_p1-r0, UsePAM no -> ok\n   BLOCKED     passwords only in a Match block: global no, Match Group staff yes -> ok\n   BLOCKED     drop-in turns passwords on first: sshd_config.d/50-cloud.conf yes -> ok\n   BLOCKED     two lines, first one wins: yes then no later in the file -> ok\n   BLOCKED     rule: short stored entry \"!\": crypt() result equals stored entry -> refused\n   BLOCKED     rule: short stored entry \"*\": crypt() result equals stored entry -> refused\n   BLOCKED     rule: short stored entry \"x\": crypt() result equals stored entry -> refused\n   BLOCKED     rule: short stored entry \"!!\": crypt() result equals stored entry -> refused\n\n== 4. REPORT\n   reproduced on unsafe version : 10/10\n   blocked by the fix           : 10/10\n   normal inputs unchanged      : 10/10\n   note: official record: Portable OpenSSH 10.6p2 release notes (openssh.com/releasenotes.html, 2026-11-05) and openssh-portable commit 90f9c2f733; Linux distributions may ship the fix as a patched package, so also read your distro's advisory (Alpine: apk info -v openssh)\n   note: results: AFFECTED = version below the fix + musl libc + PAM off + password authentication reachable; ok = at least one of those is not true\n   note: part B never produces a real crypt() collision; echoCrypt only asks whether the rule itself would refuse a short stored entry\n   note: this machine: OpenSSH_10.2p1, LibreSSL 3.3.6 (below 10.6p2, but macOS has no musl libc, so not the affected setup)\n   note: /etc/ssh/sshd_config: PasswordAuthentication yes (default), UsePAM yes, Match blocks with passwords on: 0; libc darwin (not musl)\nRESULT: FIX WORKS: every attack input reproduced on the unsafe version and was blocked by the fix; normal inputs unchanged"
+}

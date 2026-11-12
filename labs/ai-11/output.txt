@@ -1,0 +1,108 @@
+AI #11 lab: searching "car" in 42 hand-labeled sentences
+Relevant: 14 (12 never say "car"). Toy embedding: 304 numbers per vector, learned from 124 training sentences.
+
+0) Training/test overlap (we wrote both): 13 test sentences appear word for word in the training text, 24/42 share >= 60% of their content words with one training sentence (2/14 of the relevant ones; mean best overlap for relevant ones 46.5%).
+   So this is a constructed demonstration, not evidence that the toy model generalizes.
+
+1) Keyword search, exact word "car" (BM25 order): 4 matches
+  #13 [carword] REL bm25=2.29  We washed the car on Sunday afternoon.
+  #14 [carword] REL bm25=2.29  The car needs new tires before winter.
+  #15 [trap   ]     bm25=2.06  The last train car was full of tired passengers.
+  #16 [trap   ]     bm25=1.96  We sang car-pool karaoke songs at the office party.
+   cutoff 10: returned 4, relevant hits 2, precision of returned 50%, precision@10 20%, recall@10 14.3% (2/14), car sentences without the word 0/12
+   It returned only 4 of 10 slots, so precision@10 counts the 6 empty slots as misses.
+
+2) Naive substring search, letters "car": 10 matches
+  #13 [carword] REL           We washed the car on Sunday afternoon.
+  #14 [carword] REL           The car needs new tires before winter.
+  #15 [trap   ]               The last train car was full of tired passengers.
+  #16 [trap   ]               We sang car-pool karaoke songs at the office party.
+  #17 [trap   ]               Flatten the cardboard boxes before recycling.
+  #18 [trap   ]               Carl called to wish me a happy birthday.
+  #19 [trap   ]               She knitted a warm wool cardigan.
+  #20 [trap   ]               He changed his career to become a teacher.
+  #21 [trap   ]               The caramel sauce burned on the stove.
+  #22 [trap   ]               A small scar stayed on her knee after the fall.
+   cutoff 10: returned 10, relevant hits 2, precision of returned 20%, precision@10 20%, recall@10 14.3% (2/14), car sentences without the word 0/12
+   wrong matches among all 10: 8
+
+3) Embedding search, top 10 by cosine similarity:
+  #15 [trap   ]     cos=0.536  The last train car was full of tired passengers.
+  #13 [carword] REL cos=0.496  We washed the car on Sunday afternoon.
+  #14 [carword] REL cos=0.483  The car needs new tires before winter.
+  #10 [syn    ] REL cos=0.330  Her electric vehicle charges overnight in the driveway.
+  #16 [trap   ]     cos=0.316  We sang car-pool karaoke songs at the office party.
+  # 5 [syn    ] REL cos=0.224  The engine would not start this morning.
+  # 7 [syn    ] REL cos=0.208  The mechanic replaced the brakes and the tires.
+  # 6 [syn    ] REL cos=0.194  He parked the hatchback in the garage.
+  # 2 [syn    ] REL cos=0.185  Our automobile insurance went up this year.
+  # 1 [syn    ] REL cos=0.172  The vehicle slid on the icy road.
+   cutoff 10: returned 10, relevant hits 8, precision of returned 80%, precision@10 80%, recall@10 57.1% (8/14), car sentences without the word 6/12
+   extra: recall in the top 14 = 78.6%
+
+   Full ranking (rank, cosine):
+  #15 [trap   ]     rank  1 cos=0.536  The last train car was full of tired passengers.
+  #13 [carword] REL rank  2 cos=0.496  We washed the car on Sunday afternoon.
+  #14 [carword] REL rank  3 cos=0.483  The car needs new tires before winter.
+  #10 [syn    ] REL rank  4 cos=0.330  Her electric vehicle charges overnight in the driveway.
+  #16 [trap   ]     rank  5 cos=0.316  We sang car-pool karaoke songs at the office party.
+  # 5 [syn    ] REL rank  6 cos=0.224  The engine would not start this morning.
+  # 7 [syn    ] REL rank  7 cos=0.208  The mechanic replaced the brakes and the tires.
+  # 6 [syn    ] REL rank  8 cos=0.194  He parked the hatchback in the garage.
+  # 2 [syn    ] REL rank  9 cos=0.185  Our automobile insurance went up this year.
+  # 1 [syn    ] REL rank 10 cos=0.172  The vehicle slid on the icy road.
+  #30 [filler ]     rank 11 cos=0.164  My phone battery dies too quickly.
+  # 3 [syn    ] REL rank 12 cos=0.163  She bought a used sedan with low mileage.
+  # 8 [syn    ] REL rank 13 cos=0.162  I filled up the tank at the gas station.
+  # 9 [syn    ] REL rank 14 cos=0.135  We were stuck in traffic for an hour on the drive home.
+  # 4 [syn    ] REL rank 15 cos=0.118  My Toyota needs an oil change.
+  #23 [filler ]     rank 16 cos=0.103  The coffee shop opens at seven.
+  #39 [filler ]     rank 17 cos=0.065  The museum has a new dinosaur exhibit.
+  #11 [syn    ] REL rank 18 cos=0.051  The windshield wipers stopped working in the rain.
+  #12 [syn    ] REL rank 19 cos=0.044  Honda recalled thousands of automobiles over a seatbelt fault.
+  #37 [filler ]     rank 20 cos=0.040  The soup needs more salt.
+  #22 [trap   ]     rank 21 cos=0.030  A small scar stayed on her knee after the fall.
+  #42 [filler ]     rank 22 cos=0.022  Kids played in the snow all afternoon.
+  #17 [trap   ]     rank 23 cos=0.021  Flatten the cardboard boxes before recycling.
+  #28 [filler ]     rank 24 cos=0.019  He planted tomatoes in the backyard garden.
+  #18 [trap   ]     rank 25 cos=0.019  Carl called to wish me a happy birthday.
+  #31 [filler ]     rank 26 cos=0.019  The cat slept on the warm windowsill.
+  #29 [filler ]     rank 27 cos=0.014  The meeting moved to Thursday afternoon.
+  #36 [filler ]     rank 28 cos=0.013  She ran five kilometers before breakfast.
+  #21 [trap   ]     rank 29 cos=0.013  The caramel sauce burned on the stove.
+  #20 [trap   ]     rank 30 cos=0.008  He changed his career to become a teacher.
+  #19 [trap   ]     rank 31 cos=0.000  She knitted a warm wool cardigan.
+  #24 [filler ]     rank 32 cos=0.000  It rained all weekend in the city.
+  #25 [filler ]     rank 33 cos=0.000  Our team won the football match.
+  #26 [filler ]     rank 34 cos=0.000  She is reading a book about history.
+  #27 [filler ]     rank 35 cos=0.000  The bread came out of the oven golden.
+  #32 [filler ]     rank 36 cos=0.000  We booked a flight to Tokyo for the holidays.
+  #33 [filler ]     rank 37 cos=0.000  The river flooded after the storm.
+  #34 [filler ]     rank 38 cos=0.000  He practiced the guitar every evening.
+  #35 [filler ]     rank 39 cos=0.000  The library closes early on Fridays.
+  #38 [filler ]     rank 40 cos=0.000  Our neighbor painted the fence blue.
+  #40 [filler ]     rank 41 cos=0.000  I forgot my umbrella at the restaurant.
+  #41 [filler ]     rank 42 cos=0.000  The printer is out of paper again.
+
+4) Word to word similarity with "car":
+   vehicle     0.223
+   automobile  0.087
+   sedan       0.096
+   toyota      0.018
+   engine      0.205
+   garage      0.201
+   train       0.424
+   passengers  0.158
+   cardboard   0.000
+   carl        0.016
+   karaoke     0.020
+   caramel     0.009
+   coffee      0.157
+
+5) PCA 2D map (fit on the 42 sentence vectors) keeps 12% of their variance (the rest is lost in the flat picture).
+   Word points projected with the same transform: car, vehicle, automobile, sedan, toyota, engine, garage, train, passengers, cardboard, carl, karaoke, caramel, coffee
+   2D distance from "car": vehicle 0.252, cardboard 0.685
+   Test words the toy model never saw (ignored): burned, fall, pool, stayed, went, wish, working, year
+   Wrote results.json (scores, rankings, PCA points for the video).
+
+RESULT {"metrics":[{"name":"keyword_exact_returned_top10","value":4,"unit":"sentences"},{"name":"keyword_exact_relevant_hits_top10","value":2,"unit":"sentences"},{"name":"keyword_exact_precision_of_returned","value":50,"unit":"%"},{"name":"keyword_exact_precision_at10","value":20,"unit":"%"},{"name":"keyword_exact_recall_at10","value":14.3,"unit":"%"},{"name":"keyword_exact_hidden_car_found","value":0,"unit":"of 12"},{"name":"keyword_substring_wrong_matches","value":8,"unit":"sentences"},{"name":"embedding_returned_top10","value":10,"unit":"sentences"},{"name":"embedding_relevant_hits_top10","value":8,"unit":"sentences"},{"name":"embedding_precision_at10","value":80,"unit":"%"},{"name":"embedding_recall_at10","value":57.1,"unit":"%"},{"name":"embedding_top10_hidden_car_found","value":6,"unit":"of 12"},{"name":"embedding_top10_wrong_matches","value":2,"unit":"sentences"},{"name":"embedding_recall_top14_extra","value":78.6,"unit":"%"},{"name":"similarity_car_vehicle","value":0.223,"unit":"cosine"},{"name":"similarity_car_cardboard","value":0,"unit":"cosine"},{"name":"test_near_copies_of_training","value":24,"unit":"of 42"},{"name":"pca_2d_variance_kept","value":12,"unit":"%"}],"conclusion":"In this constructed demo with a toy PPMI model trained on text we wrote, keyword search for \"car\" found 0 of the 12 car sentences that use other words (recall@10 14.3%), while toy embedding search found 6 of them in its top 10 (recall@10 57.1%) but also put 2 wrong sentences there.","setup":"42 hand-labeled test sentences (14 about cars, 12 never say \"car\", 8 traps, 20 filler); toy count-based embedding (sentence co-occurrence PPMI, alpha 0.75, 304 dims) learned from 124 training sentences we wrote, 13 test sentences copied exactly and 24 near copies (Jaccard >= 0.6) in training; keyword = exact word with BM25 (k1 1.2, b 0.75) and naive substring; cutoff 10 for every method; PCA seed 11 fit on sentence vectors; not all-MiniLM-L6-v2"}

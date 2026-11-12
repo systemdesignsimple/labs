@@ -1,0 +1,5 @@
+test                         L4 (A/B)      L7 (A/B)
+1 kept-open connection       0/1000        500/500
+50 new connections           400/600       500/500
+mixed /api + /images          660/340      339/661
+/images rule followed        32.9%         100%   (322 image requests)

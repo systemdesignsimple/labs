@@ -1,0 +1,35 @@
+Run 1, modeled time to first byte per chunk (ms, computed from configured delays):
+chunk  origin v1     pull v1        pull v2        push v1
+    0   256 none         276 MISS          16 HIT           15 HIT       
+    1   260 none STALL   280 MISS STALL    16 HIT           15 HIT       
+    2   273 none STALL   278 MISS STALL    15 HIT           16 HIT       
+    3   234 none         276 MISS STALL    14 HIT           14 HIT       
+    4   260 none STALL   273 MISS STALL    15 HIT           15 HIT       
+    5   254 none STALL   291 MISS STALL    15 HIT           15 HIT       
+    6   251 none STALL   283 MISS STALL    15 HIT           15 HIT       
+    7   264 none STALL   259 MISS STALL    15 HIT           15 HIT       
+    8   239 none         264 MISS STALL    15 HIT           14 HIT       
+    9   250 none STALL   269 MISS STALL    16 HIT           15 HIT       
+   10   259 none STALL   257 MISS STALL    15 HIT           15 HIT       
+   11   260 none STALL   279 MISS STALL    14 HIT           15 HIT       
+   12   251 none STALL   291 MISS STALL    15 HIT           15 HIT       
+   13   270 none STALL   289 MISS STALL    15 HIT           16 HIT       
+   14   246 none STALL   281 MISS STALL    15 HIT           15 HIT       
+   15   243 none STALL   253 MISS STALL    14 HIT           15 HIT       
+   16   267 none STALL   298 MISS STALL    15 HIT           15 HIT       
+   17   245 none STALL   258 MISS STALL    14 HIT           15 HIT       
+   18   267 none STALL   268 MISS STALL    15 HIT           15 HIT       
+   19   258 none STALL   279 MISS STALL    16 HIT           15 HIT       
+
+Averages over 3 cold runs (deterministic model):
+path / viewer        first frame  mean TTFB  stalls  rebuffer  edge hit rate
+origin, viewer 1          318 ms    254 ms     16    282 ms        0%
+origin, viewer 2          313 ms    253 ms     14    267 ms        0%
+pull edge, viewer 1       335 ms    273 ms     19    628 ms        0%
+pull edge, viewer 2        75 ms     15 ms      0      0 ms      100%
+push edge, viewer 1        75 ms     15 ms      0      0 ms      100%
+push edge, viewer 2        75 ms     15 ms      0      0 ms      100%
+
+All delays are configured stand-ins, not measurements, not Netflix numbers and not a real Nepal link.
+
+RESULT {"metrics":[{"name":"origin_first_frame","value":318,"unit":"ms"},{"name":"pull_first_viewer_first_frame","value":335,"unit":"ms"},{"name":"pull_second_viewer_first_frame","value":75,"unit":"ms"},{"name":"push_first_viewer_first_frame","value":75,"unit":"ms"},{"name":"origin_mean_ttfb","value":254,"unit":"ms"},{"name":"pull_first_viewer_mean_ttfb","value":273,"unit":"ms"},{"name":"pull_second_viewer_mean_ttfb","value":15,"unit":"ms"},{"name":"push_first_viewer_mean_ttfb","value":15,"unit":"ms"},{"name":"origin_stalls_per_view","value":16,"unit":"stalls"},{"name":"pull_first_viewer_stalls","value":19,"unit":"stalls"},{"name":"pull_second_viewer_stalls","value":0,"unit":"stalls"},{"name":"push_first_viewer_stalls","value":0,"unit":"stalls"},{"name":"pull_first_viewer_hit_rate","value":0,"unit":"%"},{"name":"push_first_viewer_hit_rate","value":100,"unit":"%"}],"conclusion":"With the same bandwidth everywhere, the push edge showed the first frame in 75 ms for the very first viewer with 0 stalls, while the first pull viewer waited 335 ms with 19 stalls and the origin alone took 318 ms with 16 stalls; pull only caught up for the second viewer (75 ms), so in this deterministic model the gap reflects the configured cache placement and hop delays plus the pull miss overhead and extra server delay, not a measured network.","setup":"deterministic latency model, virtual clock, no real requests; 20 chunks x 2 s; 3 cold runs, seeds 11/22/33, jitter matched across paths by run/viewer/chunk/hop; origin RTT 250 ms, edge RTT 10 ms, edge-to-origin 240 ms, miss overhead 15 ms, server 5 ms, transfer 60 ms on every path, jitter +/-10%, player lead 300 ms"}

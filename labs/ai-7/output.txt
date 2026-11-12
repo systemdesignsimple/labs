@@ -1,0 +1,39 @@
+ai-7 lab: agent token re-reading (estimated tokens, synthetic workload)
+One chat: 158 input + 601 output tokens, $0.0095
+Agent fixed part (system + 10 tool schemas + task, with framing) = request 1: 2,230 tokens
+
+Profile light (keeps 20.0% of each full tool output)
+  N calls | total input | new input | re-sent | last request | read x chat | combined x chat | cost x chat | cost plain | cost cached
+        5 |      17,965 |     4,822 |   73.2% |        4,822 |         114 |              24 |           6 |    $0.0594 |     $0.0275
+       10 |      54,843 |     8,852 |   83.9% |        8,852 |         347 |              73 |          19 |    $0.1761 |     $0.0586
+       20 |     192,682 |    18,762 |   90.3% |       18,762 |       1,220 |             256 |          63 |    $0.6020 |     $0.1465
+       30 |     417,788 |    24,801 |   94.1% |       24,801 |       2,644 |             554 |         136 |      $1.29 |     $0.2467
+       50 |   1,115,728 |    44,161 |   96.0% |       44,161 |       7,062 |           1,475 |         359 |      $3.41 |     $0.5475
+
+Profile medium (keeps 50.0% of each full tool output)
+  N calls | total input | new input | re-sent | last request | read x chat | combined x chat | cost x chat | cost plain | cost cached
+        5 |      26,823 |     8,087 |   69.9% |        8,087 |         170 |              36 |           9 |    $0.0860 |     $0.0415
+       10 |      98,386 |    17,747 |   82.0% |       17,747 |         623 |             131 |          32 |    $0.3067 |     $0.1023
+       20 |     388,948 |    39,949 |   89.7% |       39,949 |       2,462 |             515 |         125 |      $1.19 |     $0.2785
+       30 |     863,762 |    51,686 |   94.0% |       51,686 |       5,467 |           1,141 |         277 |      $2.63 |     $0.4733
+       50 |   2,358,122 |    95,962 |   95.9% |       95,962 |      14,925 |           3,112 |         752 |      $7.13 |       $1.10
+
+Profile heavy (keeps 100.0% of each full tool output)
+  N calls | total input | new input | re-sent | last request | read x chat | combined x chat | cost x chat | cost plain | cost cached
+        5 |      40,828 |    13,255 |   67.5% |       13,255 |         258 |              54 |          13 |    $0.1280 |     $0.0635
+       10 |     164,818 |    31,196 |   81.1% |       31,196 |       1,043 |             218 |          53 |    $0.5060 |     $0.1686
+       20 |     695,322 |    73,867 |   89.4% |       73,867 |       4,401 |             918 |         222 |      $2.11 |     $0.4874
+       30 |   1,581,678 |    96,275 |   93.9% |       96,275 |      10,011 |           2,087 |         504 |      $4.78 |     $0.8425
+       50 |   4,441,619 |   184,874 |   95.8% |      184,874 |      28,112 |           5,857 |       1,411 |     $13.39 |       $2.03
+
+Per request, profile medium: [request k] full request size / new tokens in it (new = tool result + model message from call k-1, plus framing)
+  [1] 2,230/2,230  [2] 3,123/893  [3] 6,190/3,067  [4] 7,193/1,003  [5] 8,087/894  [6] 9,039/952  [7] 13,981/4,942  [8] 14,310/329  [9] 16,486/2,176  [10] 17,747/1,261
+  [11] 18,894/1,147  [12] 19,304/410  [13] 23,888/4,584  [14] 24,207/319  [15] 28,556/4,349  [16] 30,372/1,816  [17] 33,449/3,077  [18] 33,997/548  [19] 37,946/3,949  [20] 39,949/2,003
+  [21] 40,455/506  [22] 44,603/4,148  [23] 45,108/505  [24] 45,655/547  [25] 48,336/2,681  [26] 49,070/734  [27] 49,633/563  [28] 49,957/324  [29] 50,311/354  [30] 51,686/1,375
+  [31] 54,925/3,239  [32] 55,444/519  [33] 55,891/447  [34] 59,209/3,318  [35] 60,001/792  [36] 61,677/1,676  [37] 66,264/4,587  [38] 69,044/2,780  [39] 73,369/4,325  [40] 74,239/870
+  [41] 74,871/632  [42] 80,285/5,414  [43] 82,016/1,731  [44] 82,669/653  [45] 83,271/602  [46] 88,566/5,295  [47] 89,042/476  [48] 92,231/3,189  [49] 95,384/3,153  [50] 95,962/578
+  Tool result from call 50 (955 tokens) is not counted: in a 50-call run, call 50 writes the final answer instead of calling a tool.
+
+Estimator cross-check (medium, 30 calls): word-piece vs chars/4
+  read x chat 5,467 vs 3,512 | re-sent share 94.0% vs 94.2% | input growth 10 to 50 calls 23.97x vs 21.31x
+RESULT {"metrics":[{"name":"one chat input tokens (estimated)","value":158,"unit":"tokens"},{"name":"one chat output tokens (estimated)","value":601,"unit":"tokens"},{"name":"agent request 1 size (fixed part)","value":2230,"unit":"tokens"},{"name":"medium 30-call total input","value":863762,"unit":"tokens"},{"name":"medium request 30 size","value":51686,"unit":"tokens"},{"name":"medium new tokens in request 30","value":1375,"unit":"tokens"},{"name":"medium 30-call re-sent history share","value":94,"unit":"%"},{"name":"medium 30-call input vs one chat input (read multiple)","value":5467,"unit":"x"},{"name":"medium 30-call input+output vs one chat input+output","value":1141,"unit":"x"},{"name":"medium 30-call illustrative cost vs one chat (no cache)","value":277,"unit":"x"},{"name":"medium 50-call illustrative cost vs one chat (no cache)","value":752,"unit":"x"},{"name":"light 30-call cost vs one chat","value":136,"unit":"x"},{"name":"heavy 30-call cost vs one chat","value":504,"unit":"x"},{"name":"medium input growth for 5x more calls (10 to 50)","value":23.97,"unit":"x"},{"name":"growth exponent (1 = linear, 2 = square)","value":1.97,"unit":""},{"name":"medium input growth 10 to 50, chars/4 estimator","value":21.31,"unit":"x"},{"name":"medium 30-call read multiple, chars/4 estimator","value":3512,"unit":"x"},{"name":"medium 30-call illustrative cost, no cache","value":2.6271,"unit":"USD"},{"name":"medium 30-call illustrative cost, with cache","value":0.4733,"unit":"USD"},{"name":"cache saving at 30 calls","value":82,"unit":"%"}],"conclusion":"In this synthetic medium workload, every call re-sends the whole history, so 5x more calls (10 to 50) means 24.0x more input tokens; a 30-call task sends 5,467x the input tokens of one chat (94.0% of it re-sent history) and costs 277x one chat at illustrative prices, not reaching 1,000 chats in cost even at 50 calls (752x), while prompt caching cuts that 30-call cost by 82.0% without reducing tokens.","setup":"N calls 5/10/20/30/50 (calls 1..N-1 use a tool, call N answers); synthetic profiles light/medium/heavy keep 20/50/100% of the same per-step tool outputs; independent per-step seeds from base seed 7; each full request serialized as JSON and counted; tokens estimated by a word-piece rule (cross-checked with chars/4), not a model tokenizer; code-shaped text from this lab's own source; illustrative USD per 1M: input 3, output 15, cache read 0.3, cache write 3.75; simulation, not a billed run"}

@@ -1,0 +1,107 @@
+{
+  "command": "node labs/sd-9/run.mjs",
+  "machine": {
+    "runtime": "v22.13.1",
+    "platform": "darwin arm64",
+    "cpu": "Apple M2 Pro"
+  },
+  "metrics": [
+    {
+      "name": "simulated availability, mean of services A, B, C (99% budget)",
+      "value": 99.0014,
+      "unit": "%"
+    },
+    {
+      "name": "annualized downtime estimate, mean of services A, B, C (99% budget)",
+      "value": 87.48,
+      "unit": "hours"
+    },
+    {
+      "name": "failed probes, mean of services A, B, C (99% budget)",
+      "value": 239.7,
+      "unit": "checks"
+    },
+    {
+      "name": "simulated availability, chain A to B to C (99% budget)",
+      "value": 97.0958,
+      "unit": "%"
+    },
+    {
+      "name": "annualized downtime estimate, chain A to B to C (99% budget)",
+      "value": 254.41,
+      "unit": "hours"
+    },
+    {
+      "name": "simulated availability, mean of services A, B, C (99.9% budget)",
+      "value": 99.9,
+      "unit": "%"
+    },
+    {
+      "name": "annualized downtime estimate, mean of services A, B, C (99.9% budget)",
+      "value": 8.76,
+      "unit": "hours"
+    },
+    {
+      "name": "failed probes, mean of services A, B, C (99.9% budget)",
+      "value": 24,
+      "unit": "checks"
+    },
+    {
+      "name": "simulated availability, chain A to B to C (99.9% budget)",
+      "value": 99.6958,
+      "unit": "%"
+    },
+    {
+      "name": "annualized downtime estimate, chain A to B to C (99.9% budget)",
+      "value": 26.65,
+      "unit": "hours"
+    },
+    {
+      "name": "simulated availability, mean of services A, B, C (99.99% budget)",
+      "value": 99.9889,
+      "unit": "%"
+    },
+    {
+      "name": "annualized downtime estimate, mean of services A, B, C (99.99% budget)",
+      "value": 0.97,
+      "unit": "hours"
+    },
+    {
+      "name": "failed probes, mean of services A, B, C (99.99% budget)",
+      "value": 2.7,
+      "unit": "checks"
+    },
+    {
+      "name": "simulated availability, chain A to B to C (99.99% budget)",
+      "value": 99.9667,
+      "unit": "%"
+    },
+    {
+      "name": "annualized downtime estimate, chain A to B to C (99.99% budget)",
+      "value": 2.92,
+      "unit": "hours"
+    },
+    {
+      "name": "annualized downtime estimate, mean of services A, B, C (99% budget)",
+      "value": 3.64,
+      "unit": "days"
+    },
+    {
+      "name": "annualized downtime estimate, mean of services A, B, C (99.99% budget)",
+      "value": 58.4,
+      "unit": "minutes"
+    },
+    {
+      "name": "product of A, B, C simulated availabilities (99.9% budget)",
+      "value": 99.7003,
+      "unit": "%"
+    },
+    {
+      "name": "probes per target per run",
+      "value": 24000,
+      "unit": "checks"
+    }
+  ],
+  "conclusion": "In this simulation, at a 0.1% fault budget per service, services A, B and C averaged 99.900% of probes passing, an annualized estimate of about 8.8 hours down per year each, while probes through the A to B to C chain passed 99.696% of the time, about 26.6 hours a year, about 3.0x the per-service mean.",
+  "setup": "in-process simulation, virtual clock, fixed seeds from 9009; 3 services A calls B calls C with 1 to 3 ms simulated hops; each service up or down per a schedule of random non-overlapping outage windows of 100 to 400 ms (all windows, including the last, kept in that range) totalling 1%, 0.1% and 0.01% of each run; simulated probe every 50 ms for 20 simulated minutes (24000 probes per target); single-service values are the mean of A, B and C; annualized downtime = simulated failure ratio x 8760 h, assuming that ratio represents a full year (says nothing about outage timing); no real HTTP servers, process stops or health-check code; compressed-time simulation on one Mac, not a production measurement"
+}

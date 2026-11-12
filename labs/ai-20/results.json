@@ -1,0 +1,87 @@
+{
+ "metrics": [
+  {
+   "name": "hit rate at 0.80, lexical similarity only",
+   "value": 50,
+   "unit": "%"
+  },
+  {
+   "name": "wrong answers among reuses at 0.80",
+   "value": 20,
+   "unit": "%"
+  },
+  {
+   "name": "hit rate at 0.96, lexical similarity only",
+   "value": 13.3,
+   "unit": "%"
+  },
+  {
+   "name": "wrong reuses at 0.96",
+   "value": 3,
+   "unit": "questions"
+  },
+  {
+   "name": "of those, order-only pairs (identical vectors by construction)",
+   "value": 3,
+   "unit": "questions"
+  },
+  {
+   "name": "order-only look-alike pairs in the set",
+   "value": 3,
+   "unit": "of 30"
+  },
+  {
+   "name": "loosest zero-wrong threshold, lexical similarity only",
+   "value": 0,
+   "unit": "none found"
+  },
+  {
+   "name": "hit rate at that zero-wrong threshold",
+   "value": 0,
+   "unit": "%"
+  },
+  {
+   "name": "best zero-wrong hit rate with guards",
+   "value": 0,
+   "unit": "% (none found)"
+  },
+  {
+   "name": "best hit rate with guards, zero wrong outside order-only pairs",
+   "value": 28.3,
+   "unit": "%"
+  },
+  {
+   "name": "look-alike pairs scoring 0.80 or more",
+   "value": 6,
+   "unit": "of 30"
+  },
+  {
+   "name": "look-alike pairs scoring 0.90 or more",
+   "value": 3,
+   "unit": "of 30"
+  },
+  {
+   "name": "questions matched to a synthetic filler row",
+   "value": 0,
+   "unit": "of 60"
+  },
+  {
+   "name": "median cache lookup, linear scan (measured)",
+   "value": 11.296,
+   "unit": "ms"
+  },
+  {
+   "name": "model call (hypothetical baseline, not measured)",
+   "value": 900,
+   "unit": "ms"
+  }
+ ],
+ "conclusion": "In this lexical (word-overlap) cache simulation on 60 hand-made pairs, a 0.80 threshold reused answers for 50% of questions but 6 of 30 reuses were wrong, no threshold from 0.70 to 0.98 reached zero wrong reuses (3 of the 3 wrong reuses at 0.96 are same-words-different-order pairs this bag-of-words vector cannot separate by construction), and skipping time-sensitive or personal questions plus matching numbers and names still let some wrong reuses through.",
+ "setup": "60 labeled pairs (30 paraphrase, 30 look-alike, 3 of them order-only); lexical vector = bag of hashed words + char trigrams (dim 1024, trigram weight 0.25) with a 35-word hand-written synonym table, no neural model; cache = 60 real rows + 10000 seeded random unit vectors as synthetic scan workload; thresholds 0.7 to 0.98 step 0.02; model call 900 ms is a hypothetical baseline, not measured; seed 20",
+ "env": {
+  "node": "v22.13.1",
+  "platform": "darwin arm64",
+  "cpus": "Apple M2 Pro",
+  "run": "2026-11-07, node labs/ai-20/run.mjs (full output in labs/ai-20/output.txt)"
+ }
+}

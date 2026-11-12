@@ -1,0 +1,106 @@
+{
+    "metrics": [
+        {
+            "name": "one chat input tokens (estimated)",
+            "value": 158,
+            "unit": "tokens"
+        },
+        {
+            "name": "one chat output tokens (estimated)",
+            "value": 601,
+            "unit": "tokens"
+        },
+        {
+            "name": "agent request 1 size (fixed part)",
+            "value": 2230,
+            "unit": "tokens"
+        },
+        {
+            "name": "medium 30-call total input",
+            "value": 863762,
+            "unit": "tokens"
+        },
+        {
+            "name": "medium request 30 size",
+            "value": 51686,
+            "unit": "tokens"
+        },
+        {
+            "name": "medium new tokens in request 30",
+            "value": 1375,
+            "unit": "tokens"
+        },
+        {
+            "name": "medium 30-call re-sent history share",
+            "value": 94,
+            "unit": "%"
+        },
+        {
+            "name": "medium 30-call input vs one chat input (read multiple)",
+            "value": 5467,
+            "unit": "x"
+        },
+        {
+            "name": "medium 30-call input+output vs one chat input+output",
+            "value": 1141,
+            "unit": "x"
+        },
+        {
+            "name": "medium 30-call illustrative cost vs one chat (no cache)",
+            "value": 277,
+            "unit": "x"
+        },
+        {
+            "name": "medium 50-call illustrative cost vs one chat (no cache)",
+            "value": 752,
+            "unit": "x"
+        },
+        {
+            "name": "light 30-call cost vs one chat",
+            "value": 136,
+            "unit": "x"
+        },
+        {
+            "name": "heavy 30-call cost vs one chat",
+            "value": 504,
+            "unit": "x"
+        },
+        {
+            "name": "medium input growth for 5x more calls (10 to 50)",
+            "value": 23.97,
+            "unit": "x"
+        },
+        {
+            "name": "growth exponent (1 = linear, 2 = square)",
+            "value": 1.97,
+            "unit": ""
+        },
+        {
+            "name": "medium input growth 10 to 50, chars/4 estimator",
+            "value": 21.31,
+            "unit": "x"
+        },
+        {
+            "name": "medium 30-call read multiple, chars/4 estimator",
+            "value": 3512,
+            "unit": "x"
+        },
+        {
+            "name": "medium 30-call illustrative cost, no cache",
+            "value": 2.6271,
+            "unit": "USD"
+        },
+        {
+            "name": "medium 30-call illustrative cost, with cache",
+            "value": 0.4733,
+            "unit": "USD"
+        },
+        {
+            "name": "cache saving at 30 calls",
+            "value": 82,
+            "unit": "%"
+        }
+    ],
+    "conclusion": "In this synthetic medium workload, every call re-sends the whole history, so 5x more calls (10 to 50) means 24.0x more input tokens; a 30-call task sends 5,467x the input tokens of one chat (94.0% of it re-sent history) and costs 277x one chat at illustrative prices, not reaching 1,000 chats in cost even at 50 calls (752x), while prompt caching cuts that 30-call cost by 82.0% without reducing tokens.",
+    "setup": "N calls 5/10/20/30/50 (calls 1..N-1 use a tool, call N answers); synthetic profiles light/medium/heavy keep 20/50/100% of the same per-step tool outputs; independent per-step seeds from base seed 7; each full request serialized as JSON and counted; tokens estimated by a word-piece rule (cross-checked with chars/4), not a model tokenizer; code-shaped text from this lab's own source; illustrative USD per 1M: input 3, output 15, cache read 0.3, cache write 3.75; simulation, not a billed run"
+}

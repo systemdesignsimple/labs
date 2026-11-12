@@ -1,0 +1,86 @@
+AI #10 lab: does the quoted text really appear in the cited source?
+Bad quotes are constructed to match known failure shapes; this is NOT a measured rate from any AI model.
+
+Corpus: 10 local docs in ./corpus   Answers: 60 (30 grounded, 30 ungrounded)   Seed: 42
+
+id   mode        kind         cite              exact  fuzzy
+A01  grounded    verbatim     http-caching      yes    1.00
+A02  grounded    verbatim     dns-ttl           yes    1.00
+A03  grounded    verbatim     tcp-handshake     yes    1.00
+A04  grounded    verbatim     token-bucket      yes    1.00
+A05  grounded    verbatim     db-index          yes    1.00
+A06  grounded    verbatim     health-checks     yes    1.00
+A07  grounded    verbatim     retries-backoff   yes    1.00
+A08  grounded    verbatim     idempotency       yes    1.00
+A09  grounded    verbatim     cdn               yes    1.00
+A10  grounded    verbatim     queue-visibility  yes    1.00
+A11  grounded    verbatim     http-caching      yes    1.00
+A12  grounded    verbatim     dns-ttl           yes    1.00
+A13  grounded    verbatim     tcp-handshake     yes    1.00
+A14  grounded    verbatim     token-bucket      yes    1.00
+A15  grounded    verbatim     db-index          yes    1.00
+A16  grounded    verbatim     health-checks     yes    1.00
+A17  grounded    verbatim     retries-backoff   yes    1.00
+A18  grounded    verbatim     idempotency       yes    1.00
+A19  grounded    verbatim     cdn               yes    1.00
+A20  grounded    verbatim     queue-visibility  yes    1.00
+A21  grounded    verbatim     http-caching      yes    1.00
+A22  grounded    verbatim     dns-ttl           yes    1.00
+A23  grounded    verbatim     tcp-handshake     yes    1.00
+A24  grounded    verbatim     token-bucket      yes    1.00
+A25  grounded    verbatim     db-index          yes    1.00
+A26  grounded    verbatim     health-checks     yes    1.00
+A27  grounded    verbatim     retries-backoff   yes    1.00
+A28  grounded    verbatim     idempotency       yes    1.00
+A29  grounded    verbatim     cdn               yes    1.00
+A30  grounded    verbatim     queue-visibility  yes    1.00
+A31  ungrounded  wrong-doc    token-bucket      NO     0.18
+A32  ungrounded  wrong-doc    token-bucket      NO     0.23
+A33  ungrounded  wrong-doc    queue-visibility  NO     0.10
+A34  ungrounded  wrong-doc    cdn               NO     0.29
+A35  ungrounded  wrong-doc    idempotency       NO     0.13
+A36  ungrounded  wrong-doc    retries-backoff   NO     0.31
+A37  ungrounded  wrong-doc    token-bucket      NO     0.33
+A38  ungrounded  wrong-doc    retries-backoff   NO     0.21
+A39  ungrounded  wrong-doc    idempotency       NO     0.29
+A40  ungrounded  wrong-doc    cdn               NO     0.21
+A41  ungrounded  merged       http-caching      NO     0.59
+A42  ungrounded  merged       dns-ttl           NO     0.64
+A43  ungrounded  merged       tcp-handshake     NO     0.50
+A44  ungrounded  merged       token-bucket      NO     0.67
+A45  ungrounded  merged       db-index          NO     0.63
+A46  ungrounded  merged       health-checks     NO     0.62
+A47  ungrounded  merged       retries-backoff   NO     0.73
+A48  ungrounded  merged       idempotency       NO     0.60
+A49  ungrounded  merged       cdn               NO     0.59
+A50  ungrounded  merged       queue-visibility  NO     0.59
+A51  ungrounded  paraphrase:1  http-caching      NO     0.94
+A52  ungrounded  paraphrase:2  dns-ttl           NO     0.89
+A53  ungrounded  paraphrase:1  tcp-handshake     NO     0.95
+A54  ungrounded  paraphrase:num  token-bucket      NO     0.93
+A55  ungrounded  paraphrase:2  db-index          NO     0.88
+A56  ungrounded  paraphrase:num  health-checks     NO     0.92
+A57  ungrounded  paraphrase:1  retries-backoff   NO     0.95
+A58  ungrounded  paraphrase:3  idempotency       NO     0.79
+A59  ungrounded  paraphrase:num  cdn               NO     0.94
+A60  ungrounded  paraphrase:1  queue-visibility  NO     0.89
+
+Citation links that open a real file: 60/60
+Grounded quotes verified by exact match (after normalization): 30/30
+Grounded quotes that a raw, un-normalized match would wrongly reject: 10/30
+Ungrounded wrong-doc  caught by exact check: 10/10
+Ungrounded merged     caught by exact check: 10/10
+Ungrounded paraphrase caught by exact check: 10/10
+
+Strict vs loose: pass = exact OR fuzzy >= threshold
+threshold  grounded-rejected  ungrounded-accepted  paraphrase-accepted  number-flips-accepted
+exact      0                  0                    0                    0
+0.95       0                  1                    1                    0
+0.9        0                  6                    6                    3
+0.8        0                  9                    9                    3
+0.7        0                  11                   10                   3
+
+High-overlap constructed paraphrases (token overlap >= 0.8; not a measure of human detection): 9/10
+Verify time per answer (warmed repeat reads of tiny local synthetic files; open + exact + fuzzy): median 0.055 ms, max 0.157 ms
+
+RESULT {"metrics":[{"name":"citation_links_that_open","value":100,"unit":"%"},{"name":"grounded_verified_exact","value":100,"unit":"%"},{"name":"grounded_rejected_without_normalization","value":10,"unit":"of 30"},{"name":"ungrounded_caught_exact","value":100,"unit":"%"},{"name":"wrong_doc_caught_exact","value":100,"unit":"%"},{"name":"merged_caught_exact","value":100,"unit":"%"},{"name":"paraphrase_caught_exact","value":100,"unit":"%"},{"name":"paraphrase_accepted_fuzzy_0.9","value":6,"unit":"of 10"},{"name":"number_flips_accepted_fuzzy_0.9","value":3,"unit":"of 3"},{"name":"ungrounded_accepted_fuzzy_0.8","value":9,"unit":"of 30"},{"name":"high_overlap_paraphrases_fuzzy_0.8","value":9,"unit":"of 10"},{"name":"verify_ms_per_answer_median_warmed_local","value":0.055,"unit":"ms"}],"conclusion":"On a small synthetic corpus, every citation link opened (60/60), but an exact quote check after normalization verified 100% of grounded quotes and caught 100% of the constructed bad quotes, while a loose 0.9 fuzzy check let 6 of 10 paraphrases through (3 with a changed number), at about 0.055 ms per answer for warmed local checks of these tiny files.","setup":"10 synthetic lab-written doc texts (not saved public documents) written to ./corpus; 60 cited answers: 30 grounded (verbatim, 1 in 3 with copy noise), 30 ungrounded (10 wrong-doc, 10 merged, 10 paraphrase incl. 3 number flips); normalize = NFKC, lowercase, punctuation to space, collapse whitespace; fuzzy = best same-length window token overlap; thresholds 0.95, 0.9, 0.8, 0.7; seed 42; failure cases constructed, not measured from any AI model; timing = warmed repeat reads of tiny local files"}

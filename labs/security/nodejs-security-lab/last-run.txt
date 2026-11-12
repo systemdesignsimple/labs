@@ -1,0 +1,35 @@
+# node labs/security/nodejs-security-lab/nodejs-security-lab.mjs, 2026-11-06 10:57 UTC
+SDS Security Lab · nodejs-security-lab · four common Node.js mistakes
+Node.js v22.13.1 · 2026-11-06 10:57 UTC · throwaway data, this Mac only
+
+== 1. REPRODUCE: attack inputs against the unsafe version
+   unsafe code: SQL by string concat, path.join(base, name), naive deep merge, execSync with a shell string
+   REPRODUCED  SQL lookup (rows returned): x' OR '1'='1 -> 3
+   REPRODUCED  File download (secret reachable): ../secret.env -> true
+   REPRODUCED  JSON settings merge (every object gets isAdmin): {"__proto__": {"isAdmin": true}} -> true
+   REPRODUCED  ls on a user file name (extra command ran): hello.txt; touch <tmp>/injected.txt -> true
+
+== 2. EXPERIMENT: attack and normal inputs, both versions
+   test                                         input                                      unsafe     fixed     
+   SQL lookup (rows returned) (normal)          a@example.test                             1          1         
+   SQL lookup (rows returned) (attack)          x' OR '1'='1                               3          0         
+   File download (file reachable) (normal)      hello.txt                                  true       true      
+   File download (secret reachable) (attack)    ../secret.env                              true       false     
+   JSON settings merge (every object gets isAdm {"__proto__": {"isAdmin": true}}           true       false     
+   ls on a user file name (extra command ran) ( hello.txt; touch <tmp>/injected.txt        true       false     
+
+== 3. FIX
+   + db.prepare('... WHERE email = ?').all(email)
+   + resolve(base, name) and require it to start with base + sep
+   + merge skips __proto__, constructor, prototype and uses Object.hasOwn
+   + execFileSync('ls', [path]) with an argument array, no shell
+   BLOCKED     SQL lookup (rows returned): x' OR '1'='1 -> 0
+   BLOCKED     File download (secret reachable): ../secret.env -> false
+   BLOCKED     JSON settings merge (every object gets isAdmin): {"__proto__": {"isAdmin": true}} -> false
+   BLOCKED     ls on a user file name (extra command ran): hello.txt; touch <tmp>/injected.txt -> false
+
+== 4. REPORT
+   reproduced on unsafe version : 4/4
+   blocked by the fix           : 4/4
+   normal inputs unchanged      : 2/2
+RESULT: FIX WORKS: every attack input reproduced on the unsafe version and was blocked by the fix; normal inputs unchanged

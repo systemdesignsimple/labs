@@ -1,0 +1,73 @@
+{
+  "metrics": [
+    {
+      "name": "Requests during the cut (same stream and amounts, every mode)",
+      "value": 442,
+      "unit": "requests"
+    },
+    {
+      "name": "CP refused during the cut",
+      "value": 50.7,
+      "unit": "%"
+    },
+    {
+      "name": "CP stale reads during the cut",
+      "value": 0,
+      "unit": "reads"
+    },
+    {
+      "name": "CP lowest balance in the accepted-operation ledger",
+      "value": 584,
+      "unit": "money units"
+    },
+    {
+      "name": "AP served during the cut",
+      "value": 100,
+      "unit": "%"
+    },
+    {
+      "name": "AP stale reads during the cut",
+      "value": 241,
+      "unit": "reads"
+    },
+    {
+      "name": "AP withdrawals accepted while the accepted-operation ledger lacked funds",
+      "value": 15,
+      "unit": "withdrawals"
+    },
+    {
+      "name": "AP withdrawals accepted that the serial reference bank refused",
+      "value": 1,
+      "unit": "withdrawals"
+    },
+    {
+      "name": "AP lowest balance in the accepted-operation ledger",
+      "value": -135,
+      "unit": "money units"
+    },
+    {
+      "name": "AP-merge balance error after repair",
+      "value": 0,
+      "unit": "money units"
+    },
+    {
+      "name": "AP-LWW writes dropped at repair",
+      "value": 94,
+      "unit": "writes"
+    },
+    {
+      "name": "AP-LWW balance error after repair",
+      "value": 668,
+      "unit": "money units"
+    },
+    {
+      "name": "AP-LWW reads after repair that differ from the ledger",
+      "value": 223,
+      "unit": "reads"
+    }
+  ],
+  "conclusion": "During the 20s cut, CP refused 50.7% of requests with 0 stale reads, while AP answered 100% but gave 241 stale reads and accepted 1 withdrawals a serial bank refused (ledger low -135); merging logs at repair left a balance error of 0, while last-writer-wins dropped 94 writes and left it off by 668.",
+  "setup": "simulated 2-replica account (Europe, Asia), seed 7, 60s at 20 req/s, cut 20s to 40s, start balance 1000, mix read/deposit/withdraw 0.5/0.25/0.25, amounts 5 to 25 precomputed, one scripted withdrawal of 700 on each side at 30s, CP majority (with witness) in Europe, AP repaired two ways: per-replica log merge, and last-writer-wins on balance",
+  "command": "node labs/sd-7/run.mjs",
+  "note": "Saved from the RESULT line of run.mjs (the lab itself writes no files)."
+}

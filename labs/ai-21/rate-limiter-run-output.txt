@@ -1,0 +1,20 @@
+ai-21 rate limiter lab: limit 60 requests per minute, seed 2100
+
+(a) edge burst: 120 requests in 2 seconds across a minute boundary
+design                     accepted  rejected  worst 60 s  worst 1 s
+fixed window                    120         0         120         60
+sliding log                      60        60          60         60
+token bucket (burst 10)          11       109          11         10
+token bucket (burst 3)            4       116           4          3
+
+(b) normal chat app, 10 minutes: 50 messages, 231 calls (avg 23 per minute, under the limit)
+design                     accepted  rejected  worst 60 s
+fixed window                    231         0          36
+sliding log                     231         0          36
+token bucket (burst 10)         231         0          36
+token bucket (burst 3)          150        81          21
+
+(c) four servers, 240 requests in one minute (4 per second)
+each server counts on its own : 240 accepted (limit was 60)
+one shared counter            : 60 accepted
+RESULT {"metrics":[{"name":"fixed window: accepted in the worst 60 s (edge burst)","value":120,"unit":"requests"},{"name":"fixed window: accepted in the worst 1 s (edge burst)","value":60,"unit":"requests"},{"name":"sliding log: accepted in the worst 60 s (edge burst)","value":60,"unit":"requests"},{"name":"token bucket: accepted in the worst 1 s (edge burst)","value":10,"unit":"requests"},{"name":"normal chat app: calls per 10 min","value":231,"unit":"calls"},{"name":"normal chat app: rejected by token bucket (burst 10)","value":0,"unit":"calls"},{"name":"normal chat app: rejected by token bucket (burst 3)","value":81,"unit":"calls"},{"name":"normal chat app: messages","value":50,"unit":"messages"},{"name":"normal chat app: rejected by sliding log","value":0,"unit":"calls"},{"name":"four servers, own counters: accepted of 240","value":240,"unit":"requests"},{"name":"four servers, shared counter: accepted of 240","value":60,"unit":"requests"}],"conclusion":"With a 60/min limit, a fixed window let 120 requests through in one minute when they straddled the boundary, a sliding log held it to 60; four servers with their own counters accepted 240 of 240 while one shared counter accepted 60.","setup":"limit 60/60 s; edge burst 2x60 requests 16 ms apart around t=60 s; chat app 10 min, a message every 4 to 20 s with 3 to 6 calls within 400 ms; token buckets with capacity 10 and 3, refilling at 1/s; 4 servers round robin; seed 2100"}

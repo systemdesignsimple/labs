@@ -1,0 +1,27 @@
+# node labs/ai-19/run.mjs, 2026-11-06 17:43 UTC
+AI #19 lab: who picks the model? A simple gateway rule
+Prompts: 60 (42 easy, 18 hard). Rule: score >= 2 goes to big.
+
+Agrees with label:           55/60 (91.7%)  (label agreement, not answer quality)
+Sent to small model:         43/60
+Easy-labelled sent to big:   2  (pays the big-model price)
+Hard-labelled sent to small: 3  (hypothetical risk of a bad answer)
+
+Illustrative cost model (assumed prices, chars/4 input, assumed output lengths):
+Est. cost per 1000 requests, always big:  $2.923
+Est. cost per 1000 requests, routed:      $1.966  (32.8% less)
+Est. cost per 1000, routed + escalation:  $2.147  (26.5% less, checker cost excluded)
+Est. avg latency, always big:  4540 ms
+Est. avg latency, routed:      3351 ms
+Hypothetical expected errors per 1000, no escalation:   30  (assumes p_fail=0.6)
+Hypothetical expected errors per 1000, with escalation: 6  (assumes p_detect=0.8, big always right)
+Routing decision time (measured): 0.31 microseconds per prompt
+
+Disagreements with the label:
+  easy -> big: What is 2 + 2?
+  easy -> big: Hi, I wrote a thank-you note for my neighbours who looked after our...
+  hard -> small: A bat and a ball cost 1.10 together. The bat costs 1.00 more than t...
+  hard -> small: If all bloops are razzies and all razzies are lazzies, are all bloo...
+  hard -> small: How many times does the letter r appear in 'strawberry raspberry'?
+
+RESULT {"metrics":[{"name":"label_agreement","value":91.7,"unit":"% of prompts (agreement with hand labels, not answer correctness)"},{"name":"sent_to_small_model","value":43,"unit":"prompts of 60"},{"name":"easy_labelled_sent_to_big","value":2,"unit":"prompts"},{"name":"hard_labelled_sent_to_small","value":3,"unit":"prompts"},{"name":"cost_always_big","value":2.92,"unit":"USD per 1000 requests (illustrative model)"},{"name":"cost_routed","value":1.97,"unit":"USD per 1000 requests (illustrative model)"},{"name":"cost_saving","value":32.8,"unit":"% (illustrative model)"},{"name":"cost_saving_with_escalation","value":26.5,"unit":"% (illustrative model, checker cost excluded)"},{"name":"avg_latency_always_big","value":4540,"unit":"ms (est.)"},{"name":"avg_latency_routed","value":3351,"unit":"ms (est.)"},{"name":"hypothetical_errors_no_escalation","value":30,"unit":"per 1000 requests (expected, from assumed failure rate)"},{"name":"hypothetical_errors_with_escalation","value":6,"unit":"per 1000 requests (expected, from assumed detection rate)"},{"name":"routing_decision_time","value":0.31,"unit":"microseconds"}],"conclusion":"On these 60 hand-labelled prompts, a length-and-keyword rule agreed with the labels 91.7% of the time, cut cost by 32.8% versus always-big under an illustrative price and token model, and took about 0.31 microseconds per decision, but it still sent 3 hard-labelled prompts to the small model.","setup":"60 hand-labelled prompts (42 easy, 18 hard); rule: long>280 chars +1, maths/code/reasoning signals +2 each, big if score>=2; prices per 1M tokens small 0.15/0.6, big 3/15 USD (in/out, assumed illustrative tiers, not dated vendor prices); input tokens = chars/4, output tokens easy 60, hard 500; latency small 250ms+150tok/s, big 700ms+50tok/s; hypothetical escalation: uses true labels, small fails hard-labelled prompt p=0.6, checker detects p=0.8, big always succeeds, checker cost/latency excluded; routing time over 120000 decisions"}

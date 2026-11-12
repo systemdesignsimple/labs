@@ -1,0 +1,59 @@
+ai-13 lab: simulated metadata-driven tool discovery, one fixed client, three in-process apps
+hashed client source = McpClient, words, stem, bag, enumValues, chooseTool, extractArgs, validateArgs, mulberry32 + STOP, KNOWLEDGE, PROTOCOL, SEED
+selected-source sha256 (first 16): before any app=863e0236cb2be1ab | after notes=863e0236cb2be1ab | after todo=863e0236cb2be1ab | after converter=863e0236cb2be1ab | after vague to-do rerun=863e0236cb2be1ab
+selected-source hash identical throughout: true · app words in client code: 0
+shared server helper (hand-written stand-in for an SDK): 24 lines
+
+[notes] server=notes-app lines=50 tools=create_note,search_notes,list_notes,delete_note
+  captured handshake + discovery (3 client messages, 2 server responses, 5 wire messages, 1735 bytes):
+    client -> server: {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"lab-client","version":"1.0.0"}}}
+    server -> client: {"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"2025-06-18","capabilities":{"tools":{"listChanged":false}},"serverInfo":{"name":"notes-app","version":"1.0.0"}}}
+    client -> server: {"jsonrpc":"2.0","method":"notifications/initialized","params":{}}
+    client -> server: {"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}
+    server -> client: {"jsonrpc":"2.0","id":2,"result":{"tools":[{"name":"create_note","description":"Create, make and save a new note with a title and body text. Use it to write down, jot, remember, record or keep something for later.","inputSchema":{"type":"object","properties":{"title":{"type":"string","description":"Short title of the note"},"body":{"type":"string","description":"Full text of the note"}},"required":["title","body"],"additionalProperties":false}},{"name":"search_notes","description":"Search every note for a word or phrase and return the notes that match. Use it to find, look up, recall or check what was written about a topic.","inputSchema":{"type":"object","properties":{"query":{"type":"string","description":"Word or phrase to look for"}},"required":["query"],"additionalProperties":false}},{"name":"list_notes","description":"List the titles of all notes. Use it to show, see, browse or count every note.","inputSchema":{"type":"object","properties":{},"additionalProperties":false}},{"name":"delete_note","description":"Delete one note by its exact title. Use it to remove, erase, trash or get rid of a note.","inputSchema":{"type":"object","properties":{"title":{"type":"string","description":"Exact title of the note"}},"required":["title"],"additionalProperties":false}}]}}
+  in-process connect + discovery latency: median 0.020 ms over 50 runs (includes app construction)
+  right tool 18/20 · valid args 18/20 · right result 18/20
+  miss #7 (ambiguous): What did I write about "caching"?  ->  picked create_note, wanted search_notes
+  miss #11 (ambiguous): How many notes do I have?  ->  picked create_note, wanted list_notes
+
+[todo] server=todo-app lines=53 tools=add_task,complete_task,list_tasks,delete_task
+  captured handshake + discovery (3 client messages, 2 server responses, 5 wire messages, 1580 bytes):
+    client -> server: {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"lab-client","version":"1.0.0"}}}
+    server -> client: {"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"2025-06-18","capabilities":{"tools":{"listChanged":false}},"serverInfo":{"name":"todo-app","version":"1.0.0"}}}
+    client -> server: {"jsonrpc":"2.0","method":"notifications/initialized","params":{}}
+    client -> server: {"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}
+    server -> client: {"jsonrpc":"2.0","id":2,"result":{"tools":[{"name":"add_task","description":"Add a new item to the to-do list. Use it to put something on the list, plan it, or remind yourself to do it later.","inputSchema":{"type":"object","properties":{"text":{"type":"string","description":"Text of the item"}},"required":["text"],"additionalProperties":false}},{"name":"complete_task","description":"Mark an open item as done by its text. Use it when something is finished, completed or ticked off.","inputSchema":{"type":"object","properties":{"text":{"type":"string","description":"Text of the item"}},"required":["text"],"additionalProperties":false}},{"name":"list_tasks","description":"List the items that are still open. Use it to show what is left, pending or remaining.","inputSchema":{"type":"object","properties":{},"additionalProperties":false}},{"name":"delete_task","description":"Delete an item from the list without completing it. Use it to remove, drop or cancel an item.","inputSchema":{"type":"object","properties":{"text":{"type":"string","description":"Text of the item"}},"required":["text"],"additionalProperties":false}}]}}
+  in-process connect + discovery latency: median 0.020 ms over 50 runs (includes app construction)
+  right tool 17/20 · valid args 17/20 · right result 17/20
+  miss #5 (ambiguous): I need to "buy a birthday gift"  ->  picked delete_task, wanted add_task
+  miss #19 (ambiguous): Get rid of "call mom", I already did it  ->  picked delete_task, wanted complete_task
+  miss #20 (ambiguous): Forget about "fix bike"  ->  picked list_tasks, wanted delete_task
+
+[converter] server=converter-app lines=40 tools=convert_length,convert_weight,convert_temperature
+  captured handshake + discovery (3 client messages, 2 server responses, 5 wire messages, 2156 bytes):
+    client -> server: {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"lab-client","version":"1.0.0"}}}
+    server -> client: {"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"2025-06-18","capabilities":{"tools":{"listChanged":false}},"serverInfo":{"name":"converter-app","version":"1.0.0"}}}
+    client -> server: {"jsonrpc":"2.0","method":"notifications/initialized","params":{}}
+    client -> server: {"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}
+    server -> client: {"jsonrpc":"2.0","id":2,"result":{"tools":[{"name":"convert_length","description":"Convert a distance or length from one unit to another: kilometres, metres, centimetres, miles, feet or inches. Use it for how far, how long or how tall.","inputSchema":{"type":"object","properties":{"value":{"type":"number","description":"The amount to change"},"from":{"type":"string","enum":["km","m","cm","mile","foot","inch"],"description":"Unit the value starts in"},"to":{"type":"string","enum":["km","m","cm","mile","foot","inch"],"description":"Target unit for the result"}},"required":["value","from","to"],"additionalProperties":false}},{"name":"convert_weight","description":"Convert a weight or mass from one unit to another: kilograms, grams, pounds or ounces. Use it for how heavy something is.","inputSchema":{"type":"object","properties":{"value":{"type":"number","description":"The amount to change"},"from":{"type":"string","enum":["kg","g","pound","ounce"],"description":"Unit the value starts in"},"to":{"type":"string","enum":["kg","g","pound","ounce"],"description":"Target unit for the result"}},"required":["value","from","to"],"additionalProperties":false}},{"name":"convert_temperature","description":"Convert a temperature between Celsius, Fahrenheit and Kelvin. Use it for how hot or cold something is.","inputSchema":{"type":"object","properties":{"value":{"type":"number","description":"The amount to change"},"from":{"type":"string","enum":["celsius","fahrenheit","kelvin"],"description":"Unit the value starts in"},"to":{"type":"string","enum":["celsius","fahrenheit","kelvin"],"description":"Target unit for the result"}},"required":["value","from","to"],"additionalProperties":false}}]}}
+  in-process connect + discovery latency: median 0.024 ms over 50 runs (includes app construction)
+  right tool 20/20 · valid args 17/20 · right result 17/20
+  miss #14 (ambiguous): Is 300 kelvin cold?  ->  args: missing to
+  miss #15 (ambiguous): How long is a marathon in miles?  ->  args: missing value, missing from
+  miss #18 (ambiguous): Convert 20 degrees to fahrenheit  ->  args: missing from
+
+[vague tool descriptions on to-do, schemas unchanged] right tool 8/20 (was 17/20) · right result 8/20
+  miss #2: Put "renew passport" on my plate  ->  picked list_tasks, wanted add_task
+  miss #3: Remind me to "email the landlord"  ->  picked delete_task, wanted add_task
+  miss #5 (ambiguous): I need to "buy a birthday gift"  ->  picked delete_task, wanted add_task
+  miss #6: Mark "pay rent" as done  ->  picked delete_task, wanted complete_task
+  miss #8: Tick off "call mom"  ->  picked delete_task, wanted complete_task
+  miss #10: Done with "pay rent"  ->  picked add_task, wanted complete_task
+  miss #12: Show my pending tasks  ->  picked delete_task, wanted list_tasks
+  miss #13: What do I still have to do?  ->  picked complete_task, wanted list_tasks
+  miss #15: Drop "fix bike", I am not doing it  ->  picked complete_task, wanted delete_task
+  miss #17: Remove "call mom"  ->  picked complete_task, wanted delete_task
+  miss #19 (ambiguous): Get rid of "call mom", I already did it  ->  picked delete_task, wanted complete_task
+  miss #20 (ambiguous): Forget about "fix bike"  ->  picked list_tasks, wanted delete_task
+total run time 77 ms
+RESULT {"metrics":[{"name":"selected_client_source_hash_changes","value":0,"unit":"of 4 checkpoints"},{"name":"app_words_in_client_code","value":0,"unit":"matches"},{"name":"apps_connected","value":3,"unit":"apps"},{"name":"tools_discovered","value":11,"unit":"tools"},{"name":"server_lines_notes","value":50,"unit":"lines"},{"name":"server_lines_todo","value":53,"unit":"lines"},{"name":"server_lines_converter","value":40,"unit":"lines"},{"name":"shared_helper_lines","value":24,"unit":"lines"},{"name":"handshake_client_messages","value":3,"unit":"messages per app"},{"name":"handshake_wire_messages","value":5,"unit":"messages per app"},{"name":"inprocess_connect_discovery_latency_median","value":0.02,"unit":"ms (in-process, not setup effort)"},{"name":"right_tool","value":91.7,"unit":"% of 60"},{"name":"valid_args","value":86.7,"unit":"% of 60"},{"name":"right_result","value":86.7,"unit":"% of 60"},{"name":"todo_right_tool_clear_descriptions","value":85,"unit":"% of 20"},{"name":"todo_right_tool_vague_descriptions","value":40,"unit":"% of 20"},{"name":"run_time","value":77,"unit":"ms"}],"conclusion":"In this simulation of metadata-driven tool discovery, the hash of the selected client source stayed identical across 3 in-process apps that each needed its own 40 to 53 line server, a keyword-matching stand-in model picked the right tool on 91.7% of 60 hand-written requests, and vaguer tool descriptions alone moved to-do tool choice from 85% to 40%.","setup":"in-process JSON-RPC subset with MCP message shapes (protocol string 2025-06-18, not the official SDK, no real MCP interoperability tested), 3 apps (4+4+3 tools), 60 fixed requests (20 per app, 9 marked ambiguous), deterministic keyword-matching model (not an LLM) reading only tools/list, seed 1313, 50 connections per app for latency, vague rerun on to-do changing only tool descriptions"}

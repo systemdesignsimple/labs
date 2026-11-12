@@ -1,0 +1,8 @@
+# node labs/security/password-leak-check-lab/password-leak-check-lab.mjs, 2026-11-06 10:13 UTC
+password-leak-check-lab Pwned Passwords range API · 2026-11-06 · only 5 hash characters leave this Mac
+
+password                 kind               sent       suffixes back  times seen  
+password123              famous weak        CBFDA      1972           2,266,543   
+letmein                  famous weak        B7A87      1927           1,406,604   
+Summer2024!              looks strong       7E8B0      1958           3,614       
+(random 20 chars)        random, made now   6C4CB      1953           0           

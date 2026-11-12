@@ -1,0 +1,224 @@
+{
+ "id": "rails-upload-lab",
+ "title": "image upload checks and ImageMagick policy.xml",
+ "env": "Node 22.13.1, pure-Node PNG decode/encode, simulated content-sniffing image tool",
+ "at": "2026-11-06T10:34:05.317Z",
+ "unsafe": "accept when the name has .png/.jpg/.gif or Content-Type is image/*, pass the original bytes to an image tool that reads the format from the content; policy.xml with no rules",
+ "fix": [
+  "check magic bytes against an allowlist (PNG here), ignore file name and Content-Type",
+  "read width x height from the header and reject > 40 MP before decoding",
+  "decode and re-encode to a fresh PNG; store under a server-chosen name",
+  "policy.xml: coder rights=\"none\" pattern=\"*\", then rights=\"read|write\" pattern=\"{PNG,JPEG,GIF,WEBP}\"; deny delegates, path \"@*\"; set width/height/area limits"
+ ],
+ "notes": [
+  "this Mac: ImageMagick not installed (nothing to check here). On your servers run: magick -version ; magick -list policy",
+  "Rails: for the CVE number and fixed versions use the official Rails security announcement / rails GitHub advisory"
+ ],
+ "rows": [
+  {
+   "test": "name only: .png with SVG inside",
+   "input": "avatar.png (image/png, 83 B)",
+   "kind": "attack",
+   "unsafe": "accept, tool reads SVG",
+   "fixed": "reject: content is SVG"
+  },
+  {
+   "test": "name only: .jpg with MVG inside",
+   "input": "photo.jpg (image/jpeg, 42 B)",
+   "kind": "attack",
+   "unsafe": "accept, tool reads MVG",
+   "fixed": "reject: content is MVG"
+  },
+  {
+   "test": "name only: .gif with PostScript header",
+   "input": "anim.gif (image/gif, 41 B)",
+   "kind": "attack",
+   "unsafe": "accept, tool reads PS",
+   "fixed": "reject: content is PS"
+  },
+  {
+   "test": "name only: .png with MSL inside",
+   "input": "logo.png (image/png, 53 B)",
+   "kind": "attack",
+   "unsafe": "accept, tool reads MSL",
+   "fixed": "reject: content is MSL"
+  },
+  {
+   "test": "double extension",
+   "input": "cat.png.svg (image/svg+xml, 41 B)",
+   "kind": "attack",
+   "unsafe": "accept, tool reads SVG",
+   "fixed": "reject: content is SVG"
+  },
+  {
+   "test": "Content-Type trusted",
+   "input": "notes.txt (image/png, 37 B)",
+   "kind": "attack",
+   "unsafe": "accept, tool reads TEXT",
+   "fixed": "reject: content is TEXT"
+  },
+  {
+   "test": "real PNG + data after IEND",
+   "input": "icon.png (image/png, 121 B)",
+   "kind": "attack",
+   "unsafe": "accept PNG 8x8, extras 49 B",
+   "fixed": "accept PNG 8x8, extras 0 B"
+  },
+  {
+   "test": "real PNG + metadata text chunk",
+   "input": "me.png (image/png, 9131 B)",
+   "kind": "attack",
+   "unsafe": "accept PNG 64x64, extras 51 B",
+   "fixed": "accept PNG 64x64, extras 0 B"
+  },
+  {
+   "test": "header claims 50000x50000",
+   "input": "big.png (image/png, 69 B)",
+   "kind": "attack",
+   "unsafe": "accept, tool allocs 10 GB",
+   "fixed": "reject: 50000x50000 > 40 MP"
+  },
+  {
+   "test": "normal avatar 64x64 RGBA",
+   "input": "avatar.png (image/png, 9080 B)",
+   "kind": "normal",
+   "unsafe": "accept PNG 64x64, extras 0 B",
+   "fixed": "accept PNG 64x64, extras 0 B"
+  },
+  {
+   "test": "normal banner 1200x300, .PNG",
+   "input": "Banner.PNG (image/png, 170018 B)",
+   "kind": "normal",
+   "unsafe": "accept PNG 1200x300, extras 0 B",
+   "fixed": "accept PNG 1200x300, extras 0 B"
+  },
+  {
+   "test": "normal screenshot, odd name",
+   "input": "my photo (1).png (application/octet-stream, 7672 B)",
+   "kind": "normal",
+   "unsafe": "accept PNG 300x200, extras 0 B",
+   "fixed": "accept PNG 300x200, extras 0 B"
+  },
+  {
+   "test": "policy.xml coder MVG",
+   "input": "MVG reader for uploads",
+   "kind": "attack",
+   "unsafe": "allowed",
+   "fixed": "denied"
+  },
+  {
+   "test": "policy.xml coder MSL",
+   "input": "MSL reader for uploads",
+   "kind": "attack",
+   "unsafe": "allowed",
+   "fixed": "denied"
+  },
+  {
+   "test": "policy.xml coder SVG",
+   "input": "SVG reader for uploads",
+   "kind": "attack",
+   "unsafe": "allowed",
+   "fixed": "denied"
+  },
+  {
+   "test": "policy.xml coder PS",
+   "input": "PS reader for uploads",
+   "kind": "attack",
+   "unsafe": "allowed",
+   "fixed": "denied"
+  },
+  {
+   "test": "policy.xml coder EPS",
+   "input": "EPS reader for uploads",
+   "kind": "attack",
+   "unsafe": "allowed",
+   "fixed": "denied"
+  },
+  {
+   "test": "policy.xml coder PDF",
+   "input": "PDF reader for uploads",
+   "kind": "attack",
+   "unsafe": "allowed",
+   "fixed": "denied"
+  },
+  {
+   "test": "policy.xml coder TEXT",
+   "input": "TEXT reader for uploads",
+   "kind": "attack",
+   "unsafe": "allowed",
+   "fixed": "denied"
+  },
+  {
+   "test": "policy.xml coder URL",
+   "input": "URL reader for uploads",
+   "kind": "attack",
+   "unsafe": "allowed",
+   "fixed": "denied"
+  },
+  {
+   "test": "policy.xml coder HTTPS",
+   "input": "HTTPS reader for uploads",
+   "kind": "attack",
+   "unsafe": "allowed",
+   "fixed": "denied"
+  },
+  {
+   "test": "policy.xml path @file",
+   "input": "indirect read @/some/path",
+   "kind": "attack",
+   "unsafe": "allowed",
+   "fixed": "denied"
+  },
+  {
+   "test": "policy.xml delegates",
+   "input": "external helper programs",
+   "kind": "attack",
+   "unsafe": "allowed",
+   "fixed": "denied"
+  },
+  {
+   "test": "policy.xml area limit",
+   "input": "pixel area cap",
+   "kind": "attack",
+   "unsafe": "no limit",
+   "fixed": "40MP"
+  },
+  {
+   "test": "policy.xml coder PNG",
+   "input": "PNG reader for uploads",
+   "kind": "normal",
+   "unsafe": "allowed",
+   "fixed": "allowed"
+  },
+  {
+   "test": "policy.xml coder JPEG",
+   "input": "JPEG reader for uploads",
+   "kind": "normal",
+   "unsafe": "allowed",
+   "fixed": "allowed"
+  },
+  {
+   "test": "policy.xml coder GIF",
+   "input": "GIF reader for uploads",
+   "kind": "normal",
+   "unsafe": "allowed",
+   "fixed": "allowed"
+  },
+  {
+   "test": "policy.xml coder WEBP",
+   "input": "WEBP reader for uploads",
+   "kind": "normal",
+   "unsafe": "allowed",
+   "fixed": "allowed"
+  }
+ ],
+ "counts": {
+  "attacks": 21,
+  "reproduced": 21,
+  "blocked": 21,
+  "normal": 7,
+  "same": 7
+ },
+ "verdict": "FIX WORKS: every attack input reproduced on the unsafe version and was blocked by the fix; normal inputs unchanged",
+ "text": "SDS Security Lab · rails-upload-lab · image upload checks and ImageMagick policy.xml\nNode 22.13.1, pure-Node PNG decode/encode, simulated content-sniffing image tool · 2026-11-06 10:34 UTC · throwaway data, this Mac only\n\n== 1. 再現 REPRODUCE: attack inputs against the unsafe version\n   unsafe code: accept when the name has .png/.jpg/.gif or Content-Type is image/*, pass the original bytes to an image tool that reads the format from the content; policy.xml with no rules\n   REPRODUCED  name only: .png with SVG inside: avatar.png (image/png, 83 B) -> accept, tool reads SVG\n   REPRODUCED  name only: .jpg with MVG inside: photo.jpg (image/jpeg, 42 B) -> accept, tool reads MVG\n   REPRODUCED  name only: .gif with PostScript header: anim.gif (image/gif, 41 B) -> accept, tool reads PS\n   REPRODUCED  name only: .png with MSL inside: logo.png (image/png, 53 B) -> accept, tool reads MSL\n   REPRODUCED  double extension: cat.png.svg (image/svg+xml, 41 B) -> accept, tool reads SVG\n   REPRODUCED  Content-Type trusted: notes.txt (image/png, 37 B) -> accept, tool reads TEXT\n   REPRODUCED  real PNG + data after IEND: icon.png (image/png, 121 B) -> accept PNG 8x8, extras 49 B\n   REPRODUCED  real PNG + metadata text chunk: me.png (image/png, 9131 B) -> accept PNG 64x64, extras 51 B\n   REPRODUCED  header claims 50000x50000: big.png (image/png, 69 B) -> accept, tool allocs 10 GB\n   REPRODUCED  policy.xml coder MVG: MVG reader for uploads -> allowed\n   REPRODUCED  policy.xml coder MSL: MSL reader for uploads -> allowed\n   REPRODUCED  policy.xml coder SVG: SVG reader for uploads -> allowed\n   REPRODUCED  policy.xml coder PS: PS reader for uploads -> allowed\n   REPRODUCED  policy.xml coder EPS: EPS reader for uploads -> allowed\n   REPRODUCED  policy.xml coder PDF: PDF reader for uploads -> allowed\n   REPRODUCED  policy.xml coder TEXT: TEXT reader for uploads -> allowed\n   REPRODUCED  policy.xml coder URL: URL reader for uploads -> allowed\n   REPRODUCED  policy.xml coder HTTPS: HTTPS reader for uploads -> allowed\n   REPRODUCED  policy.xml path @file: indirect read @/some/path -> allowed\n   REPRODUCED  policy.xml delegates: external helper programs -> allowed\n   REPRODUCED  policy.xml area limit: pixel area cap -> no limit\n\n== 2. 実験 EXPERIMENT: attack and normal inputs, both versions\n   test                                         input                                      unsafe     fixed     \n   name only: .png with SVG inside (attack)     avatar.png (image/png, 83 B)               accept, to reject: co\n   name only: .jpg with MVG inside (attack)     photo.jpg (image/jpeg, 42 B)               accept, to reject: co\n   name only: .gif with PostScript header (atta anim.gif (image/gif, 41 B)                 accept, to reject: co\n   name only: .png with MSL inside (attack)     logo.png (image/png, 53 B)                 accept, to reject: co\n   double extension (attack)                    cat.png.svg (image/svg+xml, 41 B)          accept, to reject: co\n   Content-Type trusted (attack)                notes.txt (image/png, 37 B)                accept, to reject: co\n   real PNG + data after IEND (attack)          icon.png (image/png, 121 B)                accept PNG accept PNG\n   real PNG + metadata text chunk (attack)      me.png (image/png, 9131 B)                 accept PNG accept PNG\n   header claims 50000x50000 (attack)           big.png (image/png, 69 B)                  accept, to reject: 50\n   normal avatar 64x64 RGBA (normal)            avatar.png (image/png, 9080 B)             accept PNG accept PNG\n   normal banner 1200x300, .PNG (normal)        Banner.PNG (image/png, 170018 B)           accept PNG accept PNG\n   normal screenshot, odd name (normal)         my photo (1).png (application/octet-stream accept PNG accept PNG\n   policy.xml coder MVG (attack)                MVG reader for uploads                     allowed    denied    \n   policy.xml coder MSL (attack)                MSL reader for uploads                     allowed    denied    \n   policy.xml coder SVG (attack)                SVG reader for uploads                     allowed    denied    \n   policy.xml coder PS (attack)                 PS reader for uploads                      allowed    denied    \n   policy.xml coder EPS (attack)                EPS reader for uploads                     allowed    denied    \n   policy.xml coder PDF (attack)                PDF reader for uploads                     allowed    denied    \n   policy.xml coder TEXT (attack)               TEXT reader for uploads                    allowed    denied    \n   policy.xml coder URL (attack)                URL reader for uploads                     allowed    denied    \n   policy.xml coder HTTPS (attack)              HTTPS reader for uploads                   allowed    denied    \n   policy.xml path @file (attack)               indirect read @/some/path                  allowed    denied    \n   policy.xml delegates (attack)                external helper programs                   allowed    denied    \n   policy.xml area limit (attack)               pixel area cap                             no limit   40MP      \n   policy.xml coder PNG (normal)                PNG reader for uploads                     allowed    allowed   \n   policy.xml coder JPEG (normal)               JPEG reader for uploads                    allowed    allowed   \n   policy.xml coder GIF (normal)                GIF reader for uploads                     allowed    allowed   \n   policy.xml coder WEBP (normal)               WEBP reader for uploads                    allowed    allowed   \n\n== 3. 対策 FIX\n   + check magic bytes against an allowlist (PNG here), ignore file name and Content-Type\n   + read width x height from the header and reject > 40 MP before decoding\n   + decode and re-encode to a fresh PNG; store under a server-chosen name\n   + policy.xml: coder rights=\"none\" pattern=\"*\", then rights=\"read|write\" pattern=\"{PNG,JPEG,GIF,WEBP}\"; deny delegates, path \"@*\"; set width/height/area limits\n   BLOCKED     name only: .png with SVG inside: avatar.png (image/png, 83 B) -> reject: content is SVG\n   BLOCKED     name only: .jpg with MVG inside: photo.jpg (image/jpeg, 42 B) -> reject: content is MVG\n   BLOCKED     name only: .gif with PostScript header: anim.gif (image/gif, 41 B) -> reject: content is PS\n   BLOCKED     name only: .png with MSL inside: logo.png (image/png, 53 B) -> reject: content is MSL\n   BLOCKED     double extension: cat.png.svg (image/svg+xml, 41 B) -> reject: content is SVG\n   BLOCKED     Content-Type trusted: notes.txt (image/png, 37 B) -> reject: content is TEXT\n   BLOCKED     real PNG + data after IEND: icon.png (image/png, 121 B) -> accept PNG 8x8, extras 0 B\n   BLOCKED     real PNG + metadata text chunk: me.png (image/png, 9131 B) -> accept PNG 64x64, extras 0 B\n   BLOCKED     header claims 50000x50000: big.png (image/png, 69 B) -> reject: 50000x50000 > 40 MP\n   BLOCKED     policy.xml coder MVG: MVG reader for uploads -> denied\n   BLOCKED     policy.xml coder MSL: MSL reader for uploads -> denied\n   BLOCKED     policy.xml coder SVG: SVG reader for uploads -> denied\n   BLOCKED     policy.xml coder PS: PS reader for uploads -> denied\n   BLOCKED     policy.xml coder EPS: EPS reader for uploads -> denied\n   BLOCKED     policy.xml coder PDF: PDF reader for uploads -> denied\n   BLOCKED     policy.xml coder TEXT: TEXT reader for uploads -> denied\n   BLOCKED     policy.xml coder URL: URL reader for uploads -> denied\n   BLOCKED     policy.xml coder HTTPS: HTTPS reader for uploads -> denied\n   BLOCKED     policy.xml path @file: indirect read @/some/path -> denied\n   BLOCKED     policy.xml delegates: external helper programs -> denied\n   BLOCKED     policy.xml area limit: pixel area cap -> 40MP\n\n== 4. レポート REPORT\n   reproduced on unsafe version : 21/21\n   blocked by the fix           : 21/21\n   normal inputs unchanged      : 7/7\n   note: this Mac: ImageMagick not installed (nothing to check here). On your servers run: magick -version ; magick -list policy\n   note: Rails: for the CVE number and fixed versions use the official Rails security announcement / rails GitHub advisory\nRESULT: FIX WORKS: every attack input reproduced on the unsafe version and was blocked by the fix; normal inputs unchanged"
+}

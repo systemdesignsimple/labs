@@ -1,0 +1,95 @@
+{
+ "source": "PoC run stored in the publisher (episode_assets 612, 2026-11-06), node labs/ai-19/run.mjs",
+ "env": {
+  "node": "v22.13.1",
+  "platform": "darwin arm64",
+  "cpus": "Apple M2 Pro"
+ },
+ "metrics": [
+  {
+   "name": "label_agreement",
+   "value": 91.7,
+   "unit": "% of prompts (agreement with hand labels, not answer correctness)"
+  },
+  {
+   "name": "sent_to_small_model",
+   "value": 43,
+   "unit": "prompts of 60"
+  },
+  {
+   "name": "easy_labelled_sent_to_big",
+   "value": 2,
+   "unit": "prompts"
+  },
+  {
+   "name": "hard_labelled_sent_to_small",
+   "value": 3,
+   "unit": "prompts"
+  },
+  {
+   "name": "cost_always_big",
+   "value": 2.92,
+   "unit": "USD per 1000 requests (illustrative model)"
+  },
+  {
+   "name": "cost_routed",
+   "value": 1.97,
+   "unit": "USD per 1000 requests (illustrative model)"
+  },
+  {
+   "name": "cost_saving",
+   "value": 32.8,
+   "unit": "% (illustrative model)"
+  },
+  {
+   "name": "cost_saving_with_escalation",
+   "value": 26.5,
+   "unit": "% (illustrative model, checker cost excluded)"
+  },
+  {
+   "name": "avg_latency_always_big",
+   "value": 4540,
+   "unit": "ms (est.)"
+  },
+  {
+   "name": "avg_latency_routed",
+   "value": 3351,
+   "unit": "ms (est.)"
+  },
+  {
+   "name": "hypothetical_errors_no_escalation",
+   "value": 30,
+   "unit": "per 1000 requests (expected, from assumed failure rate)"
+  },
+  {
+   "name": "hypothetical_errors_with_escalation",
+   "value": 6,
+   "unit": "per 1000 requests (expected, from assumed detection rate)"
+  },
+  {
+   "name": "routing_decision_time",
+   "value": 0.31,
+   "unit": "microseconds"
+  }
+ ],
+ "conclusion": "On these 60 hand-labelled prompts, a length-and-keyword rule agreed with the labels 91.7% of the time, cut cost by 32.8% versus always-big under an illustrative price and token model, and took about 0.31 microseconds per decision, but it still sent 3 hard-labelled prompts to the small model.",
+ "setup": "60 hand-labelled prompts (42 easy, 18 hard); rule: long>280 chars +1, maths/code/reasoning signals +2 each, big if score>=2; prices per 1M tokens small 0.15/0.6, big 3/15 USD (in/out, assumed illustrative tiers, not dated vendor prices); input tokens = chars/4, output tokens easy 60, hard 500; latency small 250ms+150tok/s, big 700ms+50tok/s; hypothetical escalation: uses true labels, small fails hard-labelled prompt p=0.6, checker detects p=0.8, big always succeeds, checker cost/latency excluded; routing time over 120000 decisions",
+ "caveats": [
+  "Label agreement measures routing against subjective difficulty labels, not answer correctness or which model actually suffices.",
+  "Three of 18 hard-labelled prompts were sent to the small model: a 16.7% miss rate within that group, or 5% of all prompts.",
+  "The fixed dataset is small and hand-selected; its 70% easy share does not establish the composition of real traffic.",
+  "No model answers, live bills, or model response latencies were measured. Prices, token counts, output lengths, and response speeds are assumptions.",
+  "The 30 and 6 errors per 1,000 are hypothetical expectations, not observed failures.",
+  "Escalation assumes access to true difficulty labels, specified failure and detection probabilities, and a big model that always succeeds. Checker cost and latency are excluded.",
+  "The routing benchmark covers local rule execution, not network, gateway, serialization, or end-to-end overhead. Repeated decisions do not increase the number of independently evaluated prompts.",
+  "The supplied tail supports arithmetic checks but does not independently validate the implementation or benchmark methodology."
+ ],
+ "supportedClaims": [
+  "The rule agreed with hand labels on 55 of 60 prompts: 91.7%.",
+  "It sent 43 of 60 prompts (71.7%) to the small model, including 3 hard-labelled prompts; 2 easy-labelled prompts went to the big model.",
+  "The printed cost estimates support approximately 32.8% savings using the underlying unrounded figures: $2.923 versus $1.966 per 1,000 requests.",
+  "The assumed latency model supports 4,540 ms versus 3,351 ms, approximately 26.2% lower average latency.",
+  "The hypothetical error arithmetic is consistent: 3/60 × 0.6 × 1,000 = 30; applying 80% detection leaves 6.",
+  "The log reports a routing benchmark averaging 0.31 microseconds per decision over 120,000 decisions."
+ ]
+}

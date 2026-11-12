@@ -1,0 +1,21 @@
+# node labs/ai-3/run.mjs, 2026-11-05 18:03 UTC
+Scripted chat: 200 turns, seed 20261105, average 229.6 approx tokens per turn (user + reply).
+All counts are approximate token units from a heuristic splitter, not a real model vocabulary.
+Pinned memory line: "Memory: user name: Calm R." = 12 approx tokens. Summary note: 200 approx tokens reserved every turn, actual note at most that.
+
+[4k] A truncate: name gone at turn 19 (budget / avg turn predicts about 18). Name visible: A 18/200, B pinned 200/200, C summary 200/200.
+[8k] A truncate: name gone at turn 36 (budget / avg turn predicts about 35). Name visible: A 35/200, B pinned 200/200, C summary 200/200.
+[32k] A truncate: name gone at turn 141 (budget / avg turn predicts about 140). Name visible: A 140/200, B pinned 200/200, C summary 200/200.
+
+[8k] turns around the drop (strategy A vs B vs C):
+turn | A approx-tok oldest name | B approx-tok name | C approx-tok name
+  33 |   7375      1 yes |   7387 yes |   7375 yes
+  34 |   7643      1 yes |   7655 yes |   7643 yes
+  35 |   7930      1 yes |   7942 yes |   7818 yes
+  36 |   7944      3 NO  |   7956 yes |   7725 yes
+  37 |   7886      4 NO  |   7898 yes |   7669 yes
+  38 |   7857      5 NO  |   7869 yes |   7735 yes
+  39 |   7939      6 NO  |   7951 yes |   7732 yes
+
+Full per-turn log written to trace.csv. Run time 103 ms.
+RESULT {"metrics":[{"name":"truncate_forget_turn_4k","value":19,"unit":"turn"},{"name":"truncate_forget_turn_8k","value":36,"unit":"turn"},{"name":"truncate_forget_turn_32k","value":141,"unit":"turn"},{"name":"avg_tokens_per_turn","value":229.6,"unit":"approx tokens"},{"name":"pinned_name_visible_4k","value":200,"unit":"of 200 turns"},{"name":"pinned_name_visible_8k","value":200,"unit":"of 200 turns"},{"name":"pinned_name_visible_32k","value":200,"unit":"of 200 turns"},{"name":"summary_name_visible_4k","value":200,"unit":"of 200 turns"},{"name":"summary_name_visible_8k","value":200,"unit":"of 200 turns"},{"name":"summary_name_visible_32k","value":200,"unit":"of 200 turns"},{"name":"pinned_memory_cost","value":12,"unit":"approx tokens per turn"},{"name":"summary_reserved","value":200,"unit":"approx tokens per turn"},{"name":"summary_actual_min","value":0,"unit":"approx tokens"},{"name":"summary_actual_max","value":87,"unit":"approx tokens"}],"conclusion":"Dropping the oldest messages pushed the name out of the window at turn 19, 36 and 141 for 4k, 8k and 32k approximate-token budgets, so a bigger window only delays forgetting, while a 12-unit pinned memory or a rolling summary of at most 87 units (200 reserved) kept the name visible on all 200 turns.","setup":"simulated chat, seed 20261105, 200 turns, name in message 1, budgets 4000/8000/32000 approximate token units from a heuristic GPT-style splitter (no real vocabulary), 4 units overhead per message, A = keep newest that fit, B = pinned memory line, C = rolling rule-based summary updated only from its previous state plus newly evicted messages, 200 units reserved, actual note 0 to 87; measures visibility in the window, not model recall"}

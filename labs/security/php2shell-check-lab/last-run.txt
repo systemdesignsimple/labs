@@ -1,0 +1,35 @@
+# node labs/security/php2shell-check-lab/php2shell-check-lab.mjs, 2026-11-07 02:34 UTC
+SDS Security Lab · php2shell-check-lab · PHP2Shell (CVE-2026-109618, CVE-2026-109619) check
+PHP 8.5.2, cli SAPI · 2026-11-07 02:34 UTC · throwaway data, our test machine
+
+== 1. REPRODUCE: attack inputs against the unsafe version
+   unsafe code: PHP 8.5.2 with its installed php.ini (fixed releases: 8.5.12, 8.4.27, 8.3.36, 8.2.35)
+   REPRODUCED  PHP is a fixed release: PHP 8.5.2 (cli) -> affected
+   REPRODUCED  session.upload_progress.enabled (CVE-2026-109619): php.ini as installed -> On
+   REPRODUCED  memory_limit (CVE-2026-109618): php.ini as installed -> 128M
+   REPRODUCED  fatal_error_backtraces, 8.5 only (CVE-2026-109619): php.ini as installed -> On
+
+== 2. EXPERIMENT: attack and normal inputs, both versions
+   test                                         input                                      unsafe     fixed     
+   PHP is a fixed release (attack)              PHP 8.5.2 (cli)                            affected   affected, 
+   session.upload_progress.enabled (CVE-2026-10 php.ini as installed                       On         Off       
+   memory_limit (CVE-2026-109618) (attack)      php.ini as installed                       128M       -1        
+   fatal_error_backtraces, 8.5 only (CVE-2026-1 php.ini as installed                       On         Off       
+   normal use: session_start() (normal)         CLI session in temp dir                    session ok session ok
+
+== 3. FIX
+   + complete fix: update PHP to the fixed release of its branch, restart PHP-FPM / Apache, re-run this check in the web SAPI
+   + until then, php.net mitigations set in php.ini or the FPM pool (not ini_set or .user.ini):
+   + session.upload_progress.enabled=0, memory_limit=-1 via php_admin_value, fatal_error_backtraces=0 on 8.5, small post_max_size
+   STILL BAD   PHP is a fixed release: PHP 8.5.2 (cli) -> affected, update needed
+   BLOCKED     session.upload_progress.enabled (CVE-2026-109619): php.ini as installed -> Off
+   BLOCKED     memory_limit (CVE-2026-109618): php.ini as installed -> -1
+   BLOCKED     fatal_error_backtraces, 8.5 only (CVE-2026-109619): php.ini as installed -> Off
+
+== 4. REPORT
+   reproduced on unsafe version : 4/4
+   blocked by the fix           : 3/4
+   normal inputs unchanged      : 1/1
+   note: the version row stays "affected" until PHP itself is updated: mitigations reduce risk, they do not fix the bug
+   note: the CLI can read a different php.ini than PHP-FPM or mod_php; run the same check through the web server you use
+RESULT: PARTIAL: 3 of 4 blocked, the rest still need the real fix (see notes)

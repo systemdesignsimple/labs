@@ -1,0 +1,136 @@
+{
+    "metrics": [
+        {
+            "name": "A talk-over mean",
+            "value": 4075,
+            "unit": "ms"
+        },
+        {
+            "name": "A talk-over p90",
+            "value": 5809,
+            "unit": "ms"
+        },
+        {
+            "name": "B 12 dB talk-over mean",
+            "value": 155,
+            "unit": "ms"
+        },
+        {
+            "name": "B 12 dB talk-over p90",
+            "value": 188,
+            "unit": "ms"
+        },
+        {
+            "name": "B 12 dB valid detections",
+            "value": 20,
+            "unit": "of 20 speech runs"
+        },
+        {
+            "name": "B 12 dB detection delay mean (valid detections only)",
+            "value": 123,
+            "unit": "ms"
+        },
+        {
+            "name": "B 12 dB missed speech",
+            "value": 0,
+            "unit": "%"
+        },
+        {
+            "name": "B 12 dB early triggers before speech",
+            "value": 0,
+            "unit": "%"
+        },
+        {
+            "name": "B 12 dB false stops on cough",
+            "value": 95,
+            "unit": "%"
+        },
+        {
+            "name": "B 12 dB false stops on clatter",
+            "value": 30,
+            "unit": "%"
+        },
+        {
+            "name": "C 6 dB talk-over mean",
+            "value": 125,
+            "unit": "ms"
+        },
+        {
+            "name": "C 6 dB talk-over p90",
+            "value": 166,
+            "unit": "ms"
+        },
+        {
+            "name": "C 6 dB valid detections",
+            "value": 20,
+            "unit": "of 20 speech runs"
+        },
+        {
+            "name": "C 6 dB detection delay mean (valid detections only)",
+            "value": 81,
+            "unit": "ms"
+        },
+        {
+            "name": "C 6 dB missed speech",
+            "value": 0,
+            "unit": "%"
+        },
+        {
+            "name": "C 6 dB early triggers before speech",
+            "value": 0,
+            "unit": "%"
+        },
+        {
+            "name": "C 6 dB false stops on cough",
+            "value": 100,
+            "unit": "%"
+        },
+        {
+            "name": "C 6 dB false stops on clatter",
+            "value": 95,
+            "unit": "%"
+        },
+        {
+            "name": "C 18 dB talk-over mean",
+            "value": 220,
+            "unit": "ms"
+        },
+        {
+            "name": "C 18 dB talk-over p90",
+            "value": 269,
+            "unit": "ms"
+        },
+        {
+            "name": "C 18 dB valid detections",
+            "value": 20,
+            "unit": "of 20 speech runs"
+        },
+        {
+            "name": "C 18 dB detection delay mean (valid detections only)",
+            "value": 178,
+            "unit": "ms"
+        },
+        {
+            "name": "C 18 dB missed speech",
+            "value": 0,
+            "unit": "%"
+        },
+        {
+            "name": "C 18 dB early triggers before speech",
+            "value": 0,
+            "unit": "%"
+        },
+        {
+            "name": "C 18 dB false stops on cough",
+            "value": 15,
+            "unit": "%"
+        },
+        {
+            "name": "C 18 dB false stops on clatter",
+            "value": 0,
+            "unit": "%"
+        }
+    ],
+    "conclusion": "With no barge-in handling the assistant kept talking for 4075 ms on average after the user spoke, streaming in 100 ms chunks with a 12 dB energy detector cut that to 155 ms (it reacted in 123 ms on the 20 of 20 speech runs it caught in time), and the 6 dB threshold reacted in 81 ms on the 20 of 20 speech runs it caught in time with 100% cough and 95% clatter false stops, while the 18 dB threshold reacted in 178 ms on the 20 of 20 speech runs it caught in time with 15% and 0%.",
+    "setup": "simulated 16 kHz mic, 20 ms frames, 8000 ms reply, 100 ms playback chunks (a stop on a chunk boundary cancels before the next chunk starts), detection delay averaged over valid detections only, energy VAD firing after 3 frames above 6/12/18 dB over a noise floor calibrated on the first 500 ms, 20 runs per case (speech, cough, clatter), onset 1500 to 6500 ms, levels user 26\u00b13 dB, cough 22\u00b13 dB, clatter 10\u00b13 dB, echo assumed cancelled, seed 15"
+}

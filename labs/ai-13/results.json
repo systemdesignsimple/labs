@@ -1,0 +1,91 @@
+{
+    "metrics": [
+        {
+            "name": "selected_client_source_hash_changes",
+            "value": 0,
+            "unit": "of 4 checkpoints"
+        },
+        {
+            "name": "app_words_in_client_code",
+            "value": 0,
+            "unit": "matches"
+        },
+        {
+            "name": "apps_connected",
+            "value": 3,
+            "unit": "apps"
+        },
+        {
+            "name": "tools_discovered",
+            "value": 11,
+            "unit": "tools"
+        },
+        {
+            "name": "server_lines_notes",
+            "value": 50,
+            "unit": "lines"
+        },
+        {
+            "name": "server_lines_todo",
+            "value": 53,
+            "unit": "lines"
+        },
+        {
+            "name": "server_lines_converter",
+            "value": 40,
+            "unit": "lines"
+        },
+        {
+            "name": "shared_helper_lines",
+            "value": 24,
+            "unit": "lines"
+        },
+        {
+            "name": "handshake_client_messages",
+            "value": 3,
+            "unit": "messages per app"
+        },
+        {
+            "name": "handshake_wire_messages",
+            "value": 5,
+            "unit": "messages per app"
+        },
+        {
+            "name": "inprocess_connect_discovery_latency_median",
+            "value": 0.02,
+            "unit": "ms (in-process, not setup effort)"
+        },
+        {
+            "name": "right_tool",
+            "value": 91.7,
+            "unit": "% of 60"
+        },
+        {
+            "name": "valid_args",
+            "value": 86.7,
+            "unit": "% of 60"
+        },
+        {
+            "name": "right_result",
+            "value": 86.7,
+            "unit": "% of 60"
+        },
+        {
+            "name": "todo_right_tool_clear_descriptions",
+            "value": 85,
+            "unit": "% of 20"
+        },
+        {
+            "name": "todo_right_tool_vague_descriptions",
+            "value": 40,
+            "unit": "% of 20"
+        },
+        {
+            "name": "run_time",
+            "value": 77,
+            "unit": "ms"
+        }
+    ],
+    "conclusion": "In this simulation of metadata-driven tool discovery, the hash of the selected client source stayed identical across 3 in-process apps that each needed its own 40 to 53 line server, a keyword-matching stand-in model picked the right tool on 91.7% of 60 hand-written requests, and vaguer tool descriptions alone moved to-do tool choice from 85% to 40%.",
+    "setup": "in-process JSON-RPC subset with MCP message shapes (protocol string 2025-06-18, not the official SDK, no real MCP interoperability tested), 3 apps (4+4+3 tools), 60 fixed requests (20 per app, 9 marked ambiguous), deterministic keyword-matching model (not an LLM) reading only tools/list, seed 1313, 50 connections per app for latency, vague rerun on to-do changing only tool descriptions"
+}

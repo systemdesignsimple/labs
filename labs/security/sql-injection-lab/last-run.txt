@@ -1,0 +1,29 @@
+# node labs/security/sql-injection-lab/sql-injection-lab.mjs, 2026-11-06 10:57 UTC
+SDS Security Lab · sql-injection-lab · SQL injection in PHP
+PHP 8.5.2, PDO SQLite · 2026-11-06 10:57 UTC · throwaway data, this Mac only
+
+== 1. REPRODUCE: attack inputs against the unsafe version
+   unsafe code: user input pasted into the SQL text ($db->query("... WHERE email = '$input'"))
+   REPRODUCED  search by email (rows): x' OR '1'='1 -> 3
+   REPRODUCED  search by email (rows): x' UNION SELECT 0, role, pw_hash, 0 FROM users -- -> 3
+   REPRODUCED  notes of user id (rows): 1 OR 1=1 -> 3
+
+== 2. EXPERIMENT: attack and normal inputs, both versions
+   test                                         input                                      unsafe     fixed     
+   search by email (rows) (normal)              a@example.test                             1          1         
+   search by email (rows) (attack)              x' OR '1'='1                               3          0         
+   search by email (rows) (attack)              x' UNION SELECT 0, role, pw_hash, 0 FROM u 3          0         
+   notes of user id (rows) (normal)             1                                          1          1         
+   notes of user id (rows) (attack)             1 OR 1=1                                   3          0         
+
+== 3. FIX
+   + $st = $db->prepare("... WHERE email = ?"); $st->execute([$input]);
+   BLOCKED     search by email (rows): x' OR '1'='1 -> 0
+   BLOCKED     search by email (rows): x' UNION SELECT 0, role, pw_hash, 0 FROM users -- -> 0
+   BLOCKED     notes of user id (rows): 1 OR 1=1 -> 0
+
+== 4. REPORT
+   reproduced on unsafe version : 3/3
+   blocked by the fix           : 3/3
+   normal inputs unchanged      : 2/2
+RESULT: FIX WORKS: every attack input reproduced on the unsafe version and was blocked by the fix; normal inputs unchanged

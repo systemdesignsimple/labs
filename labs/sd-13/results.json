@@ -1,0 +1,100 @@
+{
+  "seed": 1313,
+  "trials": 20,
+  "budgetMs": 100,
+  "domains": {
+    "google.com": {
+      "coldFullWalk": {
+        "median": 37,
+        "p95": 47.9
+      },
+      "negativeMissCachedReferrals": {
+        "median": 15.9,
+        "p95": 27.2
+      },
+      "expiredAnswerMissCachedReferrals": {
+        "median": 16,
+        "p95": 25
+      },
+      "warmResolverHit": {
+        "median": 7.1,
+        "p95": 8.2
+      },
+      "osCacheHit": {
+        "median": 0.05,
+        "p95": 0.07
+      },
+      "coldHopsAvgMs": {
+        "you -> resolver": 7.9,
+        "root": 6.3,
+        ".com TLD": 14.6,
+        "google.com authoritative": 8.9
+      },
+      "authoritativeShareOfColdPct": 23,
+      "dominantColdHop": ".com TLD",
+      "dominantColdHopSharePct": 38
+    },
+    "wikipedia.org": {
+      "coldFullWalk": {
+        "median": 69.4,
+        "p95": 93
+      },
+      "negativeMissCachedReferrals": {
+        "median": 44.9,
+        "p95": 53.7
+      },
+      "expiredAnswerMissCachedReferrals": {
+        "median": 44.8,
+        "p95": 84.8
+      },
+      "warmResolverHit": {
+        "median": 7.6,
+        "p95": 13.6
+      },
+      "osCacheHit": {
+        "median": 0.05,
+        "p95": 0.07
+      },
+      "coldHopsAvgMs": {
+        "you -> resolver": 7,
+        "root": 6,
+        ".org TLD": 25.1,
+        "wikipedia.org authoritative": 33.9
+      },
+      "authoritativeShareOfColdPct": 47,
+      "dominantColdHop": "wikipedia.org authoritative",
+      "dominantColdHopSharePct": 47
+    },
+    "a-small-shop.com": {
+      "coldFullWalk": {
+        "median": 142.1,
+        "p95": 160.4
+      },
+      "negativeMissCachedReferrals": {
+        "median": 123.4,
+        "p95": 167.4
+      },
+      "expiredAnswerMissCachedReferrals": {
+        "median": 121.9,
+        "p95": 266.5
+      },
+      "warmResolverHit": {
+        "median": 7.1,
+        "p95": 8.3
+      },
+      "osCacheHit": {
+        "median": 0.05,
+        "p95": 0.07
+      },
+      "coldHopsAvgMs": {
+        "you -> resolver": 7.9,
+        "root": 7.1,
+        ".com TLD": 15.5,
+        "a-small-shop.com authoritative": 114.1
+      },
+      "authoritativeShareOfColdPct": 79,
+      "dominantColdHop": "a-small-shop.com authoritative",
+      "dominantColdHopSharePct": 79
+    }
+  }
+}

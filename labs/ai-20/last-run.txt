@@ -1,0 +1,48 @@
+# node labs/ai-20/run.mjs, 2026-11-06 19:36 UTC
+Lexical semantic-cache simulation: 60 new questions (30 paraphrases, 30 look-alikes), cache of 60 real + 10000 synthetic filler rows
+
+Order-only look-alikes (same bag of words, identical vector by construction): 3
+  "Convert 5 miles to kilometers" / "Convert 5 kilometers to miles"
+  "How do I convert Celsius to Fahrenheit?" / "How do I convert Fahrenheit to Celsius?"
+  "Directions to the airport from my home" / "Directions to my home from the airport"
+
+wrong = all wrong reuses; (o) = of which order-only pairs; other = the rest
+
+threshold | lexical similarity only: hits  wrong (o) other  wrong% | with guards: hits  wrong (o) other
+   0.70   |   46 (76.7%)   16 (3)  13   34.8% |   35 (58.3%)    7 (2)   5
+   0.72   |   43 (71.7%)   16 (3)  13   37.2% |   32 (53.3%)    7 (2)   5
+   0.74   |   38 (63.3%)   12 (3)   9   31.6% |   31 (51.7%)    6 (2)   4
+   0.76   |   33 (  55%)    9 (3)   6   27.3% |   26 (43.3%)    3 (2)   1
+   0.78   |   32 (53.3%)    8 (3)   5     25% |   26 (43.3%)    3 (2)   1
+   0.80   |   30 (  50%)    6 (3)   3     20% |   26 (43.3%)    3 (2)   1
+   0.82   |   27 (  45%)    5 (3)   2   18.5% |   25 (41.7%)    3 (2)   1
+   0.84   |   24 (  40%)    5 (3)   2   20.8% |   22 (36.7%)    3 (2)   1
+   0.86   |   22 (36.7%)    4 (3)   1   18.2% |   21 (  35%)    3 (2)   1
+   0.88   |   22 (36.7%)    4 (3)   1   18.2% |   21 (  35%)    3 (2)   1
+   0.90   |   18 (  30%)    3 (3)   0   16.7% |   17 (28.3%)    2 (2)   0
+   0.92   |   13 (21.7%)    3 (3)   0   23.1% |   12 (  20%)    2 (2)   0
+   0.94   |    8 (13.3%)    3 (3)   0   37.5% |    7 (11.7%)    2 (2)   0
+   0.96   |    8 (13.3%)    3 (3)   0   37.5% |    7 (11.7%)    2 (2)   0
+   0.98   |    8 (13.3%)    3 (3)   0   37.5% |    7 (11.7%)    2 (2)   0
+
+Look-alike questions with the highest similarity (these are the dangerous ones):
+  1.000  "Convert 5 kilometers to miles"  ->  cached "Convert 5 miles to kilometers"  [order-only]
+  1.000  "Directions to my home from the airport"  ->  cached "Directions to the airport from my home"  [order-only]
+  1.000  "How do I convert Fahrenheit to Celsius?"  ->  cached "How do I convert Celsius to Fahrenheit?"  [order-only]
+  0.881  "How many calories in an apple pie?"  ->  cached "How many calories in an apple?"
+  0.859  "What is the boiling point of water on Everest?"  ->  cached "What is the boiling point of water?"
+  0.819  "Show my last 10 orders"  ->  cached "Show my last 5 orders"
+  0.789  "Movies playing tomorrow near me"  ->  cached "Movies playing tonight near me"
+  0.783  "Side effects of vitamin B12"  ->  cached "Side effects of vitamin D"
+
+True paraphrases with the lowest similarity (these are the missed savings):
+  0.709  "How to capture the screen on a Mac?"  ->  cached "How do I take a screenshot on a Mac?"
+  0.715  "How can I save a Word file as PDF?"  ->  cached "How do I export a PDF from Word?"
+  0.719  "How fast does light travel?"  ->  cached "What is the speed of light?"
+  0.720  "What is a 404 error?"  ->  cached "What does HTTP 404 mean?"
+  0.745  "How many minutes do I cook pasta?"  ->  cached "How long should I boil pasta?"
+
+New questions whose nearest row was a synthetic filler row: 0 of 60
+Median cache lookup (lexical vector + linear scan of 10060 rows): 11.28 ms (measured on this machine)
+Model call: 900 ms (HYPOTHETICAL baseline for comparison, not measured; no model runs here)
+RESULT {"metrics":[{"name":"hit rate at 0.80, lexical similarity only","value":50,"unit":"%"},{"name":"wrong answers among reuses at 0.80","value":20,"unit":"%"},{"name":"hit rate at 0.96, lexical similarity only","value":13.3,"unit":"%"},{"name":"wrong reuses at 0.96","value":3,"unit":"questions"},{"name":"of those, order-only pairs (identical vectors by construction)","value":3,"unit":"questions"},{"name":"order-only look-alike pairs in the set","value":3,"unit":"of 30"},{"name":"loosest zero-wrong threshold, lexical similarity only","value":0,"unit":"none found"},{"name":"hit rate at that zero-wrong threshold","value":0,"unit":"%"},{"name":"best zero-wrong hit rate with guards","value":0,"unit":"% (none found)"},{"name":"best hit rate with guards, zero wrong outside order-only pairs","value":28.3,"unit":"%"},{"name":"look-alike pairs scoring 0.80 or more","value":6,"unit":"of 30"},{"name":"look-alike pairs scoring 0.90 or more","value":3,"unit":"of 30"},{"name":"questions matched to a synthetic filler row","value":0,"unit":"of 60"},{"name":"median cache lookup, linear scan (measured)","value":11.275,"unit":"ms"},{"name":"model call (hypothetical baseline, not measured)","value":900,"unit":"ms"}],"conclusion":"In this lexical (word-overlap) cache simulation on 60 hand-made pairs, a 0.80 threshold reused answers for 50% of questions but 6 of 30 reuses were wrong, no threshold from 0.70 to 0.98 reached zero wrong reuses (3 of the 3 wrong reuses at 0.96 are same-words-different-order pairs this bag-of-words vector cannot separate by construction), and skipping time-sensitive or personal questions plus matching numbers and names still let some wrong reuses through.","setup":"60 labeled pairs (30 paraphrase, 30 look-alike, 3 of them order-only); lexical vector = bag of hashed words + char trigrams (dim 1024, trigram weight 0.25) with a 35-word hand-written synonym table, no neural model; cache = 60 real rows + 10000 seeded random unit vectors as synthetic scan workload; thresholds 0.7 to 0.98 step 0.02; model call 900 ms is a hypothetical baseline, not measured; seed 20"}

@@ -1,0 +1,18 @@
+# node labs/sd-3/run.mjs, 2026-11-12 00:12 UTC
+napkin estimate (written before measuring): 100 us/request -> 10000 req/s on one core
+measured in-process handler: 300928 requests in 4001 ms -> 75218 req/s (13.3 us/request)
+service time: p50 13.2 us, p99 14.2 us (20000 samples)
+simulated queue (latency "all" includes backlog drained after the window):
+load  window s  offered req/s  served req/s  backlog  p50 all ms  p99 all ms  p99 in-window ms
+ 25%      5.00          18804         18790        0       0.013       0.036             0.036
+ 50%      5.00          37609         37687        0       0.014       0.060             0.060
+ 75%      5.00          56413         56422        3       0.026       0.141             0.141
+ 90%      4.43          67696         67696        0       0.054       0.321             0.321
+ 95%      4.20          71457         71346        0       0.100       0.673             0.673
+100%      3.99          75218         75211       27       5.673      11.502            11.502
+110%      3.63          82740         75241    27188     181.537     358.782           325.023
+125%      3.19          94022         75208    59635     394.690     784.449           625.664
+napkin vs measured: measured/napkin = 7.52x (off by a factor of 7.52)
+hypothetical 100M DAU x 10 feeds/day: avg 11574 req/s, peak (x3) 34722 req/s
+hypothetical handler-core equivalents at 50% target utilization: 1 (measured) vs 7 (napkin)
+RESULT {"metrics":[{"name":"napkin_estimate_rps","value":10000,"unit":"req/s"},{"name":"measured_rps_one_core","value":75218,"unit":"req/s"},{"name":"measured_cost_per_request","value":13.29,"unit":"us"},{"name":"measured_over_napkin","value":7.52,"unit":"x"},{"name":"response_size","value":3887,"unit":"bytes"},{"name":"sim_p99_all_at_50pct_load","value":0.06,"unit":"ms"},{"name":"sim_p99_all_at_110pct_load","value":358.782,"unit":"ms"},{"name":"sim_p99_in_window_at_110pct_load","value":325.023,"unit":"ms"},{"name":"sim_backlog_at_110pct_load","value":27188,"unit":"requests"},{"name":"sim_served_at_110pct_load","value":75241,"unit":"req/s"},{"name":"sim_served_at_125pct_load","value":75208,"unit":"req/s"},{"name":"hypothetical_peak_rps","value":34722,"unit":"req/s"},{"name":"hypothetical_handler_cores_measured","value":1,"unit":"handler-core equivalents"},{"name":"hypothetical_handler_cores_napkin","value":7,"unit":"handler-core equivalents"},{"name":"elapsed","value":6463,"unit":"ms"}],"conclusion":"In-process, the measured in-process handler (75218 req/s on one core) was 7.5x faster than the 10000 req/s napkin guess, a bigger miss than a napkin should allow, and in the queue simulation served throughput flattened near 75208 req/s past saturation while p99 latency (all arrivals) rose from 0.06 ms at 50% load to 358.782 ms at 110%.","setup":"Node v22.13.1, one core, synchronous in-process handler (no HTTP, network, disk or database); 10000 synthetic users x 20 posts, 150 follows each, feed = 20 newest via k-way merge + JSON; 4000 ms throughput pass after 1500 ms warmup; FIFO queue simulated up to 5 s (max 300000 arrivals) per load level with seeded Poisson arrivals and measured service times, served = completed inside the window, \"all\" latency includes backlog drained after it with no drops; hypothetical load 100M DAU x 10 feeds/day, peak x3, target utilization 50%; time budget 40 s; seed 20261102"}

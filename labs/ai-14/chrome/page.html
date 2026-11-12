@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Settings demo (ai-14)</title>
+<style>
+  html, body { margin: 0; width: 400px; height: 700px; background: #f1f5f9; font: 15px/1.2 -apple-system, "Helvetica Neue", Arial, sans-serif; color: #0f172a; }
+  .abs { position: absolute; box-sizing: border-box; }
+  #panel { left: 20px; top: 80px; width: 360px; height: 600px; background: #fff; border: 1px solid #cbd5e1; border-radius: 12px; }
+  #title { left: 40px; top: 90px; width: 160px; height: 30px; font-weight: 600; font-size: 18px; display: flex; align-items: center; }
+  #settings { left: 300px; top: 20px; width: 80px; height: 36px; }
+  #toggle { left: 220px; top: 140px; width: 140px; height: 36px; }
+  #name { left: 40px; top: 240px; width: 320px; height: 40px; padding: 0 10px; font: inherit; border: 1px solid #cbd5e1; border-radius: 8px; }
+  #namelabel { left: 40px; top: 215px; font-size: 13px; color: #475569; }
+  #cancel { left: 40px; top: 600px; width: 100px; height: 40px; }
+  #save { left: 260px; top: 600px; width: 100px; height: 40px; background: #2563eb; color: #fff; border-color: #2563eb; }
+  button { font: inherit; border: 1px solid #94a3b8; border-radius: 8px; background: #fff; cursor: pointer; }
+  #status { left: 40px; top: 300px; width: 320px; height: 28px; font-size: 14px; color: #475569; display: flex; align-items: center; }
+  #status.saved { color: #15803d; font-weight: 600; }
+  #ring { display: none; width: 18px; height: 18px; margin: -9px 0 0 -9px; border: 3px solid #dc2626; border-radius: 50%; pointer-events: none; }
+</style>
+</head>
+<body>
+<button id="settings" class="abs">Settings</button>
+<div id="panel" class="abs"></div>
+<div id="title" class="abs">Settings</div>
+<button id="toggle" class="abs" aria-pressed="true">Dark mode On</button>
+<div id="namelabel" class="abs">Name</div>
+<input id="name" class="abs" value="Calm R" aria-label="Name">
+<div id="status" class="abs">Not saved</div>
+<button id="cancel" class="abs">Cancel</button>
+<button id="save" class="abs">Save</button>
+<div id="ring" class="abs"></div>
+<script>
+  // ?moved=1 puts Save somewhere else, like a redesign would. Everything else stays put.
+  if (new URLSearchParams(location.search).get('moved') === '1') {
+    const s = document.getElementById('save').style;
+    s.left = '40px'; s.top = '360px';
+  }
+  let saved = null; // the page's own truth: what Save stored
+  document.getElementById('save').addEventListener('click', () => {
+    saved = { dark: document.getElementById('toggle').getAttribute('aria-pressed') === 'true', name: document.getElementById('name').value };
+    const st = document.getElementById('status');
+    st.textContent = 'Saved: Dark mode On, Calm R'; st.className = 'abs saved';
+  });
+  // Mark every real click so the screenshot shows where it landed.
+  document.addEventListener('mousedown', (e) => {
+    const r = document.getElementById('ring');
+    r.style.left = e.clientX + 'px'; r.style.top = e.clientY + 'px'; r.style.display = 'block';
+  }, true);
+  window.__truth = () => saved;
+</script>
+</body>
+</html>

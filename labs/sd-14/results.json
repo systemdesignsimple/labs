@@ -1,0 +1,37 @@
+{
+ "source": "node labs/sd-14/run.mjs (deterministic latency model, virtual clock, no real requests)",
+ "metrics": {
+  "origin_first_frame": 318,
+  "pull_first_viewer_first_frame": 335,
+  "pull_second_viewer_first_frame": 75,
+  "push_first_viewer_first_frame": 75,
+  "origin_mean_ttfb": 254,
+  "pull_first_viewer_mean_ttfb": 273,
+  "pull_second_viewer_mean_ttfb": 15,
+  "push_first_viewer_mean_ttfb": 15,
+  "origin_stalls_per_view": 16,
+  "pull_first_viewer_stalls": 19,
+  "pull_second_viewer_stalls": 0,
+  "push_first_viewer_stalls": 0,
+  "pull_first_viewer_hit_rate": 0,
+  "push_first_viewer_hit_rate": 100
+ },
+ "units": {
+  "origin_first_frame": "ms",
+  "pull_first_viewer_first_frame": "ms",
+  "pull_second_viewer_first_frame": "ms",
+  "push_first_viewer_first_frame": "ms",
+  "origin_mean_ttfb": "ms",
+  "pull_first_viewer_mean_ttfb": "ms",
+  "pull_second_viewer_mean_ttfb": "ms",
+  "push_first_viewer_mean_ttfb": "ms",
+  "origin_stalls_per_view": "stalls",
+  "pull_first_viewer_stalls": "stalls",
+  "pull_second_viewer_stalls": "stalls",
+  "push_first_viewer_stalls": "stalls",
+  "pull_first_viewer_hit_rate": "%",
+  "push_first_viewer_hit_rate": "%"
+ },
+ "conclusion": "With the same bandwidth everywhere, the push edge showed the first frame in 75 ms for the very first viewer with 0 stalls, while the first pull viewer waited 335 ms with 19 stalls and the origin alone took 318 ms with 16 stalls; pull only caught up for the second viewer (75 ms), so in this deterministic model the gap reflects the configured cache placement and hop delays plus the pull miss overhead and extra server delay, not a measured network.",
+ "setup": "deterministic latency model, virtual clock, no real requests; 20 chunks x 2 s; 3 cold runs, seeds 11/22/33, jitter matched across paths by run/viewer/chunk/hop; origin RTT 250 ms, edge RTT 10 ms, edge-to-origin 240 ms, miss overhead 15 ms, server 5 ms, transfer 60 ms on every path, jitter +/-10%, player lead 300 ms"
+}

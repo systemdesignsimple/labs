@@ -1,0 +1,62 @@
+{
+ "id": "php2shell-check-lab",
+ "title": "PHP2Shell (CVE-2026-109618, CVE-2026-109619) check",
+ "env": "PHP 8.5.2, cli SAPI",
+ "at": "2026-11-07T02:34:10.917Z",
+ "unsafe": "PHP 8.5.2 with its installed php.ini (fixed releases: 8.5.12, 8.4.27, 8.3.36, 8.2.35)",
+ "fix": [
+  "complete fix: update PHP to the fixed release of its branch, restart PHP-FPM / Apache, re-run this check in the web SAPI",
+  "until then, php.net mitigations set in php.ini or the FPM pool (not ini_set or .user.ini):",
+  "session.upload_progress.enabled=0, memory_limit=-1 via php_admin_value, fatal_error_backtraces=0 on 8.5, small post_max_size"
+ ],
+ "notes": [
+  "the version row stays \"affected\" until PHP itself is updated: mitigations reduce risk, they do not fix the bug",
+  "the CLI can read a different php.ini than PHP-FPM or mod_php; run the same check through the web server you use"
+ ],
+ "rows": [
+  {
+   "test": "PHP is a fixed release",
+   "input": "PHP 8.5.2 (cli)",
+   "kind": "attack",
+   "unsafe": "affected",
+   "fixed": "affected, update needed"
+  },
+  {
+   "test": "session.upload_progress.enabled (CVE-2026-109619)",
+   "input": "php.ini as installed",
+   "kind": "attack",
+   "unsafe": "On",
+   "fixed": "Off"
+  },
+  {
+   "test": "memory_limit (CVE-2026-109618)",
+   "input": "php.ini as installed",
+   "kind": "attack",
+   "unsafe": "128M",
+   "fixed": "-1"
+  },
+  {
+   "test": "fatal_error_backtraces, 8.5 only (CVE-2026-109619)",
+   "input": "php.ini as installed",
+   "kind": "attack",
+   "unsafe": "On",
+   "fixed": "Off"
+  },
+  {
+   "test": "normal use: session_start()",
+   "input": "CLI session in temp dir",
+   "kind": "normal",
+   "unsafe": "session ok",
+   "fixed": "session ok"
+  }
+ ],
+ "counts": {
+  "attacks": 4,
+  "reproduced": 4,
+  "blocked": 3,
+  "normal": 1,
+  "same": 1
+ },
+ "verdict": "PARTIAL: 3 of 4 blocked, the rest still need the real fix (see notes)",
+ "text": "SDS Security Lab · php2shell-check-lab · PHP2Shell (CVE-2026-109618, CVE-2026-109619) check\nPHP 8.5.2, cli SAPI · 2026-11-07 02:34 UTC · throwaway data, our test machine\n\n== 1. REPRODUCE: attack inputs against the unsafe version\n   unsafe code: PHP 8.5.2 with its installed php.ini (fixed releases: 8.5.12, 8.4.27, 8.3.36, 8.2.35)\n   REPRODUCED  PHP is a fixed release: PHP 8.5.2 (cli) -> affected\n   REPRODUCED  session.upload_progress.enabled (CVE-2026-109619): php.ini as installed -> On\n   REPRODUCED  memory_limit (CVE-2026-109618): php.ini as installed -> 128M\n   REPRODUCED  fatal_error_backtraces, 8.5 only (CVE-2026-109619): php.ini as installed -> On\n\n== 2. EXPERIMENT: attack and normal inputs, both versions\n   test                                         input                                      unsafe     fixed     \n   PHP is a fixed release (attack)              PHP 8.5.2 (cli)                            affected   affected, \n   session.upload_progress.enabled (CVE-2026-10 php.ini as installed                       On         Off       \n   memory_limit (CVE-2026-109618) (attack)      php.ini as installed                       128M       -1        \n   fatal_error_backtraces, 8.5 only (CVE-2026-1 php.ini as installed                       On         Off       \n   normal use: session_start() (normal)         CLI session in temp dir                    session ok session ok\n\n== 3. FIX\n   + complete fix: update PHP to the fixed release of its branch, restart PHP-FPM / Apache, re-run this check in the web SAPI\n   + until then, php.net mitigations set in php.ini or the FPM pool (not ini_set or .user.ini):\n   + session.upload_progress.enabled=0, memory_limit=-1 via php_admin_value, fatal_error_backtraces=0 on 8.5, small post_max_size\n   STILL BAD   PHP is a fixed release: PHP 8.5.2 (cli) -> affected, update needed\n   BLOCKED     session.upload_progress.enabled (CVE-2026-109619): php.ini as installed -> Off\n   BLOCKED     memory_limit (CVE-2026-109618): php.ini as installed -> -1\n   BLOCKED     fatal_error_backtraces, 8.5 only (CVE-2026-109619): php.ini as installed -> Off\n\n== 4. REPORT\n   reproduced on unsafe version : 4/4\n   blocked by the fix           : 3/4\n   normal inputs unchanged      : 1/1\n   note: the version row stays \"affected\" until PHP itself is updated: mitigations reduce risk, they do not fix the bug\n   note: the CLI can read a different php.ini than PHP-FPM or mod_php; run the same check through the web server you use\nRESULT: PARTIAL: 3 of 4 blocked, the rest still need the real fix (see notes)"
+}

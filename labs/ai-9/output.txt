@@ -1,0 +1,29 @@
+ai-9 lab (local simulation): a fake password (CANARY-7Q2X-FAKE) and a fake phone in a 3-file project folder
+4 requests x 10 runs = 40 runs per setup, seed 9009. Nothing is sent anywhere.
+
+What the simulation would send after redaction (config.env and notes.md):
+  APP_NAME=shop-demo
+  PORT=8080
+  DB_HOST=db.internal
+  DB_PORT=5433
+  DB_USER=shop_app
+  DB_PASSWORD=<SECRET_1>
+  DATABASE_URL=postgres://shop_app:<SECRET_1>@db.internal:5433/shop
+  LOG_LEVEL=info
+  # Notes
+  - Postgres listens on the default port in staging.
+  - If the database is down, call the on-call phone <PHONE_1>.
+  - Remember to run migrations before the first start.
+
+Counts per request, shown as password / phone (of 10 runs). Answers use ASSUMED copy rates.
+request       prompt   log      answer   facts  | prompt   log      answer   facts
+              --- no redaction ---              | --- with redaction ---
+summarize     10/10    10/10    1/2      10/10  | 0/0      0/0      0/0      10/10
+debug-config  10/10    10/10    9/1      10/10  | 0/0      0/0      0/0      10/10
+setup-guide   10/10    10/10    8/4      10/10  | 0/0      0/0      0/0      10/10
+what-i-need   10/10    10/10    4/6      10/10  | 0/0      0/0      0/0      10/10
+
+No redaction: password in 40/40 prompts, 40/40 log lines, 22/40 answers; phone in 40/40 prompts, 40/40 log lines, 13/40 answers; required facts present in 40/40 scripted answers
+With redaction: password in 0/40 prompts, 0/40 log lines, 0/40 answers; phone in 0/40 prompts, 0/40 log lines, 0/40 answers; required facts present in 40/40 scripted answers
+Check of the facts check (with redaction): changed project facts -> 40/40 pass; README.md and notes.md left out -> 0/40 pass
+RESULT {"metrics":[{"name":"simulated outgoing prompts carrying the fake password, no redaction","value":100,"unit":"%"},{"name":"simulated outgoing prompts carrying the fake phone, no redaction","value":100,"unit":"%"},{"name":"simulated log lines carrying the fake password, no redaction","value":100,"unit":"%"},{"name":"simulated log lines carrying the fake phone, no redaction","value":100,"unit":"%"},{"name":"scripted answers carrying the fake password, no redaction","value":55,"unit":"%"},{"name":"scripted answers carrying the fake phone, no redaction","value":33,"unit":"%"},{"name":"simulated outgoing prompts carrying the fake password, with redaction","value":0,"unit":"%"},{"name":"simulated outgoing prompts carrying the fake phone, with redaction","value":0,"unit":"%"},{"name":"simulated log lines carrying the fake password, with redaction","value":0,"unit":"%"},{"name":"simulated log lines carrying the fake phone, with redaction","value":0,"unit":"%"},{"name":"scripted answers carrying the fake password, with redaction","value":0,"unit":"%"},{"name":"scripted answers carrying the fake phone, with redaction","value":0,"unit":"%"},{"name":"scripted answers carrying the fake password, no redaction, summarize","value":1,"unit":"of 10"},{"name":"scripted answers carrying the fake phone, no redaction, summarize","value":2,"unit":"of 10"},{"name":"scripted answers carrying the fake password, no redaction, debug-config","value":9,"unit":"of 10"},{"name":"scripted answers carrying the fake phone, no redaction, debug-config","value":1,"unit":"of 10"},{"name":"scripted answers carrying the fake password, no redaction, setup-guide","value":8,"unit":"of 10"},{"name":"scripted answers carrying the fake phone, no redaction, setup-guide","value":4,"unit":"of 10"},{"name":"scripted answers carrying the fake password, no redaction, what-i-need","value":4,"unit":"of 10"},{"name":"scripted answers carrying the fake phone, no redaction, what-i-need","value":6,"unit":"of 10"},{"name":"scripted answers with all required facts, no redaction","value":100,"unit":"%"},{"name":"scripted answers with all required facts, with redaction","value":100,"unit":"%"},{"name":"facts check control: changed project facts, with redaction","value":100,"unit":"%"},{"name":"facts check control: README.md and notes.md left out, with redaction","value":0,"unit":"%"}],"conclusion":"In this local simulation without redaction the fake password was in 100% of simulated outgoing prompts and 100% of simulated log lines but only 55% of scripted answers under assumed copy rates (1/10 for summarize to 9/10 for debug-config), so a clean answer did not mean the password stayed out of the simulated transmission; redacting first gave 0% in prompts, 0% in logs and 0% in answers, and required facts were present in 100% of redacted versus 100% of unredacted scripted answers (a check that fell to 0% when README.md and notes.md were left out); how often a real model leaks is not measured here.","setup":"local simulation only: scripted stand-in model, simulated sending and provider log, nothing transmitted; folder README.md + config.env + notes.md, canaries: password CANARY-7Q2X-FAKE (twice, incl. inside DATABASE_URL) and phone +1-555-0142 in free text, counted separately; 4 requests x 10 runs x 2 setups, seed 9009; assumed (not measured) copy chances summarize 0.1, debug-config 0.8, setup-guide 0.6, what-i-need 0.3, assumed quote-notes chances summarize 0.2, debug-config 0.1, setup-guide 0.4, what-i-need 0.3; redaction = 4 regex patterns with stable placeholders; usefulness = required facts from the true project present in the answer, with controls for changed facts and left-out files; exact string match"}

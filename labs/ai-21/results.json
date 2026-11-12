@@ -1,0 +1,101 @@
+{
+ "metrics": [
+  {
+   "name": "short_question_approx_tokens_per_message",
+   "value": 474,
+   "unit": "approx tokens (lab rule, not a provider tokenizer)"
+  },
+  {
+   "name": "long_chat_approx_tokens_per_message",
+   "value": 8495,
+   "unit": "approx tokens (lab rule, not a provider tokenizer)"
+  },
+  {
+   "name": "long_chat_vs_short_approx_token_ratio",
+   "value": 17.9,
+   "unit": "x"
+  },
+  {
+   "name": "long_chat_first_429_send",
+   "value": 2,
+   "unit": "send number (0 = none)"
+  },
+  {
+   "name": "long_chat_requests_left_at_first_429",
+   "value": 5.9,
+   "unit": "requests of 6/min"
+  },
+  {
+   "name": "agent_planned_model_calls_per_message",
+   "value": 10,
+   "unit": "planned calls (config)"
+  },
+  {
+   "name": "agent_attempted_requests_no_retry",
+   "value": 7,
+   "unit": "requests sent (from log)"
+  },
+  {
+   "name": "agent_successful_calls_no_retry",
+   "value": 6,
+   "unit": "calls with 200"
+  },
+  {
+   "name": "agent_attempted_requests_with_backoff",
+   "value": 26,
+   "unit": "requests sent incl. retries (from log)"
+  },
+  {
+   "name": "agent_successful_calls_with_backoff",
+   "value": 10,
+   "unit": "calls with 200"
+  },
+  {
+   "name": "agent_retry_attempts_with_backoff",
+   "value": 16,
+   "unit": "retries"
+  },
+  {
+   "name": "agent_approx_tokens_per_message_with_backoff",
+   "value": 18764,
+   "unit": "approx tokens (successful calls only)"
+  },
+  {
+   "name": "failed_messages_without_retry",
+   "value": 3,
+   "unit": "messages of 7"
+  },
+  {
+   "name": "failed_messages_with_backoff",
+   "value": 0,
+   "unit": "messages of 7"
+  },
+  {
+   "name": "backoff_total_wait_all_messages",
+   "value": 135,
+   "unit": "seconds (sum over all messages)"
+  },
+  {
+   "name": "backoff_longest_wait_one_user_message",
+   "value": 52.9,
+   "unit": "seconds"
+  },
+  {
+   "name": "backoff_agent_message_wait",
+   "value": 45.9,
+   "unit": "seconds (sum over its model calls)"
+  },
+  {
+   "name": "backoff_longest_single_call_recovery",
+   "value": 52.9,
+   "unit": "seconds (one model call)"
+  }
+ ],
+ "conclusion": "In this simulation one long-chat message cost 17.9x the approximate tokens of a short question, so send #2 got a 429 on tokens with 5.9 of 6 requests still free, one agent message planned 10 model calls but without retry sent 7 requests, 6 succeeded and call 7 got a 429 on requests, and with backoff the agent sent 26 requests (16 retries) for 10 successful calls, failed messages went from 3 to 0, and waiting totalled 135.0s across all messages (longest for one user message 52.9s).",
+ "setup": "simulated clock, seed 21; two token buckets 6 RPM and 10000 TPM (made-up, not a provider's limits), continuous refill, rejected requests spend nothing, input+output tokens charged up front; token charges are approximate (stdlib-only rule: 1 token per started 4 letters, 1 per 3 digits, 1 per symbol, 4 per message), not a provider tokenizer; 3 sends per chat scenario with 5s think time; long chat resends 45 earlier turns; agent plans 10 model calls with growing context and stops at a call that still fails; backoff base 1s, cap 30s, 8 retries, full jitter",
+ "env": {
+  "node": "v22.13.1",
+  "platform": "darwin arm64",
+  "cpus": "Apple M2 Pro"
+ }
+}

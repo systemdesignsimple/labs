@@ -1,0 +1,24 @@
+# node labs/ai-14/run.mjs, 2026-11-06 07:38 UTC
+ai-14 lab: 50 moved-button runs (8 with a popup), 10 control runs, seed 1406
+All observations are simulated from page state with injected errors; no browser, screenshot or OCR.
+control (nothing moved): Bot A 10/10, Bot C 6/10, Bot B 8/10
+moved: Bot A replay           success 2/50  silent failures 48  noticed failures 0  wrong clicks 49 (of them popup-dismiss 0 of 0 dismiss clicks; caught 0)  steps 5  observations 0  time 2.4 s  popup runs 0/8
+moved: Bot C observe, no check success 43/50  silent failures 4  noticed failures 3  wrong clicks 6 (of them popup-dismiss 0 of 8 dismiss clicks; caught 0)  steps 4.9  observations 4.4  time 8.07 s  popup runs 8/8
+moved: Bot B observe + check  success 47/50  silent failures 0  noticed failures 3  wrong clicks 7 (of them popup-dismiss 0 of 8 dismiss clicks; caught 7)  steps 5.16  observations 8.74  time 13.83 s  popup runs 8/8
+Bot B: retries 13; failed checks after intended-target hits 15 (actual false alarms by evaluator truth 15); gave up though page saved 0
+Bot B runs that did not end cleanly (page log, last lines):
+  move-14 moved=save popup=false gave up at "Save"
+    type "Calm R" -> name field
+    click(159,288) -> panel.empty
+    botB: "Save" not found in observation
+    botB: gave up at "Save"
+  move-27 moved=toggle popup=false gave up at "Dark mode"
+    click(340,44) -> settings
+    click(172,378) -> toggle
+    botB: "Dark mode" not found in observation
+    botB: gave up at "Dark mode"
+  move-45 moved=toggle popup=false gave up at "Settings"
+    botB: "Settings" not found in observation
+    botB: "Settings" not found in observation
+    botB: gave up at "Settings"
+RESULT {"metrics":[{"name":"Bot A (replay clicks) success, moved runs","value":4,"unit":"%"},{"name":"Bot C (observe, act, no check) success, moved runs","value":86,"unit":"%"},{"name":"Bot B (observe, act, check) success, moved runs","value":94,"unit":"%"},{"name":"Bot A success, control runs","value":100,"unit":"%"},{"name":"Bot C success, control runs","value":60,"unit":"%"},{"name":"Bot B success, control runs","value":80,"unit":"%"},{"name":"Bot A silent failures (said done, page says no)","value":48,"unit":"runs"},{"name":"Bot C silent failures","value":4,"unit":"runs"},{"name":"Bot B silent failures","value":0,"unit":"runs"},{"name":"Bot B noticed failures (gave up and said so)","value":3,"unit":"runs"},{"name":"Bot C success on popup runs","value":100,"unit":"%"},{"name":"Bot B success on popup runs","value":100,"unit":"%"},{"name":"Bot A avg steps","value":5,"unit":"actions"},{"name":"Bot C avg steps","value":4.9,"unit":"actions"},{"name":"Bot B avg steps","value":5.16,"unit":"actions"},{"name":"Bot A avg time per task","value":2.4,"unit":"s (simulated)"},{"name":"Bot C avg time per task","value":8.07,"unit":"s (simulated)"},{"name":"Bot B avg time per task","value":13.83,"unit":"s (simulated)"},{"name":"Bot B wrong clicks, incl. popup-dismiss clicks","value":7,"unit":"clicks"},{"name":"Bot B wrong popup-dismiss clicks","value":0,"unit":"clicks"},{"name":"Bot B wrong clicks caught by check","value":7,"unit":"clicks"},{"name":"Bot B failed checks after intended-target hits","value":15,"unit":"checks"},{"name":"Bot B actual false alarms (evaluator truth)","value":15,"unit":"checks"}],"conclusion":"In this simulation with one button moved in 50 runs, replaying recorded clicks finished 4% of tasks, finding targets by simulated labels without checking finished 86% (4 silent failures), and adding a check after each action finished 94% (0 silent failures) at about 5.8x replay's time, its check catching 7 of 7 wrong clicks including popup closes.","setup":"seed 1406; 50 moved runs (Save or toggle moved at random, popup p=0.3) + 10 control; 4-step task; simulated label observations from page state (no screenshots or OCR) with miss 0.06, misplace 0.04 (40 to 120 px), jitter 6 px; check misjudge 0.03; Bot B 1 retry per step; up to 2 popup closes per step; Bot B and C share code and seeds, C has no post-action checks; simulated costs ms {\"click\":150,\"type\":600,\"settle\":300,\"observe\":1300}"}

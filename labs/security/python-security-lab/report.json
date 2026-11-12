@@ -1,0 +1,67 @@
+{
+ "id": "python-security-lab",
+ "title": "four common Python mistakes",
+ "env": "Python 3.14.7",
+ "at": "2026-11-06T10:57:24.534Z",
+ "unsafe": "SQL in an f-string, pickle.loads on client bytes, subprocess shell=True, open(base / name)",
+ "fix": [
+  "db.execute(\"... WHERE email = ?\", (email,))",
+  "json.loads instead of pickle for anything a client sends",
+  "subprocess.run([\"ls\", path]) with a list, no shell",
+  "(base / name).resolve().is_relative_to(base)"
+ ],
+ "notes": [],
+ "rows": [
+  {
+   "test": "SQL lookup (rows returned)",
+   "input": "a@example.test",
+   "unsafe": 1,
+   "fixed": 1,
+   "kind": "normal"
+  },
+  {
+   "test": "SQL lookup (rows returned)",
+   "input": "x' OR '1'='1",
+   "unsafe": 3,
+   "fixed": 0,
+   "kind": "attack"
+  },
+  {
+   "test": "Load a saved session (code ran on load)",
+   "input": "pickle bytes from the client",
+   "unsafe": true,
+   "fixed": false,
+   "kind": "attack"
+  },
+  {
+   "test": "ls on a user file name (extra command ran)",
+   "input": "hello.txt; touch <tmp>/shell-ran.txt",
+   "unsafe": true,
+   "fixed": false,
+   "kind": "attack"
+  },
+  {
+   "test": "File download (file reachable)",
+   "input": "hello.txt",
+   "unsafe": true,
+   "fixed": true,
+   "kind": "normal"
+  },
+  {
+   "test": "File download (file reachable)",
+   "input": "../secret.env",
+   "unsafe": true,
+   "fixed": false,
+   "kind": "attack"
+  }
+ ],
+ "counts": {
+  "attacks": 4,
+  "reproduced": 4,
+  "blocked": 4,
+  "normal": 2,
+  "same": 2
+ },
+ "verdict": "FIX WORKS: every attack input reproduced on the unsafe version and was blocked by the fix; normal inputs unchanged",
+ "text": "SDS Security Lab · python-security-lab · four common Python mistakes\nPython 3.14.7 · 2026-11-06 10:57 UTC · throwaway data, this Mac only\n\n== 1. REPRODUCE: attack inputs against the unsafe version\n   unsafe code: SQL in an f-string, pickle.loads on client bytes, subprocess shell=True, open(base / name)\n   REPRODUCED  SQL lookup (rows returned): x' OR '1'='1 -> 3\n   REPRODUCED  Load a saved session (code ran on load): pickle bytes from the client -> true\n   REPRODUCED  ls on a user file name (extra command ran): hello.txt; touch <tmp>/shell-ran.txt -> true\n   REPRODUCED  File download (file reachable): ../secret.env -> true\n\n== 2. EXPERIMENT: attack and normal inputs, both versions\n   test                                         input                                      unsafe     fixed     \n   SQL lookup (rows returned) (normal)          a@example.test                             1          1         \n   SQL lookup (rows returned) (attack)          x' OR '1'='1                               3          0         \n   Load a saved session (code ran on load) (att pickle bytes from the client               true       false     \n   ls on a user file name (extra command ran) ( hello.txt; touch <tmp>/shell-ran.txt       true       false     \n   File download (file reachable) (normal)      hello.txt                                  true       true      \n   File download (file reachable) (attack)      ../secret.env                              true       false     \n\n== 3. FIX\n   + db.execute(\"... WHERE email = ?\", (email,))\n   + json.loads instead of pickle for anything a client sends\n   + subprocess.run([\"ls\", path]) with a list, no shell\n   + (base / name).resolve().is_relative_to(base)\n   BLOCKED     SQL lookup (rows returned): x' OR '1'='1 -> 0\n   BLOCKED     Load a saved session (code ran on load): pickle bytes from the client -> false\n   BLOCKED     ls on a user file name (extra command ran): hello.txt; touch <tmp>/shell-ran.txt -> false\n   BLOCKED     File download (file reachable): ../secret.env -> false\n\n== 4. REPORT\n   reproduced on unsafe version : 4/4\n   blocked by the fix           : 4/4\n   normal inputs unchanged      : 2/2\nRESULT: FIX WORKS: every attack input reproduced on the unsafe version and was blocked by the fix; normal inputs unchanged"
+}

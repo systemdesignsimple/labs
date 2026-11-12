@@ -1,0 +1,21 @@
+day,time_home_tz,user,home,country,device,score,reasons,truth,kind,fixed_rule_caught,baseline_caught
+9,02:25,u023,JP,GB,attacker-9,7,unusual hour + new country + new device,attack,loud,yes,yes
+10,18:48,u026,DE,DE,u026-laptop,2,unusual hour,attack,mimic,no,no
+12,04:15,u104,JP,BR,attacker-4,5,new country + new device,attack,loud,yes,yes
+14,04:48,u015,AU,US,attacker-12,7,unusual hour + new country + new device,attack,loud,yes,yes
+16,04:57,u083,DE,FR,attacker-11,7,unusual hour + new country + new device,attack,loud,yes,yes
+16,15:32,u141,US,FR,attacker-14,8,new country + new device + too fast to travel,attack,foreign-day,no,yes
+17,04:16,u128,IN,US,attacker-2,7,unusual hour + new country + new device,attack,loud,yes,yes
+17,17:09,u142,AU,AU,attacker-17,2,new device,attack,quiet,no,no
+18,20:00,u108,GB,GB,attacker-16,2,new device,attack,quiet,no,no
+19,03:37,u169,GB,CA,attacker-6,7,unusual hour + new country + new device,attack,loud,yes,yes
+20,04:18,u112,GB,FR,attacker-1,7,unusual hour + new country + new device,attack,loud,yes,yes
+22,04:16,u177,NP,NG,attacker-8,7,unusual hour + new country + new device,attack,loud,yes,yes
+22,04:57,u075,AU,NP,attacker-10,7,unusual hour + new country + new device,attack,loud,yes,yes
+24,02:24,u194,DE,AU,attacker-5,7,unusual hour + new country + new device,attack,loud,yes,yes
+26,03:26,u126,AU,BR,attacker-7,7,unusual hour + new country + new device,attack,loud,yes,yes
+26,03:56,u092,US,AE,attacker-3,7,unusual hour + new country + new device,attack,loud,yes,yes
+28,01:41,u132,AU,AU,u132-laptop,0,-,attack,mimic,yes,no
+28,15:46,u063,JP,JP,attacker-18,2,new device,attack,quiet,no,no
+29,11:06,u085,AU,NG,attacker-13,8,new country + new device + too fast to travel,attack,foreign-day,no,yes
+29,17:27,u122,US,FR,attacker-15,8,new country + new device + too fast to travel,attack,foreign-day,no,yes

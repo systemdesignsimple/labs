@@ -1,0 +1,12 @@
+Streaming vs buffered, simulated generator, in-process
+trials per mode: 20, words: 120, delay per token: 33 +/- 8 ms, seed 42
+
+mode       first text median  first text p95   total median   total p95
+buffered       3984.8 ms      4064.2 ms      3984.8 ms    4064.2 ms
+stream           32.2 ms        39.2 ms      3987.7 ms    4064.3 ms
+
+first text available 3952.6 ms sooner when streaming; total time stream minus buffered: 2.9 ms (tolerance +/- 199.2 ms)
+times = when the client has parsed the text, not when characters are drawn on a screen
+timeline written to ./labs/ai-2/timeline.json
+lab run time: 4072.8 ms
+RESULT {"metrics":[{"name":"stream_time_to_first_text_median","value":32.2,"unit":"ms"},{"name":"stream_time_to_first_text_p95","value":39.2,"unit":"ms"},{"name":"buffered_time_to_first_text_median","value":3984.8,"unit":"ms"},{"name":"buffered_time_to_first_text_p95","value":4064.2,"unit":"ms"},{"name":"stream_total_time_median","value":3987.7,"unit":"ms"},{"name":"stream_total_time_p95","value":4064.3,"unit":"ms"},{"name":"buffered_total_time_median","value":3984.8,"unit":"ms"},{"name":"buffered_total_time_p95","value":4064.2,"unit":"ms"},{"name":"first_text_sooner_by_streaming","value":3952.6,"unit":"ms"},{"name":"total_time_difference_stream_minus_buffered","value":2.9,"unit":"ms"}],"conclusion":"In this in-process simulation, the client had the first text after a median 32.2 ms when streaming versus 3984.8 ms buffered and total time was within 5% (3987.7 ms vs 3984.8 ms), so here streaming made the text start sooner, not finish sooner.","setup":"in-process simulated generator, 120 words, 33+/-8 ms per token (seed 42), 20 calls per mode run concurrently, buffered = one JSON body at the end, stream = SSE frame per token, in-process byte streams replace the planned HTTP chunked transport (no network), no model think-time before the first token, times are client text-availability (parsed, not rendered), total-time tolerance 5%, first-text gap must exceed 100 ms and 50% of buffered"}

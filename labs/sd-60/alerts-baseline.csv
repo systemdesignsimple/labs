@@ -1,0 +1,48 @@
+day,time_home_tz,user,home,country,device,score,reasons,truth,kind
+9,01:56,u168,AU,CA,u168-laptop,5,unusual hour + new country,honest,travel
+9,02:25,u023,JP,GB,attacker-9,7,unusual hour + new country + new device,attack,loud
+9,05:27,u150,JP,US,u150-phone,5,unusual hour + new country,honest,travel
+10,03:54,u199,NP,CA,u199-laptop,5,unusual hour + new country,honest,travel
+10,05:56,u153,US,JP,u153-phone,5,unusual hour + new country,honest,travel
+11,17:15,u070,AE,BR,u070-laptop,5,unusual hour + new country,honest,travel
+12,04:15,u104,JP,BR,attacker-4,5,new country + new device,attack,loud
+12,14:51,u170,IN,GB,u170-laptop,5,unusual hour + new country,honest,travel
+14,04:48,u019,AU,BR,u019-phone,5,unusual hour + new country,honest,travel
+14,04:48,u015,AU,US,attacker-12,7,unusual hour + new country + new device,attack,loud
+14,07:22,u060,AE,NP,u060-laptop,5,unusual hour + new country,honest,travel
+15,01:26,u177,NP,BR,u177-laptop,5,unusual hour + new country,honest,travel
+15,09:09,u034,AU,AU,u034-newphone,4,unusual hour + new device,honest,new-phone
+15,19:03,u196,GB,IN,u196-laptop,5,unusual hour + new country,honest,travel
+16,04:17,u167,US,CA,u167-laptop,5,unusual hour + new country,honest,travel
+16,04:31,u002,AU,NG,u002-laptop,5,unusual hour + new country,honest,travel
+16,04:57,u083,DE,FR,attacker-11,7,unusual hour + new country + new device,attack,loud
+16,14:10,u008,NP,JP,u008-laptop,5,unusual hour + new country,honest,travel
+16,15:32,u141,US,FR,attacker-14,8,new country + new device + too fast to travel,attack,foreign-day
+16,22:52,u127,NP,RU,u127-newphone,5,unusual hour + new country,honest,travel
+17,04:16,u128,IN,US,attacker-2,7,unusual hour + new country + new device,attack,loud
+18,07:53,u097,GB,AU,u097-newphone,5,unusual hour + new country,honest,travel
+19,00:09,u074,US,RU,u074-phone,5,unusual hour + new country,honest,travel
+19,03:37,u169,GB,CA,attacker-6,7,unusual hour + new country + new device,attack,loud
+20,04:18,u112,GB,FR,attacker-1,7,unusual hour + new country + new device,attack,loud
+21,07:50,u098,JP,RU,u098-laptop,5,unusual hour + new country,honest,travel
+22,04:16,u177,NP,NG,attacker-8,7,unusual hour + new country + new device,attack,loud
+22,04:57,u075,AU,NP,attacker-10,7,unusual hour + new country + new device,attack,loud
+22,06:20,u060,AE,AE,u060-newphone,4,unusual hour + new device,honest,new-phone
+22,17:35,u007,US,JP,u007-phone,5,unusual hour + new country,honest,travel
+22,23:12,u178,JP,AU,u178-phone,5,unusual hour + new country,honest,travel
+23,00:43,u024,AE,BR,u024-laptop,5,unusual hour + new country,honest,travel
+23,19:09,u076,AU,CA,u076-laptop,5,unusual hour + new country,honest,travel
+24,00:00,u043,AE,US,u043-newphone,5,unusual hour + new country,honest,travel
+24,02:24,u194,DE,AU,attacker-5,7,unusual hour + new country + new device,attack,loud
+24,02:45,u135,AE,AU,u135-laptop,5,unusual hour + new country,honest,travel
+24,09:31,u131,AE,BR,u131-laptop,5,unusual hour + new country,honest,travel
+25,19:50,u090,DE,NP,u090-newphone,5,unusual hour + new country,honest,travel
+26,03:26,u126,AU,BR,attacker-7,7,unusual hour + new country + new device,attack,loud
+26,03:56,u092,US,AE,attacker-3,7,unusual hour + new country + new device,attack,loud
+27,06:20,u032,GB,CA,u032-laptop,5,unusual hour + new country,honest,travel
+27,14:38,u096,DE,AE,u096-laptop,5,unusual hour + new country,honest,travel
+27,21:08,u139,IN,CA,u139-laptop,5,unusual hour + new country,honest,travel
+27,22:35,u056,IN,DE,u056-laptop,5,unusual hour + new country,honest,travel
+28,22:42,u017,NP,NP,u017-newphone,4,unusual hour + new device,honest,new-phone
+29,11:06,u085,AU,NG,attacker-13,8,new country + new device + too fast to travel,attack,foreign-day
+29,17:27,u122,US,FR,attacker-15,8,new country + new device + too fast to travel,attack,foreign-day

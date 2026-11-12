@@ -1,0 +1,141 @@
+{
+  "lab": "sd-17",
+  "kind": "simulation",
+  "seed": 17,
+  "env": {
+    "node": "v22.13.1",
+    "platform": "darwin arm64",
+    "cpus": "Apple M2 Pro"
+  },
+  "routing": {
+    "oneConnection": {
+      "L4": {
+        "A": 0,
+        "B": 1000,
+        "decisions": 1,
+        "busiestPct": 100
+      },
+      "L7": {
+        "A": 500,
+        "B": 500,
+        "decisions": 1000,
+        "busiestPct": 50
+      }
+    },
+    "fiftyConnections": {
+      "L4": {
+        "A": 400,
+        "B": 600,
+        "busiestPct": 60
+      },
+      "L7": {
+        "A": 500,
+        "B": 500,
+        "busiestPct": 50
+      }
+    },
+    "imagesRule": {
+      "imageRequests": 322,
+      "connections": 50,
+      "L4toBPct": 32.9,
+      "L7toBPct": 100
+    }
+  },
+  "timing": {
+    "source": "evidence record (publisher episode_assets id 232, poc round 1, 2026-11-04, lab at commit 5e3dd9f); the approved script uses these figures, kept as supplied",
+    "unit": "ns per request, median of 200 batch averages of 2000 requests, in-process, no network, no TLS",
+    "directMedian": 1105,
+    "L4Median": 1150,
+    "L7fullMedian": 2845,
+    "L7fullP90": 3013,
+    "L7overL4": 1695,
+    "parseRoute": 1208,
+    "rebuild": 487,
+    "L4overDirect": 45
+  },
+  "rerun2026_11_05": {
+    "note": "timing changes by run (JIT, GC); routing identical",
+    "metrics": [
+      {
+        "name": "L4 one kept-open connection: requests to busiest backend",
+        "value": 100,
+        "unit": "%"
+      },
+      {
+        "name": "L7 one kept-open connection: requests to busiest backend",
+        "value": 50,
+        "unit": "%"
+      },
+      {
+        "name": "L4 50 new connections: requests to busiest backend",
+        "value": 60,
+        "unit": "%"
+      },
+      {
+        "name": "L7 50 new connections: requests to busiest backend",
+        "value": 50,
+        "unit": "%"
+      },
+      {
+        "name": "L4 routing decisions for 1,000 requests on 1 connection",
+        "value": 1,
+        "unit": "decisions"
+      },
+      {
+        "name": "L7 routing decisions for 1,000 requests on 1 connection",
+        "value": 1000,
+        "unit": "decisions"
+      },
+      {
+        "name": "L4 /images requests sent to B (rule)",
+        "value": 32.9,
+        "unit": "%"
+      },
+      {
+        "name": "L7 /images requests sent to B (rule)",
+        "value": 100,
+        "unit": "%"
+      },
+      {
+        "name": "Measured processing time per request, direct to backend (median)",
+        "value": 1056,
+        "unit": "ns"
+      },
+      {
+        "name": "Measured processing time per request, through L4 (median)",
+        "value": 1097,
+        "unit": "ns"
+      },
+      {
+        "name": "Measured processing time per request, through L7 full (median)",
+        "value": 2722,
+        "unit": "ns"
+      },
+      {
+        "name": "Measured processing time per request, through L7 full (p90 of samples)",
+        "value": 2775,
+        "unit": "ns"
+      },
+      {
+        "name": "L7 total proxy overhead over L4 (median difference)",
+        "value": 1625,
+        "unit": "ns"
+      },
+      {
+        "name": "of which: parse + route (L7 parse-only minus L4)",
+        "value": 1169,
+        "unit": "ns"
+      },
+      {
+        "name": "of which: rebuild upstream request (L7 full minus L7 parse-only)",
+        "value": 456,
+        "unit": "ns"
+      },
+      {
+        "name": "L4 overhead over direct (copy + table lookup)",
+        "value": 41,
+        "unit": "ns"
+      }
+    ]
+  }
+}

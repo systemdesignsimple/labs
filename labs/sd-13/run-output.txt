@@ -1,0 +1,13 @@
+sd-13 DNS lab (simulated, assumed latencies, seed 1313, 20 runs per case)
+domain              cold walk   neg miss    exp miss    warm hit    os cache   (median / p95 ms)
+google.com          37 / 47.9   15.9 / 27.2 16 / 25     7.1 / 8.2   0.05 / 0.07 
+  cold hops: you -> resolver 7.9 | root 6.3 | .com TLD 14.6 | google.com authoritative 8.9
+  biggest cold hop: .com TLD (38% of the cold lookup)
+wikipedia.org       69.4 / 93   44.9 / 53.7 44.8 / 84.8 7.6 / 13.6  0.05 / 0.07 
+  cold hops: you -> resolver 7 | root 6 | .org TLD 25.1 | wikipedia.org authoritative 33.9
+  biggest cold hop: wikipedia.org authoritative (47% of the cold lookup)
+a-small-shop.com    142.1 / 160.4123.4 / 167.4121.9 / 266.57.1 / 8.3   0.05 / 0.07 
+  cold hops: you -> resolver 7.9 | root 7.1 | .com TLD 15.5 | a-small-shop.com authoritative 114.1
+  biggest cold hop: a-small-shop.com authoritative (79% of the cold lookup)
+wrote results.json
+RESULT {"metrics":[{"name":"google.com cold full walk, median","value":37,"unit":"ms"},{"name":"google.com cold full walk, p95","value":47.9,"unit":"ms"},{"name":"google.com negative-answer miss, referrals cached (assumed NXDOMAIN), median","value":15.9,"unit":"ms"},{"name":"google.com expired-answer miss, referrals cached, median","value":16,"unit":"ms"},{"name":"google.com warm resolver hit, median","value":7.1,"unit":"ms"},{"name":"google.com OS cache hit, median","value":0.05,"unit":"ms"},{"name":"a-small-shop.com cold full walk, median","value":142.1,"unit":"ms"},{"name":"a-small-shop.com cold full walk, p95","value":160.4,"unit":"ms"},{"name":"google.com authoritative hop share of cold lookup","value":23,"unit":"%"},{"name":"a-small-shop.com authoritative hop share of cold lookup","value":79,"unit":"%"},{"name":"a-small-shop.com cold walk share of 100 ms budget","value":142,"unit":"%"},{"name":"a-small-shop.com cold vs warm speedup","value":20,"unit":"x"}],"conclusion":"Under these assumed latencies, a fully cold lookup of the modeled distant-name-server site takes about 142.1 ms (142% of a 100 ms budget, 79% of it the authoritative hop), while a cached answer for the modeled google.com costs about 7.1 ms at the resolver and 0.05 ms from the OS cache, so in this model each cache layer removes most of the lookup time.","setup":"simulated, virtual clock, seed 1313, 20 runs per case; assumed (not measured) RTTs resembling Tokyo fiber: you->resolver 7 ms, root 6, .com 14, .org 22, auth google.com 9, wikipedia.org 35, a-small-shop.com 110; jitter +-15%, 8% slow spikes; no packet loss; random subdomains assumed NXDOMAIN"}

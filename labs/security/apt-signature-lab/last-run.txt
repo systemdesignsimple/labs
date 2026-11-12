@@ -1,0 +1,13 @@
+# node labs/security/apt-signature-lab/apt-signature-lab.mjs, 2026-11-06 10:22 UTC
+apt-signature-lab Node.js v22.13.1 · 2026-11-06 · apt-style repo verification, unsafe vs fixed on a throwaway signed repo
+
+test                               input                                unsafe   fixed                 
+all checks on (control)            untouched repo                       accept   accept                
+unsafe: no .deb hash check         one .deb changed after signing       accept   REJECT hello_1.0.deb  
+unsafe: no index hash check        .deb + Packages changed together     accept   REJECT index hash     
+unsafe: reads unsigned text        text added outside the signed block  accept   REJECT index hash     
+unsafe: any key in keyring         signed by another trusted key        accept   REJECT wrong key      
+unsafe: ignores Valid-Until        old index replayed (expired)         accept   REJECT expired        
+unsafe: allows unsigned repo       signature removed                    accept   REJECT unsigned       
+
+apt version (read-only): apt not installed on this Mac (on Debian/Ubuntu: apt-get --version, apt-cache policy apt)

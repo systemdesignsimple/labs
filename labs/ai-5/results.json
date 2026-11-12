@@ -1,0 +1,58 @@
+{
+ "metrics": {
+  "No tool: scripted refusals": {
+   "value": 11,
+   "unit": "of 20"
+  },
+  "No tool: scripted guesses": {
+   "value": 9,
+   "unit": "of 20"
+  },
+  "No tool: median error of scripted guesses (virtual clock)": {
+   "value": 752645,
+   "unit": "minutes"
+  },
+  "With tool: runs where the scripted model called the tool": {
+   "value": 20,
+   "unit": "of 20"
+  },
+  "With tool: runs within 1 minute of the virtual clock": {
+   "value": 20,
+   "unit": "of 20"
+  },
+  "With tool: median error (virtual clock)": {
+   "value": 29.1,
+   "unit": "seconds"
+  },
+  "Simulated added cost per tool run, tool + follow-up call (median)": {
+   "value": 484,
+   "unit": "simulated ms"
+  },
+  "Simulated tool execution time (median)": {
+   "value": 2,
+   "unit": "simulated ms"
+  },
+  "Simulated follow-up model call (median)": {
+   "value": 482,
+   "unit": "simulated ms"
+  }
+ },
+ "conclusion": "In this scripted demonstration with assumed behaviour, the reply matched the clock only when the app ran the tool and passed its result back (20 of 20 tool-mode runs within a minute, against 11 refusals and guesses off by a median of 523 days without it), and the tool path added a simulated median of 484 ms per run.",
+ "setup": "scripted (not real) model, seed 20261105, 20 runs per mode, prompt \"What time is it right now in Tokyo?\", assumed guess date 2025-06-01, virtual clock from 2026-11-05T14:00:00.000Z, simulated latency 400-1000 ms first call and 300-800 ms follow-up, tool 1-5 ms, assumed rates: refuse 0.45, skip tool 0.05, timezone slip 0.05",
+ "printout": [
+  "--- one mode B run (with clock tool, scripted model, simulated ms) ---",
+  "user                 What time is it right now in Tokyo?",
+  "model -> tool_call   [sim 992 ms] get_current_time({\"timezone\":\"Asia/Tokyo\"})",
+  "app runs tool        [sim 1 ms] {\"timezone\":\"Asia/Tokyo\",\"local\":\"2026-11-05 23:10:15\",\"utc_offset\":\"+09:00\",\"utc_iso\":\"2026-11-05T14:10:15.459Z\"}",
+  "model -> reply       [sim 585 ms] It's 23:10 on 2026-11-05 in Tokyo right now.",
+  "",
+  "--- one mode A run (no tools, scripted model, simulated ms) ---",
+  "user                 What time is it right now in Tokyo?",
+  "model -> reply       [sim 461 ms] It's probably around 05:25 in Tokyo (2025-06-01).",
+  "",
+  "Mode A: 11/20 scripted refusals, 9/20 scripted guesses, median error 522.7 days",
+  "Mode B: 20/20 called the tool, 20/20 within 1 minute of the virtual clock, median error 29.1 s",
+  "Simulated added cost per tool-using run (median): 484 ms = tool 2 ms + follow-up model call 482 ms"
+ ],
+ "command": "node run.mjs"
+}

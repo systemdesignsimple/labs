@@ -1,0 +1,76 @@
+{
+    "metrics": [
+        {
+            "name": "truncate_forget_turn_4k",
+            "value": 19,
+            "unit": "turn"
+        },
+        {
+            "name": "truncate_forget_turn_8k",
+            "value": 36,
+            "unit": "turn"
+        },
+        {
+            "name": "truncate_forget_turn_32k",
+            "value": 141,
+            "unit": "turn"
+        },
+        {
+            "name": "avg_tokens_per_turn",
+            "value": 229.6,
+            "unit": "approx tokens"
+        },
+        {
+            "name": "pinned_name_visible_4k",
+            "value": 200,
+            "unit": "of 200 turns"
+        },
+        {
+            "name": "pinned_name_visible_8k",
+            "value": 200,
+            "unit": "of 200 turns"
+        },
+        {
+            "name": "pinned_name_visible_32k",
+            "value": 200,
+            "unit": "of 200 turns"
+        },
+        {
+            "name": "summary_name_visible_4k",
+            "value": 200,
+            "unit": "of 200 turns"
+        },
+        {
+            "name": "summary_name_visible_8k",
+            "value": 200,
+            "unit": "of 200 turns"
+        },
+        {
+            "name": "summary_name_visible_32k",
+            "value": 200,
+            "unit": "of 200 turns"
+        },
+        {
+            "name": "pinned_memory_cost",
+            "value": 12,
+            "unit": "approx tokens per turn"
+        },
+        {
+            "name": "summary_reserved",
+            "value": 200,
+            "unit": "approx tokens per turn"
+        },
+        {
+            "name": "summary_actual_min",
+            "value": 0,
+            "unit": "approx tokens"
+        },
+        {
+            "name": "summary_actual_max",
+            "value": 87,
+            "unit": "approx tokens"
+        }
+    ],
+    "conclusion": "Dropping the oldest messages pushed the name out of the window at turn 19, 36 and 141 for 4k, 8k and 32k approximate-token budgets, so a bigger window only delays forgetting, while a 12-unit pinned memory or a rolling summary of at most 87 units (200 reserved) kept the name visible on all 200 turns.",
+    "setup": "simulated chat, seed 20261105, 200 turns, name in message 1, budgets 4000/8000/32000 approximate token units from a heuristic GPT-style splitter (no real vocabulary), 4 units overhead per message, A = keep newest that fit, B = pinned memory line, C = rolling rule-based summary updated only from its previous state plus newly evicted messages, 200 units reserved, actual note 0 to 87; measures visibility in the window, not model recall"
+}

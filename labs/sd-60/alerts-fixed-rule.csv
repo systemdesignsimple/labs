@@ -1,0 +1,681 @@
+day,time_home_tz,user,home,country,device,score,reasons,truth,kind
+8,01:07,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+8,01:22,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+8,01:22,u192,US,US,u192-laptop,0,-,honest,night-shift
+8,01:30,u071,US,US,u071-laptop,0,-,honest,night-shift
+8,01:32,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+8,01:38,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+8,01:39,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+8,01:39,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+8,01:40,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+8,01:45,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+8,01:53,u017,NP,NP,u017-laptop,0,-,honest,night-shift
+8,01:56,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+8,02:07,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+8,02:11,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+8,02:23,u044,GB,GB,u044-laptop,2,unusual hour,honest,normal
+8,02:28,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+8,02:28,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+8,02:45,u090,DE,DE,u090-phone,0,-,honest,night-shift
+8,03:03,u041,GB,GB,u041-laptop,2,unusual hour,honest,normal
+8,03:29,u071,US,US,u071-phone,0,-,honest,night-shift
+8,03:31,u174,US,US,u174-laptop,0,-,honest,night-shift
+8,03:39,u039,JP,JP,u039-laptop,2,unusual hour,honest,normal
+8,03:56,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+8,04:06,u174,US,US,u174-phone,0,-,honest,night-shift
+8,04:13,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+8,04:24,u063,JP,JP,u063-laptop,2,unusual hour,honest,normal
+8,04:42,u169,GB,GB,u169-laptop,0,-,honest,normal
+8,04:45,u085,AU,AU,u085-laptop,2,unusual hour,honest,normal
+9,01:02,u017,NP,NP,u017-phone,0,-,honest,night-shift
+9,01:03,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+9,01:08,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+9,01:17,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+9,01:20,u192,US,US,u192-laptop,0,-,honest,night-shift
+9,01:22,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+9,01:24,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+9,01:31,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+9,01:56,u168,AU,CA,u168-laptop,5,unusual hour + new country,honest,travel
+9,01:58,u051,IN,IN,u051-laptop,0,-,honest,normal
+9,02:02,u198,US,US,u198-laptop,2,unusual hour,honest,normal
+9,02:04,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+9,02:15,u104,JP,JP,u104-phone,0,-,honest,night-shift
+9,02:19,u156,AE,AE,u156-phone,0,-,honest,night-shift
+9,02:24,u174,US,US,u174-phone,0,-,honest,night-shift
+9,02:25,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+9,02:25,u023,JP,GB,attacker-9,7,unusual hour + new country + new device,attack,loud
+9,02:40,u156,AE,AE,u156-phone,0,-,honest,night-shift
+9,02:47,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+9,03:31,u071,US,US,u071-phone,0,-,honest,night-shift
+9,03:42,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+9,03:54,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+9,03:56,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+9,03:58,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+9,03:58,u121,GB,GB,u121-laptop,2,unusual hour,honest,night-shift
+9,04:04,u182,GB,GB,u182-laptop,0,-,honest,normal
+9,04:09,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+9,04:14,u174,US,US,u174-phone,0,-,honest,night-shift
+9,04:15,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+9,04:16,u156,AE,AE,u156-phone,0,-,honest,night-shift
+9,04:18,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+9,04:21,u055,DE,DE,u055-laptop,2,unusual hour,honest,normal
+9,04:29,u036,JP,JP,u036-laptop,2,unusual hour,honest,normal
+9,04:30,u141,US,US,u141-laptop,2,unusual hour,honest,normal
+9,04:55,u071,US,US,u071-laptop,0,-,honest,night-shift
+10,01:06,u017,NP,NP,u017-phone,0,-,honest,night-shift
+10,01:12,u156,AE,AE,u156-laptop,0,-,honest,night-shift
+10,01:25,u192,US,US,u192-laptop,0,-,honest,night-shift
+10,01:36,u071,US,US,u071-phone,0,-,honest,night-shift
+10,01:40,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+10,01:40,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+10,01:54,u090,DE,DE,u090-phone,0,-,honest,night-shift
+10,01:59,u174,US,US,u174-phone,0,-,honest,night-shift
+10,02:10,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+10,02:19,u071,US,US,u071-phone,0,-,honest,night-shift
+10,02:21,u192,US,US,u192-laptop,0,-,honest,night-shift
+10,02:25,u017,NP,NP,u017-laptop,0,-,honest,night-shift
+10,02:25,u090,DE,DE,u090-laptop,0,-,honest,night-shift
+10,02:36,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+10,02:38,u104,JP,JP,u104-phone,0,-,honest,night-shift
+10,02:40,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+10,02:55,u156,AE,AE,u156-laptop,0,-,honest,night-shift
+10,03:10,u174,US,US,u174-laptop,0,-,honest,night-shift
+10,03:10,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+10,03:11,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+10,03:21,u174,US,US,u174-laptop,0,-,honest,night-shift
+10,03:54,u199,NP,CA,u199-laptop,5,unusual hour + new country,honest,travel
+10,04:10,u168,AU,CA,u168-laptop,2,unusual hour,honest,travel
+10,04:13,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+10,04:14,u051,IN,IN,u051-laptop,2,unusual hour,honest,normal
+10,04:17,u051,IN,IN,u051-phone,0,-,honest,normal
+10,04:43,u199,NP,CA,u199-laptop,0,-,honest,travel
+10,04:44,u174,US,US,u174-phone,0,-,honest,night-shift
+11,01:01,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+11,01:15,u017,NP,NP,u017-phone,0,-,honest,night-shift
+11,01:16,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+11,01:28,u153,US,JP,u153-phone,0,-,honest,travel
+11,01:44,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+11,01:46,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+11,01:51,u090,DE,DE,u090-laptop,0,-,honest,night-shift
+11,01:54,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+11,01:55,u192,US,US,u192-laptop,0,-,honest,night-shift
+11,01:59,u176,AU,AU,u176-laptop,2,unusual hour,honest,normal
+11,02:08,u192,US,US,u192-laptop,0,-,honest,night-shift
+11,02:15,u114,DE,DE,u114-laptop,2,unusual hour,honest,normal
+11,02:21,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+11,02:28,u024,AE,AE,u024-laptop,2,unusual hour,honest,normal
+11,02:37,u071,US,US,u071-phone,0,-,honest,night-shift
+11,02:39,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+11,02:45,u090,DE,DE,u090-phone,0,-,honest,night-shift
+11,02:46,u071,US,US,u071-laptop,0,-,honest,night-shift
+11,02:55,u118,US,US,u118-phone,2,unusual hour,honest,normal
+11,02:56,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+11,03:02,u118,US,US,u118-laptop,0,-,honest,normal
+11,03:04,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+11,03:17,u120,NP,NP,u120-laptop,2,unusual hour,honest,normal
+11,03:23,u156,AE,AE,u156-phone,0,-,honest,night-shift
+11,03:29,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+11,03:36,u156,AE,AE,u156-phone,0,-,honest,night-shift
+11,03:39,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+11,03:51,u118,US,US,u118-laptop,0,-,honest,normal
+11,03:56,u050,IN,IN,u050-laptop,2,unusual hour,honest,normal
+11,04:16,u013,US,US,u013-laptop,2,unusual hour,honest,normal
+11,04:29,u014,AU,AU,u014-laptop,0,-,honest,normal
+11,04:38,u068,IN,IN,u068-laptop,0,-,honest,normal
+11,04:53,u176,AU,AU,u176-laptop,0,-,honest,normal
+12,01:08,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+12,01:09,u089,NP,NP,u089-laptop,2,unusual hour,honest,normal
+12,01:12,u051,IN,IN,u051-laptop,2,unusual hour,honest,normal
+12,01:14,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+12,01:45,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+12,01:46,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+12,01:51,u090,DE,DE,u090-laptop,0,-,honest,night-shift
+12,01:56,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+12,01:56,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+12,02:03,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+12,02:04,u090,DE,DE,u090-phone,0,-,honest,night-shift
+12,02:07,u174,US,US,u174-laptop,0,-,honest,night-shift
+12,02:10,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+12,02:11,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+12,02:12,u199,NP,CA,u199-laptop,2,unusual hour,honest,travel
+12,02:13,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+12,02:14,u169,GB,GB,u169-laptop,2,unusual hour,honest,normal
+12,02:19,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+12,02:19,u017,NP,NP,u017-laptop,0,-,honest,night-shift
+12,02:19,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+12,02:20,u153,US,JP,u153-laptop,0,-,honest,travel
+12,02:32,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+12,02:37,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+12,02:47,u071,US,US,u071-phone,0,-,honest,night-shift
+12,02:50,u090,DE,DE,u090-phone,0,-,honest,night-shift
+12,02:58,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+12,03:04,u153,US,JP,u153-phone,0,-,honest,travel
+12,03:11,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+12,03:11,u017,NP,NP,u017-phone,0,-,honest,night-shift
+12,03:21,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+12,03:30,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+12,03:46,u071,US,US,u071-phone,0,-,honest,night-shift
+12,03:52,u153,US,JP,u153-phone,2,unusual hour,honest,travel
+12,04:10,u079,US,US,u079-laptop,2,unusual hour,honest,normal
+12,04:15,u104,JP,BR,attacker-4,5,new country + new device,attack,loud
+12,04:17,u104,JP,JP,u104-phone,0,-,honest,night-shift
+12,04:26,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+12,04:29,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+12,04:36,u155,IN,IN,u155-phone,2,unusual hour,honest,normal
+12,04:52,u176,AU,AU,u176-phone,0,-,honest,normal
+13,01:06,u144,NP,NP,u144-laptop,2,unusual hour,honest,normal
+13,01:11,u099,NP,NP,u099-newphone,2,unusual hour,honest,new-phone
+13,01:29,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+13,01:34,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+13,01:40,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+13,01:41,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+13,01:55,u104,JP,JP,u104-phone,0,-,honest,night-shift
+13,01:59,u163,NP,NP,u163-laptop,0,-,honest,normal
+13,02:09,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+13,02:15,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+13,02:15,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+13,02:27,u163,NP,NP,u163-laptop,0,-,honest,normal
+13,02:30,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+13,02:34,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+13,02:50,u192,US,US,u192-laptop,0,-,honest,night-shift
+13,02:53,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+13,03:38,u090,DE,DE,u090-newphone,0,-,honest,new-phone
+13,03:46,u137,IN,IN,u137-phone,2,unusual hour,honest,normal
+13,04:32,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+13,04:42,u055,DE,DE,u055-laptop,2,unusual hour,honest,normal
+13,04:53,u071,US,US,u071-laptop,0,-,honest,night-shift
+14,01:18,u156,AE,AE,u156-phone,0,-,honest,night-shift
+14,01:24,u117,AE,AE,u117-laptop,2,unusual hour,honest,normal
+14,01:29,u071,US,US,u071-phone,0,-,honest,night-shift
+14,01:40,u090,DE,DE,u090-newphone,0,-,honest,new-phone
+14,01:40,u092,US,US,u092-phone,2,unusual hour,honest,normal
+14,01:44,u192,US,US,u192-laptop,0,-,honest,night-shift
+14,01:45,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+14,01:52,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+14,02:04,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+14,02:16,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+14,02:17,u156,AE,AE,u156-laptop,0,-,honest,night-shift
+14,02:18,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+14,02:20,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+14,02:33,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+14,02:38,u071,US,US,u071-laptop,0,-,honest,night-shift
+14,02:56,u156,AE,AE,u156-phone,0,-,honest,night-shift
+14,02:57,u071,US,US,u071-laptop,0,-,honest,night-shift
+14,03:06,u118,US,CA,u118-laptop,0,-,honest,travel
+14,03:17,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+14,03:35,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+14,03:44,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+14,03:46,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+14,04:07,u182,GB,GB,u182-laptop,0,-,honest,normal
+14,04:12,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+14,04:19,u104,JP,JP,u104-phone,0,-,honest,night-shift
+14,04:21,u188,IN,IN,u188-phone,2,unusual hour,honest,normal
+14,04:23,u073,AU,AU,u073-laptop,2,unusual hour,honest,night-shift
+14,04:26,u107,US,US,u107-laptop,2,unusual hour,honest,normal
+14,04:29,u104,JP,JP,u104-phone,0,-,honest,night-shift
+14,04:31,u011,DE,DE,u011-phone,2,unusual hour,honest,normal
+14,04:41,u047,NP,NP,u047-laptop,0,-,honest,normal
+14,04:48,u019,AU,BR,u019-phone,5,unusual hour + new country,honest,travel
+14,04:48,u015,AU,US,attacker-12,7,unusual hour + new country + new device,attack,loud
+15,01:14,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+15,01:20,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+15,01:21,u133,JP,JP,u133-laptop,2,unusual hour,honest,normal
+15,01:26,u177,NP,BR,u177-laptop,5,unusual hour + new country,honest,travel
+15,01:34,u128,IN,RU,u128-laptop,2,unusual hour,honest,travel
+15,01:35,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+15,01:40,u141,US,US,u141-phone,2,unusual hour,honest,normal
+15,02:10,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+15,02:11,u156,AE,AE,u156-phone,0,-,honest,night-shift
+15,02:18,u090,DE,DE,u090-laptop,0,-,honest,new-phone
+15,02:35,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+15,02:40,u192,US,US,u192-laptop,0,-,honest,night-shift
+15,02:46,u104,JP,JP,u104-phone,0,-,honest,night-shift
+15,02:51,u070,AE,BR,u070-laptop,2,unusual hour,honest,travel
+15,03:10,u177,NP,BR,u177-laptop,2,unusual hour,honest,travel
+15,03:15,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+15,03:39,u176,AU,AU,u176-phone,0,-,honest,normal
+15,03:46,u071,US,US,u071-phone,0,-,honest,night-shift
+15,03:59,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+15,04:08,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+15,04:22,u172,NP,NP,u172-phone,2,unusual hour,honest,normal
+15,04:48,u174,US,US,u174-laptop,0,-,honest,night-shift
+15,04:50,u019,AU,BR,u019-laptop,2,unusual hour,honest,travel
+16,01:08,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+16,01:13,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+16,01:17,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+16,01:26,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+16,01:28,u013,US,US,u013-laptop,2,unusual hour,honest,normal
+16,01:29,u013,US,US,u013-laptop,0,-,honest,normal
+16,01:39,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+16,01:51,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+16,01:52,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+16,02:18,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+16,02:18,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+16,02:30,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+16,02:31,u174,US,US,u174-laptop,0,-,honest,night-shift
+16,02:33,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+16,02:35,u174,US,US,u174-laptop,0,-,honest,night-shift
+16,02:38,u156,AE,AE,u156-laptop,0,-,honest,night-shift
+16,02:39,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+16,03:03,u156,AE,AE,u156-phone,0,-,honest,night-shift
+16,03:08,u098,JP,JP,u098-laptop,0,-,honest,normal
+16,03:09,u071,US,US,u071-laptop,0,-,honest,night-shift
+16,03:10,u192,US,US,u192-laptop,0,-,honest,night-shift
+16,03:14,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+16,03:15,u017,NP,NP,u017-phone,0,-,honest,night-shift
+16,03:20,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+16,03:27,u192,US,US,u192-laptop,0,-,honest,night-shift
+16,03:36,u174,US,US,u174-phone,0,-,honest,night-shift
+16,03:39,u193,GB,GB,u193-laptop,2,unusual hour,honest,normal
+16,03:39,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+16,03:42,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+16,04:16,u051,IN,IN,u051-laptop,0,-,honest,normal
+16,04:17,u167,US,CA,u167-laptop,5,unusual hour + new country,honest,travel
+16,04:20,u182,GB,GB,u182-laptop,0,-,honest,normal
+16,04:31,u002,AU,NG,u002-laptop,5,unusual hour + new country,honest,travel
+16,04:57,u083,DE,FR,attacker-11,7,unusual hour + new country + new device,attack,loud
+17,01:13,u174,US,US,u174-laptop,0,-,honest,night-shift
+17,01:20,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+17,01:28,u017,NP,NP,u017-phone,0,-,honest,night-shift
+17,01:44,u011,DE,DE,u011-phone,2,unusual hour,honest,normal
+17,01:46,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+17,01:47,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+17,01:53,u011,DE,DE,u011-laptop,2,unusual hour,honest,normal
+17,01:58,u153,US,US,u153-laptop,0,-,honest,normal
+17,02:13,u104,JP,JP,u104-phone,0,-,honest,night-shift
+17,02:13,u090,DE,DE,u090-newphone,0,-,honest,new-phone
+17,02:14,u071,US,US,u071-phone,0,-,honest,night-shift
+17,02:21,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+17,02:28,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+17,02:39,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+17,02:42,u090,DE,DE,u090-newphone,0,-,honest,new-phone
+17,02:57,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+17,02:57,u020,DE,US,u020-laptop,2,unusual hour,honest,travel
+17,03:13,u055,DE,DE,u055-laptop,2,unusual hour,honest,normal
+17,03:13,u098,JP,JP,u098-laptop,0,-,honest,normal
+17,03:26,u174,US,US,u174-phone,0,-,honest,night-shift
+17,03:29,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+17,03:33,u020,DE,US,u020-laptop,0,-,honest,travel
+17,03:42,u098,JP,JP,u098-laptop,0,-,honest,normal
+17,03:44,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+17,03:59,u042,GB,GB,u042-laptop,2,unusual hour,honest,normal
+17,04:16,u128,IN,US,attacker-2,7,unusual hour + new country + new device,attack,loud
+17,04:54,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+17,04:54,u002,AU,NG,u002-laptop,2,unusual hour,honest,travel
+18,01:49,u020,DE,US,u020-laptop,2,unusual hour,honest,travel
+18,01:51,u158,GB,GB,u158-laptop,2,unusual hour,honest,normal
+18,01:53,u192,US,US,u192-laptop,0,-,honest,night-shift
+18,02:20,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+18,02:21,u090,DE,DE,u090-newphone,0,-,honest,new-phone
+18,02:21,u071,US,US,u071-laptop,0,-,honest,night-shift
+18,02:23,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+18,02:36,u123,US,US,u123-laptop,2,unusual hour,honest,normal
+18,02:37,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+18,02:49,u060,AE,NP,u060-phone,2,unusual hour,honest,travel
+18,02:51,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+18,02:52,u019,AU,BR,u019-phone,2,unusual hour,honest,travel
+18,03:02,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+18,03:10,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+18,03:10,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+18,03:17,u107,US,US,u107-laptop,2,unusual hour,honest,normal
+18,03:22,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+18,03:28,u174,US,US,u174-laptop,0,-,honest,night-shift
+18,03:33,u174,US,US,u174-phone,0,-,honest,night-shift
+18,03:39,u041,GB,GB,u041-phone,2,unusual hour,honest,normal
+18,03:39,u011,DE,DE,u011-phone,2,unusual hour,honest,normal
+18,03:52,u019,AU,BR,u019-laptop,0,-,honest,travel
+18,03:52,u174,US,US,u174-phone,0,-,honest,night-shift
+18,04:08,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+18,04:19,u198,US,US,u198-laptop,2,unusual hour,honest,normal
+18,04:20,u051,IN,IN,u051-phone,0,-,honest,normal
+18,04:40,u104,JP,JP,u104-phone,0,-,honest,night-shift
+19,01:09,u090,DE,DE,u090-newphone,0,-,honest,new-phone
+19,01:09,u002,AU,NG,u002-laptop,2,unusual hour,honest,travel
+19,01:11,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+19,01:15,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+19,01:19,u074,US,RU,u074-phone,2,unusual hour,honest,travel
+19,01:21,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+19,01:22,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+19,01:29,u074,US,RU,u074-laptop,2,unusual hour,honest,travel
+19,02:21,u104,JP,JP,u104-phone,0,-,honest,night-shift
+19,02:24,u071,US,US,u071-laptop,0,-,honest,night-shift
+19,02:29,u177,NP,BR,u177-laptop,2,unusual hour,honest,travel
+19,02:35,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+19,02:38,u002,AU,NG,u002-laptop,2,unusual hour,honest,travel
+19,02:39,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+19,02:44,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+19,02:59,u156,AE,AE,u156-laptop,0,-,honest,night-shift
+19,03:14,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+19,03:16,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+19,03:17,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+19,03:25,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+19,03:32,u168,AU,AU,u168-laptop,2,unusual hour,honest,normal
+19,03:37,u169,GB,CA,attacker-6,7,unusual hour + new country + new device,attack,loud
+19,03:38,u177,NP,BR,u177-laptop,2,unusual hour,honest,travel
+19,03:47,u168,AU,AU,u168-laptop,0,-,honest,normal
+19,04:05,u085,AU,AU,u085-laptop,2,unusual hour,honest,normal
+19,04:06,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+19,04:12,u071,US,US,u071-phone,0,-,honest,night-shift
+19,04:36,u071,US,US,u071-phone,0,-,honest,night-shift
+19,04:48,u038,IN,IN,u038-laptop,2,unusual hour,honest,normal
+19,04:55,u088,US,US,u088-laptop,2,unusual hour,honest,normal
+19,04:57,u013,US,US,u013-laptop,0,-,honest,normal
+20,01:00,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+20,01:07,u118,US,US,u118-laptop,2,unusual hour,honest,normal
+20,01:21,u156,AE,AE,u156-phone,0,-,honest,night-shift
+20,01:24,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+20,01:25,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+20,01:31,u002,AU,NG,u002-laptop,2,unusual hour,honest,travel
+20,01:35,u192,US,US,u192-laptop,0,-,honest,night-shift
+20,01:46,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+20,01:51,u090,DE,DE,u090-newphone,0,-,honest,new-phone
+20,02:01,u019,AU,AU,u019-phone,2,unusual hour,honest,normal
+20,02:15,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+20,02:29,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+20,02:35,u174,US,US,u174-laptop,0,-,honest,night-shift
+20,02:38,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+20,02:53,u156,AE,AE,u156-laptop,0,-,honest,night-shift
+20,02:54,u024,AE,AE,u024-laptop,2,unusual hour,honest,new-phone
+20,02:54,u017,NP,AE,u017-laptop,0,-,honest,travel
+20,02:56,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+20,02:57,u074,US,RU,u074-phone,2,unusual hour,honest,travel
+20,03:09,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+20,03:20,u002,AU,NG,u002-laptop,2,unusual hour,honest,travel
+20,03:25,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+20,03:33,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+20,03:36,u071,US,US,u071-laptop,0,-,honest,night-shift
+20,04:03,u011,DE,DE,u011-laptop,2,unusual hour,honest,normal
+20,04:11,u123,US,US,u123-laptop,2,unusual hour,honest,normal
+20,04:16,u050,IN,IN,u050-laptop,2,unusual hour,honest,normal
+20,04:18,u112,GB,FR,attacker-1,7,unusual hour + new country + new device,attack,loud
+20,04:20,u097,GB,AU,u097-laptop,2,unusual hour,honest,travel
+20,04:36,u041,GB,GB,u041-laptop,0,-,honest,normal
+20,04:39,u068,IN,IN,u068-laptop,0,-,honest,normal
+20,04:39,u198,US,US,u198-laptop,0,-,honest,normal
+20,04:41,u059,JP,JP,u059-newphone,0,-,honest,new-phone
+20,04:43,u074,US,RU,u074-phone,2,unusual hour,honest,travel
+20,04:51,u017,NP,AE,u017-laptop,2,unusual hour,honest,travel
+21,01:02,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+21,01:03,u170,IN,IN,u170-laptop,2,unusual hour,honest,normal
+21,01:03,u192,US,US,u192-laptop,0,-,honest,night-shift
+21,01:11,u092,US,US,u092-laptop,0,-,honest,normal
+21,01:17,u192,US,US,u192-laptop,0,-,honest,night-shift
+21,01:20,u090,DE,DE,u090-newphone,0,-,honest,new-phone
+21,01:29,u183,AU,AU,u183-laptop,2,unusual hour,honest,normal
+21,01:29,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+21,01:36,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+21,01:40,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+21,01:50,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+21,01:50,u174,US,US,u174-laptop,0,-,honest,night-shift
+21,01:53,u156,AE,AE,u156-phone,0,-,honest,night-shift
+21,01:57,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+21,02:01,u017,NP,AE,u017-laptop,0,-,honest,travel
+21,02:01,u081,AU,AU,u081-phone,2,unusual hour,honest,normal
+21,02:07,u017,NP,AE,u017-phone,0,-,honest,travel
+21,02:15,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+21,02:16,u192,US,US,u192-laptop,0,-,honest,night-shift
+21,02:22,u192,US,US,u192-laptop,0,-,honest,night-shift
+21,02:23,u168,AU,AU,u168-laptop,2,unusual hour,honest,normal
+21,02:28,u102,JP,JP,u102-phone,2,unusual hour,honest,normal
+21,02:40,u002,AU,NG,u002-laptop,0,-,honest,travel
+21,02:46,u002,AU,NG,u002-laptop,0,-,honest,travel
+21,02:55,u111,NP,NP,u111-laptop,2,unusual hour,honest,normal
+21,02:55,u156,AE,AE,u156-phone,0,-,honest,night-shift
+21,03:02,u156,AE,AE,u156-laptop,0,-,honest,night-shift
+21,03:03,u071,US,US,u071-phone,0,-,honest,night-shift
+21,03:04,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+21,03:21,u174,US,US,u174-phone,0,-,honest,night-shift
+21,03:33,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+21,03:35,u181,GB,GB,u181-laptop,2,unusual hour,honest,normal
+21,03:37,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+21,03:48,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+21,03:52,u153,US,US,u153-phone,0,-,honest,normal
+21,04:23,u011,DE,DE,u011-phone,0,-,honest,normal
+21,04:29,u156,AE,AE,u156-laptop,0,-,honest,night-shift
+21,04:31,u079,US,US,u079-laptop,0,-,honest,normal
+21,04:37,u011,DE,DE,u011-phone,0,-,honest,normal
+21,04:37,u051,IN,IN,u051-phone,0,-,honest,normal
+21,04:42,u188,IN,IN,u188-phone,2,unusual hour,honest,normal
+21,04:56,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+22,01:00,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+22,01:03,u100,GB,GB,u100-laptop,2,unusual hour,honest,normal
+22,01:26,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+22,01:40,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+22,01:41,u174,US,US,u174-laptop,0,-,honest,night-shift
+22,01:46,u192,US,US,u192-laptop,0,-,honest,night-shift
+22,01:47,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+22,01:49,u192,US,US,u192-laptop,0,-,honest,night-shift
+22,01:57,u104,JP,JP,u104-phone,0,-,honest,night-shift
+22,01:59,u116,NP,NP,u116-phone,2,unusual hour,honest,normal
+22,02:00,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+22,02:24,u074,US,RU,u074-laptop,0,-,honest,travel
+22,02:31,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+22,02:38,u148,AU,AU,u148-newphone,2,unusual hour,honest,new-phone
+22,02:40,u061,AU,AU,u061-laptop,2,unusual hour,honest,normal
+22,02:41,u131,AE,AE,u131-laptop,0,-,honest,night-shift
+22,02:42,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+22,03:02,u170,IN,IN,u170-laptop,2,unusual hour,honest,normal
+22,03:03,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+22,03:08,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+22,03:08,u174,US,US,u174-phone,0,-,honest,night-shift
+22,03:16,u071,US,US,u071-laptop,0,-,honest,night-shift
+22,03:18,u039,JP,JP,u039-laptop,2,unusual hour,honest,normal
+22,03:25,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+22,03:40,u071,US,US,u071-phone,0,-,honest,night-shift
+22,03:49,u156,AE,AE,u156-laptop,0,-,honest,night-shift
+22,03:50,u179,NP,NP,u179-laptop,2,unusual hour,honest,normal
+22,03:54,u026,DE,DE,u026-laptop,2,unusual hour,honest,normal
+22,04:04,u036,JP,JP,u036-laptop,2,unusual hour,honest,normal
+22,04:16,u177,NP,NG,attacker-8,7,unusual hour + new country + new device,attack,loud
+22,04:28,u051,IN,IN,u051-phone,0,-,honest,normal
+22,04:28,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+22,04:46,u087,JP,JP,u087-laptop,0,-,honest,normal
+22,04:56,u068,IN,IN,u068-laptop,0,-,honest,normal
+22,04:57,u075,AU,NP,attacker-10,7,unusual hour + new country + new device,attack,loud
+23,01:17,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+23,01:30,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+23,01:31,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+23,01:40,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+23,01:46,u090,DE,DE,u090-newphone,0,-,honest,new-phone
+23,02:11,u156,AE,AE,u156-phone,0,-,honest,night-shift
+23,02:21,u017,NP,AE,u017-laptop,0,-,honest,travel
+23,02:29,u017,NP,AE,u017-laptop,0,-,honest,travel
+23,02:36,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+23,02:42,u090,DE,DE,u090-newphone,0,-,honest,new-phone
+23,02:42,u174,US,US,u174-laptop,0,-,honest,night-shift
+23,02:45,u071,US,US,u071-phone,0,-,honest,night-shift
+23,02:57,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+23,03:06,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+23,03:27,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+23,03:37,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+23,03:40,u071,US,US,u071-laptop,0,-,honest,night-shift
+23,03:46,u071,US,US,u071-phone,0,-,honest,night-shift
+23,03:49,u017,NP,AE,u017-phone,0,-,honest,travel
+23,04:26,u188,IN,IN,u188-phone,2,unusual hour,honest,normal
+23,04:41,u174,US,US,u174-laptop,0,-,honest,night-shift
+23,04:49,u093,DE,DE,u093-laptop,2,unusual hour,honest,normal
+24,01:07,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+24,01:10,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+24,01:21,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+24,01:21,u117,AE,AE,u117-newphone,2,unusual hour,honest,new-phone
+24,01:22,u036,JP,JP,u036-laptop,2,unusual hour,honest,normal
+24,01:32,u071,US,US,u071-phone,0,-,honest,night-shift
+24,01:38,u071,US,US,u071-phone,0,-,honest,night-shift
+24,01:41,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+24,01:49,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+24,02:00,u024,AE,BR,u024-newphone,0,-,honest,travel
+24,02:01,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+24,02:12,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+24,02:15,u024,AE,BR,u024-newphone,0,-,honest,travel
+24,02:24,u194,DE,AU,attacker-5,7,unusual hour + new country + new device,attack,loud
+24,02:26,u156,AE,AE,u156-laptop,0,-,honest,night-shift
+24,02:27,u043,AE,US,u043-newphone,2,unusual hour,honest,travel
+24,02:45,u135,AE,AU,u135-laptop,5,unusual hour + new country,honest,travel
+24,02:53,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+24,02:54,u071,US,US,u071-laptop,0,-,honest,night-shift
+24,03:19,u174,US,US,u174-laptop,0,-,honest,night-shift
+24,03:41,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+24,03:43,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+24,03:51,u014,AU,AU,u014-laptop,2,unusual hour,honest,normal
+24,04:22,u011,DE,DE,u011-phone,0,-,honest,normal
+24,04:32,u074,US,RU,u074-phone,2,unusual hour,honest,travel
+24,04:35,u177,NP,NP,u177-laptop,0,-,honest,normal
+24,04:50,u114,DE,DE,u114-laptop,2,unusual hour,honest,normal
+24,04:53,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+24,04:55,u123,US,US,u123-laptop,0,-,honest,normal
+25,01:00,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+25,01:05,u071,US,US,u071-phone,0,-,honest,night-shift
+25,01:18,u199,NP,NP,u199-laptop,2,unusual hour,honest,normal
+25,01:31,u176,AU,AU,u176-phone,2,unusual hour,honest,normal
+25,01:39,u017,NP,NP,u017-phone,0,-,honest,night-shift
+25,02:47,u174,US,US,u174-phone,0,-,honest,night-shift
+25,02:56,u174,US,US,u174-phone,0,-,honest,night-shift
+25,02:59,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+25,03:02,u051,IN,IN,u051-phone,2,unusual hour,honest,normal
+25,03:03,u067,AE,AE,u067-laptop,2,unusual hour,honest,normal
+25,03:10,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+25,03:25,u111,NP,NP,u111-laptop,2,unusual hour,honest,normal
+25,03:34,u156,AE,AE,u156-laptop,0,-,honest,night-shift
+25,03:38,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+25,03:47,u071,US,US,u071-laptop,0,-,honest,night-shift
+25,03:50,u112,GB,GB,u112-laptop,2,unusual hour,honest,normal
+25,04:05,u047,NP,NP,u047-laptop,2,unusual hour,honest,normal
+25,04:08,u174,US,US,u174-laptop,0,-,honest,night-shift
+25,04:31,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+25,04:39,u110,NP,NP,u110-laptop,2,unusual hour,honest,normal
+25,04:45,u130,NP,NP,u130-laptop,0,-,honest,normal
+26,01:01,u156,AE,AE,u156-phone,0,-,honest,night-shift
+26,01:05,u192,US,US,u192-laptop,0,-,honest,night-shift
+26,01:08,u178,JP,AU,u178-phone,2,unusual hour,honest,travel
+26,01:12,u100,GB,GB,u100-laptop,0,-,honest,normal
+26,01:31,u071,US,US,u071-laptop,0,-,honest,night-shift
+26,01:35,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+26,01:35,u153,US,US,u153-phone,0,-,honest,normal
+26,01:38,u080,IN,IN,u080-phone,2,unusual hour,honest,normal
+26,01:38,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+26,01:39,u017,NP,NP,u017-laptop,0,-,honest,night-shift
+26,01:51,u156,AE,AE,u156-laptop,0,-,honest,night-shift
+26,01:54,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+26,02:13,u046,IN,IN,u046-laptop,2,unusual hour,honest,normal
+26,02:16,u104,JP,JP,u104-phone,0,-,honest,night-shift
+26,02:24,u017,NP,NP,u017-phone,0,-,honest,night-shift
+26,02:37,u156,AE,AE,u156-phone,0,-,honest,night-shift
+26,02:43,u192,US,US,u192-laptop,0,-,honest,night-shift
+26,02:52,u198,US,US,u198-laptop,2,unusual hour,honest,normal
+26,03:17,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+26,03:19,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+26,03:26,u126,AU,BR,attacker-7,7,unusual hour + new country + new device,attack,loud
+26,03:29,u174,US,US,u174-phone,0,-,honest,night-shift
+26,03:30,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+26,03:39,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+26,03:55,u138,AU,AU,u138-laptop,2,unusual hour,honest,normal
+26,03:56,u123,US,US,u123-laptop,2,unusual hour,honest,normal
+26,03:56,u092,US,AE,attacker-3,7,unusual hour + new country + new device,attack,loud
+26,04:14,u011,DE,DE,u011-laptop,0,-,honest,normal
+26,04:28,u174,US,US,u174-phone,0,-,honest,night-shift
+26,04:34,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+26,04:36,u051,IN,IN,u051-phone,0,-,honest,normal
+26,04:47,u135,AE,AU,u135-laptop,2,unusual hour,honest,travel
+26,04:53,u011,DE,DE,u011-laptop,0,-,honest,normal
+27,01:20,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+27,01:31,u024,AE,BR,u024-newphone,0,-,honest,travel
+27,01:33,u061,AU,AU,u061-laptop,2,unusual hour,honest,normal
+27,01:35,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+27,01:41,u065,DE,DE,u065-newphone,2,unusual hour,honest,new-phone
+27,01:42,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+27,01:50,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+27,01:53,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+27,01:56,u156,AE,AE,u156-laptop,0,-,honest,night-shift
+27,01:57,u043,AE,US,u043-laptop,2,unusual hour,honest,travel
+27,02:00,u111,NP,NP,u111-laptop,2,unusual hour,honest,normal
+27,02:03,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+27,02:06,u149,NP,NP,u149-newphone,2,unusual hour,honest,new-phone
+27,02:13,u092,US,US,u092-laptop,2,unusual hour,honest,normal
+27,02:17,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+27,02:30,u017,NP,NP,u017-phone,0,-,honest,new-phone
+27,03:01,u071,US,US,u071-laptop,0,-,honest,night-shift
+27,03:03,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+27,03:10,u174,US,US,u174-laptop,0,-,honest,night-shift
+27,03:10,u156,AE,AE,u156-laptop,0,-,honest,night-shift
+27,03:31,u174,US,US,u174-laptop,0,-,honest,night-shift
+27,03:33,u024,AE,BR,u024-newphone,2,unusual hour,honest,travel
+27,03:35,u104,JP,JP,u104-laptop,0,-,honest,night-shift
+27,03:41,u039,JP,JP,u039-laptop,2,unusual hour,honest,normal
+27,03:53,u051,IN,IN,u051-laptop,0,-,honest,normal
+27,04:19,u118,US,US,u118-laptop,0,-,honest,normal
+27,04:33,u093,DE,DE,u093-phone,2,unusual hour,honest,normal
+28,01:13,u156,AE,AE,u156-phone,0,-,honest,night-shift
+28,01:18,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+28,01:19,u156,AE,AE,u156-phone,0,-,honest,night-shift
+28,01:20,u029,AE,AE,u029-phone,2,unusual hour,honest,normal
+28,01:26,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+28,01:27,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+28,01:41,u132,AU,AU,u132-laptop,0,-,attack,mimic
+28,01:51,u043,AE,US,u043-newphone,2,unusual hour,honest,travel
+28,01:57,u156,AE,AE,u156-phone,0,-,honest,night-shift
+28,02:00,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+28,02:10,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+28,02:16,u043,AE,US,u043-newphone,0,-,honest,travel
+28,02:24,u135,AE,AU,u135-laptop,2,unusual hour,honest,travel
+28,02:38,u008,NP,NP,u008-laptop,2,unusual hour,honest,normal
+28,02:41,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+28,02:43,u174,US,US,u174-phone,0,-,honest,night-shift
+28,02:54,u118,US,US,u118-phone,0,-,honest,normal
+28,03:13,u058,AE,AE,u058-laptop,2,unusual hour,honest,normal
+28,03:34,u087,JP,JP,u087-laptop,2,unusual hour,honest,normal
+28,03:36,u104,JP,JP,u104-phone,0,-,honest,night-shift
+28,03:53,u071,US,US,u071-phone,0,-,honest,night-shift
+28,03:59,u039,JP,JP,u039-laptop,0,-,honest,normal
+28,04:25,u047,NP,NP,u047-laptop,0,-,honest,normal
+29,01:15,u095,US,US,u095-laptop,2,unusual hour,honest,normal
+29,01:18,u123,US,US,u123-laptop,2,unusual hour,honest,normal
+29,01:43,u141,US,US,u141-phone,2,unusual hour,honest,normal
+29,01:47,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+29,01:54,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+29,02:19,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+29,02:25,u156,AE,AE,u156-phone,0,-,honest,night-shift
+29,02:25,u091,DE,DE,u091-laptop,0,-,honest,night-shift
+29,02:27,u098,JP,JP,u098-laptop,0,-,honest,normal
+29,02:29,u174,US,US,u174-laptop,0,-,honest,night-shift
+29,02:32,u104,JP,JP,u104-phone,0,-,honest,night-shift
+29,02:45,u104,JP,JP,u104-phone,0,-,honest,night-shift
+29,02:50,u071,US,US,u071-laptop,0,-,honest,night-shift
+29,03:12,u071,US,US,u071-laptop,0,-,honest,night-shift
+29,03:30,u124,AE,AE,u124-laptop,2,unusual hour,honest,normal
+29,03:41,u104,JP,JP,u104-phone,0,-,honest,night-shift
+29,03:44,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+29,04:04,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+29,04:13,u168,AU,AU,u168-laptop,0,-,honest,normal
+29,04:13,u047,NP,NP,u047-laptop,0,-,honest,normal
+29,04:56,u081,AU,AU,u081-laptop,2,unusual hour,honest,normal
+30,01:04,u076,AU,AU,u076-laptop,0,-,honest,night-shift
+30,01:05,u156,AE,AE,u156-phone,0,-,honest,night-shift
+30,01:07,u040,GB,GB,u040-newphone,2,unusual hour,honest,new-phone
+30,01:13,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+30,01:20,u184,GB,GB,u184-laptop,2,unusual hour,honest,normal
+30,01:26,u162,AU,AU,u162-laptop,0,-,honest,night-shift
+30,01:42,u058,AE,AE,u058-laptop,2,unusual hour,honest,normal
+30,01:50,u156,AE,AE,u156-laptop,0,-,honest,night-shift
+30,01:52,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+30,01:57,u132,AU,AU,u132-laptop,0,-,honest,night-shift
+30,02:19,u121,GB,GB,u121-laptop,0,-,honest,night-shift
+30,02:28,u081,AU,AU,u081-phone,2,unusual hour,honest,normal
+30,02:29,u174,US,US,u174-laptop,0,-,honest,night-shift
+30,02:41,u174,US,US,u174-laptop,0,-,honest,night-shift
+30,02:43,u088,US,US,u088-laptop,2,unusual hour,honest,normal
+30,02:45,u196,GB,GB,u196-laptop,0,-,honest,night-shift
+30,02:53,u174,US,US,u174-phone,0,-,honest,night-shift
+30,02:53,u017,NP,NP,u017-phone,0,-,honest,new-phone
+30,03:03,u176,AU,AU,u176-phone,2,unusual hour,honest,normal
+30,03:10,u017,NP,NP,u017-laptop,0,-,honest,new-phone
+30,03:34,u084,NP,NP,u084-laptop,2,unusual hour,honest,normal
+30,03:37,u071,US,US,u071-phone,0,-,honest,night-shift
+30,03:49,u041,GB,GB,u041-laptop,0,-,honest,normal
+30,03:53,u073,AU,AU,u073-laptop,0,-,honest,night-shift
+30,03:55,u106,JP,JP,u106-phone,2,unusual hour,honest,normal
+30,03:58,u104,JP,JP,u104-phone,0,-,honest,night-shift
+30,04:05,u174,US,US,u174-phone,0,-,honest,night-shift
+30,04:15,u071,US,US,u071-phone,0,-,honest,night-shift
+30,04:28,u131,AE,AE,u131-laptop,2,unusual hour,honest,night-shift
+30,04:29,u011,DE,DE,u011-laptop,0,-,honest,normal
+30,04:57,u076,AU,AU,u076-laptop,2,unusual hour,honest,night-shift

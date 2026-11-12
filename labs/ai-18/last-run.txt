@@ -1,0 +1,23 @@
+# node labs/ai-18/run.mjs, 2026-11-06 15:37 UTC
+Machine: Apple M2 Pro, 12 cores, Node v22.13.1, one thread
+Model: random-weight decoder, d=128, heads=4, layers=2, ffn=512, vocab=1024
+Repetitions: 1 warm-up + 5 measured passes (planned 5)
+A1 48-token answer, cache on : median 39.6 ms (min 39.4, max 40.8)
+A1 48-token answer, cache off: median 577.8 ms (min 573.1, max 581.8)
+A1 same tokens in every run: yes
+A2 uncached step (batch 1): n=8 2.40 ms, n=16 4.65 ms, n=32 9.31 ms, n=64 19.14 ms, n=96 29.73 ms, n=128 40.82 ms
+A3 prefill,  1 prompts: P=8 2.40 ms, P=16 4.65 ms, P=32 9.31 ms
+A3 prefill,  4 prompts: P=8 9.22 ms, P=16 18.25 ms, P=32 36.99 ms
+A3 prefill, 16 prompts: P=8 37.04 ms, P=16 73.18 ms, P=32 147.50 ms
+A4 decode,  1 rows: ctx=8 0.719 ms, ctx=32 0.733 ms, ctx=64 0.759 ms, ctx=127 0.804 ms
+A4 decode,  4 rows: ctx=8 1.464 ms, ctx=32 1.529 ms, ctx=64 1.618 ms, ctx=127 1.787 ms
+A4 decode, 16 rows: ctx=8 5.865 ms, ctx=32 6.166 ms, ctx=64 6.495 ms, ctx=127 7.190 ms
+
+Queue: 1,000 requests at t=0 (simulated time from the measured costs above)
+  one at a time, no KV cache                 median first word 457.94 s, p95 862.27 s, last 903.42 s, all done 903.6 s, 63 tokens/s
+  one at a time, KV cache                    median first word 24.14 s, p95 45.47 s, last 47.71 s, all done 47.7 s, 1192 tokens/s
+  static batches of 16, KV cache             median first word 21.41 s, p95 40.86 s, last 42.86 s, all done 43.2 s, 1319 tokens/s
+  continuous batching (16 slots), KV cache   median first word 13.96 s, p95 26.62 s, last 27.90 s, all done 28.1 s, 2025 tokens/s
+
+Wrote chart.svg and ttft.csv. Measurement 8.6 s, total 8.6 s.
+RESULT {"metrics":[{"name":"kv_off_vs_on_time_ratio","value":14.5996,"unit":"x"},{"name":"kv_on_answer_ms_median","value":39.5733,"unit":"ms"},{"name":"kv_on_answer_ms_min","value":39.4223,"unit":"ms"},{"name":"kv_on_answer_ms_max","value":40.7865,"unit":"ms"},{"name":"kv_off_answer_ms_median","value":577.7562,"unit":"ms"},{"name":"kv_off_answer_ms_min","value":573.1003,"unit":"ms"},{"name":"kv_off_answer_ms_max","value":581.7724,"unit":"ms"},{"name":"measured_reps_per_path","value":5,"unit":"count"},{"name":"same_tokens_cache_on_and_off","value":1,"unit":"bool"},{"name":"decode_step_b1_ctx64","value":0.7587,"unit":"ms"},{"name":"decode_step_b4_ctx64","value":1.6179,"unit":"ms"},{"name":"decode_step_b16_ctx64","value":6.4946,"unit":"ms"},{"name":"decode_throughput_gain_b16_vs_b1_ctx64","value":1.869,"unit":"x"},{"name":"seq_no_cache_median_ttft","value":457.9383,"unit":"s"},{"name":"seq_no_cache_p95_ttft","value":862.2711,"unit":"s"},{"name":"seq_no_cache_all_done","value":903.5711,"unit":"s"},{"name":"seq_no_cache_throughput","value":62.9879,"unit":"tokens/s"},{"name":"seq_cache_median_ttft","value":24.1406,"unit":"s"},{"name":"seq_cache_p95_ttft","value":45.4683,"unit":"s"},{"name":"seq_cache_all_done","value":47.7278,"unit":"s"},{"name":"seq_cache_throughput","value":1192.4708,"unit":"tokens/s"},{"name":"static_16_median_ttft","value":21.4141,"unit":"s"},{"name":"static_16_p95_ttft","value":40.8579,"unit":"s"},{"name":"static_16_all_done","value":43.1653,"unit":"s"},{"name":"static_16_throughput","value":1318.5113,"unit":"tokens/s"},{"name":"continuous_16_median_ttft","value":13.9559,"unit":"s"},{"name":"continuous_16_p95_ttft","value":26.6216,"unit":"s"},{"name":"continuous_16_all_done","value":28.1112,"unit":"s"},{"name":"continuous_16_throughput","value":2024.5988,"unit":"tokens/s"},{"name":"median_ttft_gain_cache_plus_continuous_vs_seq_no_cache","value":32.8132,"unit":"x"},{"name":"median_ttft_gain_cache_only","value":18.9696,"unit":"x"},{"name":"median_ttft_gain_continuous_vs_seq_with_cache","value":1.7298,"unit":"x"},{"name":"measurement_budget_cut","value":0,"unit":"bool"},{"name":"runtime","value":8.6386,"unit":"s"}],"conclusion":"On a tiny toy model on one CPU core, the KV cache finished a 48-token answer 14.6x faster than recomputing, and when 1,000 people arrived at once the median person got their first word 32.8x sooner with the cache plus continuous batching than one at a time without the cache (19.0x sooner from the cache alone, 1.7x sooner from batching alone with the cache on).","setup":"toy random-weight decoder d=128 heads=4 layers=2 ffn=512 vocab=1024; A1 prompt 16 answer 48, 1 warm-up + 5 alternating reps; grids uncached n=8/16/32/64/96/128, prefill B=1/4/16 x P=8/16/32, decode B=1/4/16 x ctx=8/32/64/127 (medians, interpolation inside grid only); queue N=1000 all at t=0, prompts 8-32, answers 16-96 tokens, 16 slots, prefill steps separate from decode steps; seed 18; Apple M2 Pro, Node v22.13.1, single thread"}

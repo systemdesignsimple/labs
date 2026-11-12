@@ -1,0 +1,50 @@
+{
+ "note": "7 back-to-back runs of node run.mjs on one M2 Pro, 2026-11-05. Counts and recall are identical every run; latency is not. output.txt and results.json are run 5, the median-speedup run. The video says about 7 times faster (median 7.36x, range 5.0x to 9.9x).",
+ "median_speedup_x": 7.36,
+ "min": 5,
+ "max": 9.92,
+ "runs": [
+  {
+   "run": 1,
+   "full_scan_avg_ms": 2.11,
+   "hnsw_ef320_avg_ms": 0.213,
+   "speedup_x": 9.92
+  },
+  {
+   "run": 2,
+   "full_scan_avg_ms": 1.718,
+   "hnsw_ef320_avg_ms": 0.278,
+   "speedup_x": 6.18
+  },
+  {
+   "run": 3,
+   "full_scan_avg_ms": 2.111,
+   "hnsw_ef320_avg_ms": 0.249,
+   "speedup_x": 8.49
+  },
+  {
+   "run": 4,
+   "full_scan_avg_ms": 1.78,
+   "hnsw_ef320_avg_ms": 0.215,
+   "speedup_x": 8.29
+  },
+  {
+   "run": 5,
+   "full_scan_avg_ms": 2.175,
+   "hnsw_ef320_avg_ms": 0.296,
+   "speedup_x": 7.36
+  },
+  {
+   "run": 6,
+   "full_scan_avg_ms": 1.53,
+   "hnsw_ef320_avg_ms": 0.306,
+   "speedup_x": 5
+  },
+  {
+   "run": 7,
+   "full_scan_avg_ms": 1.639,
+   "hnsw_ef320_avg_ms": 0.268,
+   "speedup_x": 6.11
+  }
+ ]
+}

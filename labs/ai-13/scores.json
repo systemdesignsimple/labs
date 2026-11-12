@@ -1,0 +1,21 @@
+{
+ "request": "Add \"buy milk\" to my list",
+ "gold": {
+  "tool": "add_task",
+  "args": {
+   "text": "buy milk"
+  }
+ },
+ "clear": {
+  "add_task": 4,
+  "complete_task": 0,
+  "list_tasks": 3,
+  "delete_task": 1
+ },
+ "vague": {
+  "add_task": 2,
+  "complete_task": 0,
+  "list_tasks": 2,
+  "delete_task": 0
+ }
+}

@@ -1,0 +1,67 @@
+{
+ "id": "nodejs-security-lab",
+ "title": "four common Node.js mistakes",
+ "env": "Node.js v22.13.1",
+ "at": "2026-11-06T10:57:23.067Z",
+ "unsafe": "SQL by string concat, path.join(base, name), naive deep merge, execSync with a shell string",
+ "fix": [
+  "db.prepare('... WHERE email = ?').all(email)",
+  "resolve(base, name) and require it to start with base + sep",
+  "merge skips __proto__, constructor, prototype and uses Object.hasOwn",
+  "execFileSync('ls', [path]) with an argument array, no shell"
+ ],
+ "notes": [],
+ "rows": [
+  {
+   "test": "SQL lookup (rows returned)",
+   "input": "a@example.test",
+   "unsafe": 1,
+   "fixed": 1,
+   "kind": "normal"
+  },
+  {
+   "test": "SQL lookup (rows returned)",
+   "input": "x' OR '1'='1",
+   "unsafe": 3,
+   "fixed": 0,
+   "kind": "attack"
+  },
+  {
+   "test": "File download (file reachable)",
+   "input": "hello.txt",
+   "unsafe": true,
+   "fixed": true,
+   "kind": "normal"
+  },
+  {
+   "test": "File download (secret reachable)",
+   "input": "../secret.env",
+   "unsafe": true,
+   "fixed": false,
+   "kind": "attack"
+  },
+  {
+   "test": "JSON settings merge (every object gets isAdmin)",
+   "input": "{\"__proto__\": {\"isAdmin\": true}}",
+   "unsafe": true,
+   "fixed": false,
+   "kind": "attack"
+  },
+  {
+   "test": "ls on a user file name (extra command ran)",
+   "input": "hello.txt; touch <tmp>/injected.txt",
+   "unsafe": true,
+   "fixed": false,
+   "kind": "attack"
+  }
+ ],
+ "counts": {
+  "attacks": 4,
+  "reproduced": 4,
+  "blocked": 4,
+  "normal": 2,
+  "same": 2
+ },
+ "verdict": "FIX WORKS: every attack input reproduced on the unsafe version and was blocked by the fix; normal inputs unchanged",
+ "text": "SDS Security Lab · nodejs-security-lab · four common Node.js mistakes\nNode.js v22.13.1 · 2026-11-06 10:57 UTC · throwaway data, this Mac only\n\n== 1. REPRODUCE: attack inputs against the unsafe version\n   unsafe code: SQL by string concat, path.join(base, name), naive deep merge, execSync with a shell string\n   REPRODUCED  SQL lookup (rows returned): x' OR '1'='1 -> 3\n   REPRODUCED  File download (secret reachable): ../secret.env -> true\n   REPRODUCED  JSON settings merge (every object gets isAdmin): {\"__proto__\": {\"isAdmin\": true}} -> true\n   REPRODUCED  ls on a user file name (extra command ran): hello.txt; touch <tmp>/injected.txt -> true\n\n== 2. EXPERIMENT: attack and normal inputs, both versions\n   test                                         input                                      unsafe     fixed     \n   SQL lookup (rows returned) (normal)          a@example.test                             1          1         \n   SQL lookup (rows returned) (attack)          x' OR '1'='1                               3          0         \n   File download (file reachable) (normal)      hello.txt                                  true       true      \n   File download (secret reachable) (attack)    ../secret.env                              true       false     \n   JSON settings merge (every object gets isAdm {\"__proto__\": {\"isAdmin\": true}}           true       false     \n   ls on a user file name (extra command ran) ( hello.txt; touch <tmp>/injected.txt        true       false     \n\n== 3. FIX\n   + db.prepare('... WHERE email = ?').all(email)\n   + resolve(base, name) and require it to start with base + sep\n   + merge skips __proto__, constructor, prototype and uses Object.hasOwn\n   + execFileSync('ls', [path]) with an argument array, no shell\n   BLOCKED     SQL lookup (rows returned): x' OR '1'='1 -> 0\n   BLOCKED     File download (secret reachable): ../secret.env -> false\n   BLOCKED     JSON settings merge (every object gets isAdmin): {\"__proto__\": {\"isAdmin\": true}} -> false\n   BLOCKED     ls on a user file name (extra command ran): hello.txt; touch <tmp>/injected.txt -> false\n\n== 4. REPORT\n   reproduced on unsafe version : 4/4\n   blocked by the fix           : 4/4\n   normal inputs unchanged      : 2/2\nRESULT: FIX WORKS: every attack input reproduced on the unsafe version and was blocked by the fix; normal inputs unchanged"
+}

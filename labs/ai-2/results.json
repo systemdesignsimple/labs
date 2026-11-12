@@ -1,0 +1,68 @@
+{
+ "lab": "ai-2",
+ "kind": "in-process streaming simulation",
+ "seed": 42,
+ "env": {
+  "node": "v22.13.1",
+  "platform": "darwin arm64",
+  "cpus": "Apple M2 Pro"
+ },
+ "command": "node labs/ai-2/run.mjs",
+ "source": "evidence record, publisher episode_assets id 360 (the PoC the approved script cites); timeline.json is from the same run",
+ "rerun": "2026-11-05 re-run printed 32.2 / 3984.8 / 3987.7 ms (rerun-2026-11-05.txt): timer noise of about 10 ms, same rounding (32 ms, about 4 s)",
+ "metrics": {
+  "stream_time_to_first_text_median": {
+   "value": 31.8,
+   "unit": "ms"
+  },
+  "stream_time_to_first_text_p95": {
+   "value": 39.3,
+   "unit": "ms"
+  },
+  "buffered_time_to_first_text_median": {
+   "value": 3974.8,
+   "unit": "ms"
+  },
+  "buffered_time_to_first_text_p95": {
+   "value": 4062.2,
+   "unit": "ms"
+  },
+  "stream_total_time_median": {
+   "value": 3980.7,
+   "unit": "ms"
+  },
+  "stream_total_time_p95": {
+   "value": 4062.3,
+   "unit": "ms"
+  },
+  "buffered_total_time_median": {
+   "value": 3974.8,
+   "unit": "ms"
+  },
+  "buffered_total_time_p95": {
+   "value": 4062.2,
+   "unit": "ms"
+  },
+  "first_text_sooner_by_streaming": {
+   "value": 3943,
+   "unit": "ms"
+  },
+  "total_time_difference_stream_minus_buffered": {
+   "value": 5.9,
+   "unit": "ms"
+  }
+ },
+ "conclusion": "In this in-process simulation, the client had the first text after a median 31.8 ms when streaming versus 3974.8 ms buffered and total time was within 5% (3980.7 ms vs 3974.8 ms), so here streaming made the text start sooner, not finish sooner.",
+ "setup": "in-process simulated generator, 120 words, 33+/-8 ms per token (seed 42), 20 calls per mode run concurrently, buffered = one JSON body at the end, stream = SSE frame per token, in-process byte streams replace the planned HTTP chunked transport (no network), no model think-time before the first token, times are client text-availability (parsed, not rendered), total-time tolerance 5%, first-text gap must exceed 100 ms and 50% of buffered",
+ "caveats": [
+  "These are synthetic, in-process results, not measurements of an AI model, deployed product, localhost HTTP server, or real network.",
+  "First text means text parsed by the client, not characters rendered or seen by a user. Any animation illustrates arrival timing rather than measured screen rendering.",
+  "The simulation omits model time before the first token, network latency, HTTP behavior, proxy buffering, and browser rendering.",
+  "Twenty concurrent calls per mode share runtime scheduling conditions; they are not isolated sequential measurements. The roughly four-second lab duration is consistent with concurrency.",
+  "With only 20 calls per mode and a fixed seed, p95 estimates are coarse and generalization is limited.",
+  "The 5% threshold is a chosen practical tolerance, not statistical proof that completion times are equivalent.",
+  "The 5.9 ms difference does not establish streaming overhead or its cause; scheduling, simulated delays, and measurement variation may contribute.",
+  "The first-text improvement is a difference between mode medians, not necessarily the median improvement for paired trials.",
+  "The configured tokens are simulated emissions associated with a 120-word answer; they should not be described as a real model's tokenizer units or token throughput."
+ ]
+}

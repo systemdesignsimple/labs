@@ -1,0 +1,47 @@
+{
+ "id": "node-brotli-check-lab",
+ "title": "Node.js Brotli decoder flaw (CVE-2026-111497) check",
+ "env": "Node.js 22.13.1 (installed) vs 22.23.4 (official fixed build)",
+ "at": "2026-11-07T02:33:59.553Z",
+ "unsafe": "Node.js 22.13.1: bundled Brotli decoder before the 2026-10-21 fix (fixed: 22.23.4, 24.22.1, 26.12.1)",
+ "fix": [
+  "upgrade to Node.js 22.23.4 (same major line), restart every process, then check process.versions.node in the running service",
+  "verified here: nodejs.org node-v22.23.4-darwin-arm64 build, SHA-256 matched SHASUMS256.txt, run from a temp folder"
+ ],
+ "notes": [
+  "our own code: 0 Brotli decompression call sites in 329 source files (node_modules excluded); fetch() and dependencies can still decode br",
+  "this lab does not send malformed Brotli data; it proves which build is affected and that normal Brotli use is unchanged after the fix"
+ ],
+ "rows": [
+  {
+   "test": "affected build (/usr/local/bin/node)",
+   "input": "node 22.13.1",
+   "kind": "attack",
+   "unsafe": true,
+   "fixed": false
+  },
+  {
+   "test": "brotli round trip, sync API",
+   "input": "64 JSON rows",
+   "kind": "normal",
+   "unsafe": "ok 7a3d9758",
+   "fixed": "ok 7a3d9758"
+  },
+  {
+   "test": "brotli round trip, sync API",
+   "input": "4096 JSON rows",
+   "kind": "normal",
+   "unsafe": "ok 0b203949",
+   "fixed": "ok 0b203949"
+  }
+ ],
+ "counts": {
+  "attacks": 1,
+  "reproduced": 1,
+  "blocked": 1,
+  "normal": 2,
+  "same": 2
+ },
+ "verdict": "FIX WORKS: every attack input reproduced on the unsafe version and was blocked by the fix; normal inputs unchanged",
+ "text": "SDS Security Lab · node-brotli-check-lab · Node.js Brotli decoder flaw (CVE-2026-111497) check\nNode.js 22.13.1 (installed) vs 22.23.4 (official fixed build) · 2026-11-07 02:33 UTC · throwaway data, our test machine\n\n== 1. REPRODUCE: attack inputs against the unsafe version\n   unsafe code: Node.js 22.13.1: bundled Brotli decoder before the 2026-10-21 fix (fixed: 22.23.4, 24.22.1, 26.12.1)\n   REPRODUCED  affected build (/usr/local/bin/node): node 22.13.1 -> true\n\n== 2. EXPERIMENT: attack and normal inputs, both versions\n   test                                         input                                      unsafe     fixed     \n   affected build (/usr/local/bin/node) (attack node 22.13.1                               true       false     \n   brotli round trip, sync API (normal)         64 JSON rows                               ok 7a3d975 ok 7a3d975\n   brotli round trip, sync API (normal)         4096 JSON rows                             ok 0b20394 ok 0b20394\n\n== 3. FIX\n   + upgrade to Node.js 22.23.4 (same major line), restart every process, then check process.versions.node in the running service\n   + verified here: nodejs.org node-v22.23.4-darwin-arm64 build, SHA-256 matched SHASUMS256.txt, run from a temp folder\n   BLOCKED     affected build (/usr/local/bin/node): node 22.13.1 -> false\n\n== 4. REPORT\n   reproduced on unsafe version : 1/1\n   blocked by the fix           : 1/1\n   normal inputs unchanged      : 2/2\n   note: our own code: 0 Brotli decompression call sites in 329 source files (node_modules excluded); fetch() and dependencies can still decode br\n   note: this lab does not send malformed Brotli data; it proves which build is affected and that normal Brotli use is unchanged after the fix\nRESULT: FIX WORKS: every attack input reproduced on the unsafe version and was blocked by the fix; normal inputs unchanged"
+}

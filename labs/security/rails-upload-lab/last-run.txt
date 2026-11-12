@@ -1,0 +1,93 @@
+# node labs/security/rails-upload-lab/rails-upload-lab.mjs, 2026-11-06 10:34 UTC
+SDS Security Lab · rails-upload-lab · image upload checks and ImageMagick policy.xml
+Node 22.13.1, pure-Node PNG decode/encode, simulated content-sniffing image tool · 2026-11-06 10:34 UTC · throwaway data, this Mac only
+
+== 1. 再現 REPRODUCE: attack inputs against the unsafe version
+   unsafe code: accept when the name has .png/.jpg/.gif or Content-Type is image/*, pass the original bytes to an image tool that reads the format from the content; policy.xml with no rules
+   REPRODUCED  name only: .png with SVG inside: avatar.png (image/png, 83 B) -> accept, tool reads SVG
+   REPRODUCED  name only: .jpg with MVG inside: photo.jpg (image/jpeg, 42 B) -> accept, tool reads MVG
+   REPRODUCED  name only: .gif with PostScript header: anim.gif (image/gif, 41 B) -> accept, tool reads PS
+   REPRODUCED  name only: .png with MSL inside: logo.png (image/png, 53 B) -> accept, tool reads MSL
+   REPRODUCED  double extension: cat.png.svg (image/svg+xml, 41 B) -> accept, tool reads SVG
+   REPRODUCED  Content-Type trusted: notes.txt (image/png, 37 B) -> accept, tool reads TEXT
+   REPRODUCED  real PNG + data after IEND: icon.png (image/png, 121 B) -> accept PNG 8x8, extras 49 B
+   REPRODUCED  real PNG + metadata text chunk: me.png (image/png, 9131 B) -> accept PNG 64x64, extras 51 B
+   REPRODUCED  header claims 50000x50000: big.png (image/png, 69 B) -> accept, tool allocs 10 GB
+   REPRODUCED  policy.xml coder MVG: MVG reader for uploads -> allowed
+   REPRODUCED  policy.xml coder MSL: MSL reader for uploads -> allowed
+   REPRODUCED  policy.xml coder SVG: SVG reader for uploads -> allowed
+   REPRODUCED  policy.xml coder PS: PS reader for uploads -> allowed
+   REPRODUCED  policy.xml coder EPS: EPS reader for uploads -> allowed
+   REPRODUCED  policy.xml coder PDF: PDF reader for uploads -> allowed
+   REPRODUCED  policy.xml coder TEXT: TEXT reader for uploads -> allowed
+   REPRODUCED  policy.xml coder URL: URL reader for uploads -> allowed
+   REPRODUCED  policy.xml coder HTTPS: HTTPS reader for uploads -> allowed
+   REPRODUCED  policy.xml path @file: indirect read @/some/path -> allowed
+   REPRODUCED  policy.xml delegates: external helper programs -> allowed
+   REPRODUCED  policy.xml area limit: pixel area cap -> no limit
+
+== 2. 実験 EXPERIMENT: attack and normal inputs, both versions
+   test                                         input                                      unsafe     fixed     
+   name only: .png with SVG inside (attack)     avatar.png (image/png, 83 B)               accept, to reject: co
+   name only: .jpg with MVG inside (attack)     photo.jpg (image/jpeg, 42 B)               accept, to reject: co
+   name only: .gif with PostScript header (atta anim.gif (image/gif, 41 B)                 accept, to reject: co
+   name only: .png with MSL inside (attack)     logo.png (image/png, 53 B)                 accept, to reject: co
+   double extension (attack)                    cat.png.svg (image/svg+xml, 41 B)          accept, to reject: co
+   Content-Type trusted (attack)                notes.txt (image/png, 37 B)                accept, to reject: co
+   real PNG + data after IEND (attack)          icon.png (image/png, 121 B)                accept PNG accept PNG
+   real PNG + metadata text chunk (attack)      me.png (image/png, 9131 B)                 accept PNG accept PNG
+   header claims 50000x50000 (attack)           big.png (image/png, 69 B)                  accept, to reject: 50
+   normal avatar 64x64 RGBA (normal)            avatar.png (image/png, 9080 B)             accept PNG accept PNG
+   normal banner 1200x300, .PNG (normal)        Banner.PNG (image/png, 170018 B)           accept PNG accept PNG
+   normal screenshot, odd name (normal)         my photo (1).png (application/octet-stream accept PNG accept PNG
+   policy.xml coder MVG (attack)                MVG reader for uploads                     allowed    denied    
+   policy.xml coder MSL (attack)                MSL reader for uploads                     allowed    denied    
+   policy.xml coder SVG (attack)                SVG reader for uploads                     allowed    denied    
+   policy.xml coder PS (attack)                 PS reader for uploads                      allowed    denied    
+   policy.xml coder EPS (attack)                EPS reader for uploads                     allowed    denied    
+   policy.xml coder PDF (attack)                PDF reader for uploads                     allowed    denied    
+   policy.xml coder TEXT (attack)               TEXT reader for uploads                    allowed    denied    
+   policy.xml coder URL (attack)                URL reader for uploads                     allowed    denied    
+   policy.xml coder HTTPS (attack)              HTTPS reader for uploads                   allowed    denied    
+   policy.xml path @file (attack)               indirect read @/some/path                  allowed    denied    
+   policy.xml delegates (attack)                external helper programs                   allowed    denied    
+   policy.xml area limit (attack)               pixel area cap                             no limit   40MP      
+   policy.xml coder PNG (normal)                PNG reader for uploads                     allowed    allowed   
+   policy.xml coder JPEG (normal)               JPEG reader for uploads                    allowed    allowed   
+   policy.xml coder GIF (normal)                GIF reader for uploads                     allowed    allowed   
+   policy.xml coder WEBP (normal)               WEBP reader for uploads                    allowed    allowed   
+
+== 3. 対策 FIX
+   + check magic bytes against an allowlist (PNG here), ignore file name and Content-Type
+   + read width x height from the header and reject > 40 MP before decoding
+   + decode and re-encode to a fresh PNG; store under a server-chosen name
+   + policy.xml: coder rights="none" pattern="*", then rights="read|write" pattern="{PNG,JPEG,GIF,WEBP}"; deny delegates, path "@*"; set width/height/area limits
+   BLOCKED     name only: .png with SVG inside: avatar.png (image/png, 83 B) -> reject: content is SVG
+   BLOCKED     name only: .jpg with MVG inside: photo.jpg (image/jpeg, 42 B) -> reject: content is MVG
+   BLOCKED     name only: .gif with PostScript header: anim.gif (image/gif, 41 B) -> reject: content is PS
+   BLOCKED     name only: .png with MSL inside: logo.png (image/png, 53 B) -> reject: content is MSL
+   BLOCKED     double extension: cat.png.svg (image/svg+xml, 41 B) -> reject: content is SVG
+   BLOCKED     Content-Type trusted: notes.txt (image/png, 37 B) -> reject: content is TEXT
+   BLOCKED     real PNG + data after IEND: icon.png (image/png, 121 B) -> accept PNG 8x8, extras 0 B
+   BLOCKED     real PNG + metadata text chunk: me.png (image/png, 9131 B) -> accept PNG 64x64, extras 0 B
+   BLOCKED     header claims 50000x50000: big.png (image/png, 69 B) -> reject: 50000x50000 > 40 MP
+   BLOCKED     policy.xml coder MVG: MVG reader for uploads -> denied
+   BLOCKED     policy.xml coder MSL: MSL reader for uploads -> denied
+   BLOCKED     policy.xml coder SVG: SVG reader for uploads -> denied
+   BLOCKED     policy.xml coder PS: PS reader for uploads -> denied
+   BLOCKED     policy.xml coder EPS: EPS reader for uploads -> denied
+   BLOCKED     policy.xml coder PDF: PDF reader for uploads -> denied
+   BLOCKED     policy.xml coder TEXT: TEXT reader for uploads -> denied
+   BLOCKED     policy.xml coder URL: URL reader for uploads -> denied
+   BLOCKED     policy.xml coder HTTPS: HTTPS reader for uploads -> denied
+   BLOCKED     policy.xml path @file: indirect read @/some/path -> denied
+   BLOCKED     policy.xml delegates: external helper programs -> denied
+   BLOCKED     policy.xml area limit: pixel area cap -> 40MP
+
+== 4. レポート REPORT
+   reproduced on unsafe version : 21/21
+   blocked by the fix           : 21/21
+   normal inputs unchanged      : 7/7
+   note: this Mac: ImageMagick not installed (nothing to check here). On your servers run: magick -version ; magick -list policy
+   note: Rails: for the CVE number and fixed versions use the official Rails security announcement / rails GitHub advisory
+RESULT: FIX WORKS: every attack input reproduced on the unsafe version and was blocked by the fix; normal inputs unchanged

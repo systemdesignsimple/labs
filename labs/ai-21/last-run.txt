@@ -1,0 +1,81 @@
+# node labs/ai-21/run.mjs, 2026-11-06 21:42 UTC
+Lab ai-21: two-bucket rate limiter simulation (made-up limits, simulated clock)
+Limits: 6 requests/min, 10000 tokens/min, both refill continuously.
+
+--- Run 1: no retry (a 429 becomes an error the user sees) ---
+[no-retry  ] t=  0.00s short     send #1        try=0 in=  130 out= 344 -> 200  rpm_left=5 tpm_left=9526
+[no-retry  ] t=  8.94s short     send #2        try=0 in=  130 out= 344 -> 200  rpm_left=4.89 tpm_left=9526
+[no-retry  ] t= 17.88s short     send #3        try=0 in=  130 out= 344 -> 200  rpm_left=4.79 tpm_left=9526
+[no-retry  ] t=  0.00s long-chat send #1        try=0 in= 8151 out= 344 -> 200  rpm_left=5 tpm_left=1505
+[no-retry  ] t=  8.94s long-chat send #2        try=0 in= 8151 out= 344 -> 429 (tokens)  rpm_left=5.89 tpm_left=2995
+[no-retry  ] t= 13.94s long-chat send #3        try=0 in= 8151 out= 344 -> 429 (tokens)  rpm_left=6 tpm_left=3828
+[no-retry  ] t=  0.00s agent     model call 1   try=0 in=  608 out=  68 -> 200  rpm_left=5 tpm_left=9324
+[no-retry  ] t=  1.48s agent     model call 2   try=0 in=  863 out=  69 -> 200  rpm_left=4.15 tpm_left=8639
+[no-retry  ] t=  2.97s agent     model call 3   try=0 in= 1122 out=  73 -> 200  rpm_left=3.3 tpm_left=7692
+[no-retry  ] t=  4.50s agent     model call 4   try=0 in= 1396 out=  70 -> 200  rpm_left=2.45 tpm_left=6481
+[no-retry  ] t=  6.00s agent     model call 5   try=0 in= 1661 out=  68 -> 200  rpm_left=1.6 tpm_left=5002
+[no-retry  ] t=  7.48s agent     model call 6   try=0 in= 1927 out=  70 -> 200  rpm_left=0.75 tpm_left=3252
+[no-retry  ] t=  8.98s agent     model call 7   try=0 in= 2190 out=  73 -> 429 (requests)  rpm_left=0.9 tpm_left=3502
+
+--- Run 2: retry with exponential backoff and full jitter ---
+[backoff   ] t=  0.00s short     send #1        try=0 in=  130 out= 344 -> 200  rpm_left=5 tpm_left=9526
+[backoff   ] t=  8.94s short     send #2        try=0 in=  130 out= 344 -> 200  rpm_left=4.89 tpm_left=9526
+[backoff   ] t= 17.88s short     send #3        try=0 in=  130 out= 344 -> 200  rpm_left=4.79 tpm_left=9526
+[backoff   ] t=  0.00s long-chat send #1        try=0 in= 8151 out= 344 -> 200  rpm_left=5 tpm_left=1505
+[backoff   ] t=  8.94s long-chat send #2        try=0 in= 8151 out= 344 -> 429 (tokens)  rpm_left=5.89 tpm_left=2995
+[backoff   ] t=  9.07s long-chat send #2        try=1 in= 8151 out= 344 -> 429 (tokens)  rpm_left=5.91 tpm_left=3016
+[backoff   ] t= 11.00s long-chat send #2        try=2 in= 8151 out= 344 -> 429 (tokens)  rpm_left=6 tpm_left=3338
+[backoff   ] t= 11.87s long-chat send #2        try=3 in= 8151 out= 344 -> 429 (tokens)  rpm_left=6 tpm_left=3483
+[backoff   ] t= 15.83s long-chat send #2        try=4 in= 8151 out= 344 -> 429 (tokens)  rpm_left=6 tpm_left=4143
+[backoff   ] t= 21.65s long-chat send #2        try=5 in= 8151 out= 344 -> 429 (tokens)  rpm_left=6 tpm_left=5114
+[backoff   ] t= 30.53s long-chat send #2        try=6 in= 8151 out= 344 -> 429 (tokens)  rpm_left=6 tpm_left=6593
+[backoff   ] t= 45.15s long-chat send #2        try=7 in= 8151 out= 344 -> 200  rpm_left=5 tpm_left=535
+[backoff   ] t= 54.09s long-chat send #3        try=0 in= 8151 out= 344 -> 429 (tokens)  rpm_left=5.89 tpm_left=2025
+[backoff   ] t= 54.45s long-chat send #3        try=1 in= 8151 out= 344 -> 429 (tokens)  rpm_left=5.93 tpm_left=2085
+[backoff   ] t= 55.00s long-chat send #3        try=2 in= 8151 out= 344 -> 429 (tokens)  rpm_left=5.98 tpm_left=2177
+[backoff   ] t= 55.43s long-chat send #3        try=3 in= 8151 out= 344 -> 429 (tokens)  rpm_left=6 tpm_left=2248
+[backoff   ] t= 57.02s long-chat send #3        try=4 in= 8151 out= 344 -> 429 (tokens)  rpm_left=6 tpm_left=2514
+[backoff   ] t= 67.72s long-chat send #3        try=5 in= 8151 out= 344 -> 429 (tokens)  rpm_left=6 tpm_left=4297
+[backoff   ] t= 86.25s long-chat send #3        try=6 in= 8151 out= 344 -> 429 (tokens)  rpm_left=6 tpm_left=7385
+[backoff   ] t=106.96s long-chat send #3        try=7 in= 8151 out= 344 -> 200  rpm_left=5 tpm_left=1505
+[backoff   ] t=  0.00s agent     model call 1   try=0 in=  608 out=  68 -> 200  rpm_left=5 tpm_left=9324
+[backoff   ] t=  1.48s agent     model call 2   try=0 in=  863 out=  69 -> 200  rpm_left=4.15 tpm_left=8639
+[backoff   ] t=  2.97s agent     model call 3   try=0 in= 1122 out=  73 -> 200  rpm_left=3.3 tpm_left=7692
+[backoff   ] t=  4.50s agent     model call 4   try=0 in= 1396 out=  70 -> 200  rpm_left=2.45 tpm_left=6481
+[backoff   ] t=  6.00s agent     model call 5   try=0 in= 1661 out=  68 -> 200  rpm_left=1.6 tpm_left=5002
+[backoff   ] t=  7.48s agent     model call 6   try=0 in= 1927 out=  70 -> 200  rpm_left=0.75 tpm_left=3252
+[backoff   ] t=  8.98s agent     model call 7   try=0 in= 2190 out=  73 -> 429 (requests)  rpm_left=0.9 tpm_left=3502
+[backoff   ] t=  9.91s agent     model call 7   try=1 in= 2190 out=  73 -> 429 (requests)  rpm_left=0.99 tpm_left=3657
+[backoff   ] t= 11.52s agent     model call 7   try=2 in= 2190 out=  73 -> 200  rpm_left=0.15 tpm_left=1662
+[backoff   ] t= 13.05s agent     model call 8   try=0 in= 2456 out=  69 -> 429 (requests+tokens)  rpm_left=0.3 tpm_left=1917
+[backoff   ] t= 13.40s agent     model call 8   try=1 in= 2456 out=  69 -> 429 (requests+tokens)  rpm_left=0.34 tpm_left=1975
+[backoff   ] t= 14.42s agent     model call 8   try=2 in= 2456 out=  69 -> 429 (requests+tokens)  rpm_left=0.44 tpm_left=2145
+[backoff   ] t= 15.85s agent     model call 8   try=3 in= 2456 out=  69 -> 429 (requests+tokens)  rpm_left=0.58 tpm_left=2384
+[backoff   ] t= 21.10s agent     model call 8   try=4 in= 2456 out=  69 -> 200  rpm_left=0.11 tpm_left=733
+[backoff   ] t= 22.59s agent     model call 9   try=0 in= 2723 out=  65 -> 429 (requests+tokens)  rpm_left=0.26 tpm_left=981
+[backoff   ] t= 22.90s agent     model call 9   try=1 in= 2723 out=  65 -> 429 (requests+tokens)  rpm_left=0.29 tpm_left=1034
+[backoff   ] t= 23.62s agent     model call 9   try=2 in= 2723 out=  65 -> 429 (requests+tokens)  rpm_left=0.36 tpm_left=1154
+[backoff   ] t= 24.31s agent     model call 9   try=3 in= 2723 out=  65 -> 429 (requests+tokens)  rpm_left=0.43 tpm_left=1269
+[backoff   ] t= 28.03s agent     model call 9   try=4 in= 2723 out=  65 -> 429 (requests+tokens)  rpm_left=0.8 tpm_left=1889
+[backoff   ] t= 37.34s agent     model call 9   try=5 in= 2723 out=  65 -> 200  rpm_left=0.73 tpm_left=653
+[backoff   ] t= 38.79s agent     model call 10  try=0 in= 2993 out= 200 -> 429 (requests+tokens)  rpm_left=0.88 tpm_left=894
+[backoff   ] t= 39.29s agent     model call 10  try=1 in= 2993 out= 200 -> 429 (requests+tokens)  rpm_left=0.93 tpm_left=977
+[backoff   ] t= 40.62s agent     model call 10  try=2 in= 2993 out= 200 -> 429 (tokens)  rpm_left=1.06 tpm_left=1199
+[backoff   ] t= 42.60s agent     model call 10  try=3 in= 2993 out= 200 -> 429 (tokens)  rpm_left=1.26 tpm_left=1529
+[backoff   ] t= 44.40s agent     model call 10  try=4 in= 2993 out= 200 -> 429 (tokens)  rpm_left=1.44 tpm_left=1829
+[backoff   ] t= 59.34s agent     model call 10  try=5 in= 2993 out= 200 -> 200  rpm_left=1.93 tpm_left=1125
+
+--- Summary ---
+(All token numbers are approximate charges from the lab's fixed rule, not a provider tokenizer.)
+Short question: ~474 tokens per message, 3/3 sends passed.
+Long chat: ~8495 tokens per message (17.9x the short question), still 1 request each.
+  First 429 on send #2, reason=tokens, rpm_left=5.89 of 6, tpm_left=2995.
+Agent: one message, 10 model calls planned.
+  No retry: 7 requests attempted, 6 succeeded, 1 rejected.
+  First 429 on model call 7, reason=requests, rpm_left=0.9, tpm_left=3502.
+  Backoff: 26 requests attempted, 10 succeeded, 16 rejected, 16 retries, 45.9s waited.
+Without retry: 3/7 user messages ended in an error.
+With backoff: 0/7 ended in an error; total wait 135.0s across all messages, longest wait for one user message 52.9s, longest recovery of one model call 52.9s.
+Simulation only: the shape of the effect, not any real provider's limits or timings.
+
+RESULT {"metrics":[{"name":"short_question_approx_tokens_per_message","value":474,"unit":"approx tokens (lab rule, not a provider tokenizer)"},{"name":"long_chat_approx_tokens_per_message","value":8495,"unit":"approx tokens (lab rule, not a provider tokenizer)"},{"name":"long_chat_vs_short_approx_token_ratio","value":17.9,"unit":"x"},{"name":"long_chat_first_429_send","value":2,"unit":"send number (0 = none)"},{"name":"long_chat_requests_left_at_first_429","value":5.9,"unit":"requests of 6/min"},{"name":"agent_planned_model_calls_per_message","value":10,"unit":"planned calls (config)"},{"name":"agent_attempted_requests_no_retry","value":7,"unit":"requests sent (from log)"},{"name":"agent_successful_calls_no_retry","value":6,"unit":"calls with 200"},{"name":"agent_attempted_requests_with_backoff","value":26,"unit":"requests sent incl. retries (from log)"},{"name":"agent_successful_calls_with_backoff","value":10,"unit":"calls with 200"},{"name":"agent_retry_attempts_with_backoff","value":16,"unit":"retries"},{"name":"agent_approx_tokens_per_message_with_backoff","value":18764,"unit":"approx tokens (successful calls only)"},{"name":"failed_messages_without_retry","value":3,"unit":"messages of 7"},{"name":"failed_messages_with_backoff","value":0,"unit":"messages of 7"},{"name":"backoff_total_wait_all_messages","value":135,"unit":"seconds (sum over all messages)"},{"name":"backoff_longest_wait_one_user_message","value":52.9,"unit":"seconds"},{"name":"backoff_agent_message_wait","value":45.9,"unit":"seconds (sum over its model calls)"},{"name":"backoff_longest_single_call_recovery","value":52.9,"unit":"seconds (one model call)"}],"conclusion":"In this simulation one long-chat message cost 17.9x the approximate tokens of a short question, so send #2 got a 429 on tokens with 5.9 of 6 requests still free, one agent message planned 10 model calls but without retry sent 7 requests, 6 succeeded and call 7 got a 429 on requests, and with backoff the agent sent 26 requests (16 retries) for 10 successful calls, failed messages went from 3 to 0, and waiting totalled 135.0s across all messages (longest for one user message 52.9s).","setup":"simulated clock, seed 21; two token buckets 6 RPM and 10000 TPM (made-up, not a provider's limits), continuous refill, rejected requests spend nothing, input+output tokens charged up front; token charges are approximate (stdlib-only rule: 1 token per started 4 letters, 1 per 3 digits, 1 per symbol, 4 per message), not a provider tokenizer; 3 sends per chat scenario with 5s think time; long chat resends 45 earlier turns; agent plans 10 model calls with growing context and stops at a call that still fails; backoff base 1s, cap 30s, 8 retries, full jitter"}

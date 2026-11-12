@@ -1,0 +1,16 @@
+test                         L4 (A/B)      L7 (A/B)
+1 kept-open connection       0/1000        500/500
+50 new connections           400/600       500/500
+mixed /api + /images          660/340      339/661
+/images rule followed        32.9%         100%   (322 image requests)
+routing decisions (test 1)   1             1000
+
+measured processing time per request, in-process, 200 samples of 2000 requests (median / p90 of samples, ns)
+  direct       1056 / 1080
+  L4           1097 / 1121
+  L7parse      2266 / 2313
+  L7full       2722 / 2775
+  L4 over direct (copy + lookup)        41 ns
+  L7 over L4, total proxy overhead      1625 ns  = parse + route 1169 ns + rebuild 456 ns
+run time                     3487 ms
+RESULT {"metrics":[{"name":"L4 one kept-open connection: requests to busiest backend","value":100,"unit":"%"},{"name":"L7 one kept-open connection: requests to busiest backend","value":50,"unit":"%"},{"name":"L4 50 new connections: requests to busiest backend","value":60,"unit":"%"},{"name":"L7 50 new connections: requests to busiest backend","value":50,"unit":"%"},{"name":"L4 routing decisions for 1,000 requests on 1 connection","value":1,"unit":"decisions"},{"name":"L7 routing decisions for 1,000 requests on 1 connection","value":1000,"unit":"decisions"},{"name":"L4 /images requests sent to B (rule)","value":32.9,"unit":"%"},{"name":"L7 /images requests sent to B (rule)","value":100,"unit":"%"},{"name":"Measured processing time per request, direct to backend (median)","value":1056,"unit":"ns"},{"name":"Measured processing time per request, through L4 (median)","value":1097,"unit":"ns"},{"name":"Measured processing time per request, through L7 full (median)","value":2722,"unit":"ns"},{"name":"Measured processing time per request, through L7 full (p90 of samples)","value":2775,"unit":"ns"},{"name":"L7 total proxy overhead over L4 (median difference)","value":1625,"unit":"ns"},{"name":"of which: parse + route (L7 parse-only minus L4)","value":1169,"unit":"ns"},{"name":"of which: rebuild upstream request (L7 full minus L7 parse-only)","value":456,"unit":"ns"},{"name":"L4 overhead over direct (copy + table lookup)","value":41,"unit":"ns"}],"conclusion":"On one kept-open connection L4 sent 100% of 1,000 requests to one backend after a single decision while L7 made 1000 decisions and split them 500/500, only L7 followed the /images rule (100% vs 32.9% by chance for L4), and in this in-process JavaScript measurement the full L7 path used 1625 ns more processing time per request than L4 at the median (2.5x; parse + route 1169 ns, rebuild 456 ns), which is in-process processing time on this machine, not network latency.","setup":"In-process simulation, seed 17, Node v22.13.1, darwin/arm64; 2 backends (A, B); routing tests of 1000 requests each: 1 kept-open connection, 50 new connections, 50 connections with 30% /images paths; real HTTP/1.1 bytes cut into 64 to 1460 byte segments; L4 = hash of source ip:port once per connection, bytes copied unread; L7 = per-request parse, round robin, /images/* to B, request rebuilt with X-Forwarded-For; timing = 40 warmup + 200 timed interleaved samples per path of 2000 identical seeded requests, performance.now(), backend parse included in every path, no responses, no network, no TLS."}

@@ -1,0 +1,26 @@
+# node labs/security/node-brotli-check-lab/node-brotli-check-lab.mjs, 2026-11-07 02:33 UTC
+SDS Security Lab · node-brotli-check-lab · Node.js Brotli decoder flaw (CVE-2026-111497) check
+Node.js 22.13.1 (installed) vs 22.23.4 (official fixed build) · 2026-11-07 02:33 UTC · throwaway data, our test machine
+
+== 1. REPRODUCE: attack inputs against the unsafe version
+   unsafe code: Node.js 22.13.1: bundled Brotli decoder before the 2026-10-21 fix (fixed: 22.23.4, 24.22.1, 26.12.1)
+   REPRODUCED  affected build (/usr/local/bin/node): node 22.13.1 -> true
+
+== 2. EXPERIMENT: attack and normal inputs, both versions
+   test                                         input                                      unsafe     fixed     
+   affected build (/usr/local/bin/node) (attack node 22.13.1                               true       false     
+   brotli round trip, sync API (normal)         64 JSON rows                               ok 7a3d975 ok 7a3d975
+   brotli round trip, sync API (normal)         4096 JSON rows                             ok 0b20394 ok 0b20394
+
+== 3. FIX
+   + upgrade to Node.js 22.23.4 (same major line), restart every process, then check process.versions.node in the running service
+   + verified here: nodejs.org node-v22.23.4-darwin-arm64 build, SHA-256 matched SHASUMS256.txt, run from a temp folder
+   BLOCKED     affected build (/usr/local/bin/node): node 22.13.1 -> false
+
+== 4. REPORT
+   reproduced on unsafe version : 1/1
+   blocked by the fix           : 1/1
+   normal inputs unchanged      : 2/2
+   note: our own code: 0 Brotli decompression call sites in 329 source files (node_modules excluded); fetch() and dependencies can still decode br
+   note: this lab does not send malformed Brotli data; it proves which build is affected and that normal Brotli use is unchanged after the fix
+RESULT: FIX WORKS: every attack input reproduced on the unsafe version and was blocked by the fix; normal inputs unchanged

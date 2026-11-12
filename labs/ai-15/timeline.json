@@ -1,0 +1,37 @@
+{
+  "stepMs": 50,
+  "runs": [
+    {
+      "setup": "A no barge-in",
+      "userStartMs": 2587,
+      "userEndMs": 3437,
+      "detectMs": null,
+      "stopMs": 8000,
+      "replyEndMs": 8000
+    },
+    {
+      "setup": "B stream + VAD 12 dB",
+      "userStartMs": 2587,
+      "userEndMs": 3437,
+      "detectMs": 2740,
+      "stopMs": 2800,
+      "replyEndMs": 8000
+    },
+    {
+      "setup": "C stream + VAD 6 dB",
+      "userStartMs": 2587,
+      "userEndMs": 3437,
+      "detectMs": 2680,
+      "stopMs": 2700,
+      "replyEndMs": 8000
+    },
+    {
+      "setup": "C stream + VAD 18 dB",
+      "userStartMs": 2587,
+      "userEndMs": 3437,
+      "detectMs": 2780,
+      "stopMs": 2800,
+      "replyEndMs": 8000
+    }
+  ]
+}

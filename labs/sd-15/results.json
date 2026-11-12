@@ -1,0 +1,66 @@
+{
+  "lab": "sd-15 load balancer vs reverse proxy",
+  "note": "Discrete event simulation on a virtual clock. Shows the shape of the effect, not production numbers.",
+  "params": {
+    "seed": 15,
+    "requests": 2000,
+    "concurrency": 30,
+    "serviceMs": 20,
+    "backendCapacity": 4,
+    "backends": 3,
+    "hopMs": 0.2,
+    "cacheTtlMs": 5000,
+    "hotShare": 0.8,
+    "hotPath": "/home",
+    "hotRequestsInWorkload": 1602
+  },
+  "setups": {
+    "A": {
+      "setup": "A direct, 1 server",
+      "requests": 2000,
+      "totalMs": 10000,
+      "p50Ms": 140,
+      "p95Ms": 160,
+      "perBackend": {
+        "server-1": 2000
+      },
+      "maxQueue": {
+        "server-1": 26
+      }
+    },
+    "B": {
+      "setup": "B load balancer, 3 servers",
+      "requests": 2000,
+      "totalMs": 3340.4,
+      "p50Ms": 40.4,
+      "p95Ms": 60,
+      "perBackend": {
+        "server-1": 667,
+        "server-2": 667,
+        "server-3": 666
+      },
+      "maxQueue": {
+        "server-1": 6,
+        "server-2": 6,
+        "server-3": 6
+      }
+    },
+    "C": {
+      "setup": "C reverse proxy + cache, 1 server",
+      "requests": 2000,
+      "totalMs": 2120.4,
+      "p50Ms": 0.4,
+      "p95Ms": 158,
+      "perBackend": {
+        "server-1": 424
+      },
+      "maxQueue": {
+        "server-1": 26
+      },
+      "cacheHits": 1576,
+      "cacheMisses": 424,
+      "hotPageMisses": 26,
+      "cacheHitRate": 78.8
+    }
+  }
+}
