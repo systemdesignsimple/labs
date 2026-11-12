@@ -1,0 +1,182 @@
+{
+ "command": "node run.mjs",
+ "env": {
+  "node": "v22.13.1",
+  "platform": "darwin arm64",
+  "cpus": "Apple M2 Pro"
+ },
+ "metrics": [
+  {
+   "name": "kv_off_vs_on_time_ratio",
+   "value": 14.4695,
+   "unit": "x"
+  },
+  {
+   "name": "kv_on_answer_ms_median",
+   "value": 39.1897,
+   "unit": "ms"
+  },
+  {
+   "name": "kv_on_answer_ms_min",
+   "value": 39.1385,
+   "unit": "ms"
+  },
+  {
+   "name": "kv_on_answer_ms_max",
+   "value": 39.2182,
+   "unit": "ms"
+  },
+  {
+   "name": "kv_off_answer_ms_median",
+   "value": 567.0532,
+   "unit": "ms"
+  },
+  {
+   "name": "kv_off_answer_ms_min",
+   "value": 566.4722,
+   "unit": "ms"
+  },
+  {
+   "name": "kv_off_answer_ms_max",
+   "value": 575.7237,
+   "unit": "ms"
+  },
+  {
+   "name": "measured_reps_per_path",
+   "value": 5,
+   "unit": "count"
+  },
+  {
+   "name": "same_tokens_cache_on_and_off",
+   "value": 1,
+   "unit": "bool"
+  },
+  {
+   "name": "decode_step_b1_ctx64",
+   "value": 0.751,
+   "unit": "ms"
+  },
+  {
+   "name": "decode_step_b4_ctx64",
+   "value": 1.596,
+   "unit": "ms"
+  },
+  {
+   "name": "decode_step_b16_ctx64",
+   "value": 6.4821,
+   "unit": "ms"
+  },
+  {
+   "name": "decode_throughput_gain_b16_vs_b1_ctx64",
+   "value": 1.8536,
+   "unit": "x"
+  },
+  {
+   "name": "seq_no_cache_median_ttft",
+   "value": 452.2112,
+   "unit": "s"
+  },
+  {
+   "name": "seq_no_cache_p95_ttft",
+   "value": 851.4896,
+   "unit": "s"
+  },
+  {
+   "name": "seq_no_cache_all_done",
+   "value": 892.2748,
+   "unit": "s"
+  },
+  {
+   "name": "seq_no_cache_throughput",
+   "value": 63.7853,
+   "unit": "tokens/s"
+  },
+  {
+   "name": "seq_cache_median_ttft",
+   "value": 23.9302,
+   "unit": "s"
+  },
+  {
+   "name": "seq_cache_p95_ttft",
+   "value": 45.0721,
+   "unit": "s"
+  },
+  {
+   "name": "seq_cache_all_done",
+   "value": 47.3122,
+   "unit": "s"
+  },
+  {
+   "name": "seq_cache_throughput",
+   "value": 1202.9456,
+   "unit": "tokens/s"
+  },
+  {
+   "name": "static_16_median_ttft",
+   "value": 21.2212,
+   "unit": "s"
+  },
+  {
+   "name": "static_16_p95_ttft",
+   "value": 40.4898,
+   "unit": "s"
+  },
+  {
+   "name": "static_16_all_done",
+   "value": 42.7763,
+   "unit": "s"
+  },
+  {
+   "name": "static_16_throughput",
+   "value": 1330.5036,
+   "unit": "tokens/s"
+  },
+  {
+   "name": "continuous_16_median_ttft",
+   "value": 13.8247,
+   "unit": "s"
+  },
+  {
+   "name": "continuous_16_p95_ttft",
+   "value": 26.3705,
+   "unit": "s"
+  },
+  {
+   "name": "continuous_16_all_done",
+   "value": 27.846,
+   "unit": "s"
+  },
+  {
+   "name": "continuous_16_throughput",
+   "value": 2043.881,
+   "unit": "tokens/s"
+  },
+  {
+   "name": "median_ttft_gain_cache_plus_continuous_vs_seq_no_cache",
+   "value": 32.7104,
+   "unit": "x"
+  },
+  {
+   "name": "median_ttft_gain_cache_only",
+   "value": 18.8971,
+   "unit": "x"
+  },
+  {
+   "name": "median_ttft_gain_continuous_vs_seq_with_cache",
+   "value": 1.731,
+   "unit": "x"
+  },
+  {
+   "name": "measurement_budget_cut",
+   "value": 0,
+   "unit": "bool"
+  },
+  {
+   "name": "runtime",
+   "value": 8.5341,
+   "unit": "s"
+  }
+ ],
+ "conclusion": "On a tiny toy model on one CPU core, the KV cache finished a 48-token answer 14.5x faster than recomputing, and when 1,000 people arrived at once the median person got their first word 32.7x sooner with the cache plus continuous batching than one at a time without the cache (18.9x sooner from the cache alone, 1.7x sooner from batching alone with the cache on).",
+ "setup": "toy random-weight decoder d=128 heads=4 layers=2 ffn=512 vocab=1024; A1 prompt 16 answer 48, 1 warm-up + 5 alternating reps; grids uncached n=8/16/32/64/96/128, prefill B=1/4/16 x P=8/16/32, decode B=1/4/16 x ctx=8/32/64/127 (medians, interpolation inside grid only); queue N=1000 all at t=0, prompts 8-32, answers 16-96 tokens, 16 slots, prefill steps separate from decode steps; seed 18; Apple M2 Pro, Node v22.13.1, single thread"
+}

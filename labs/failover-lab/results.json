@@ -1,0 +1,186 @@
+{
+  "metrics": [
+    {
+      "name": "active-passive failed requests (median)",
+      "value": 111,
+      "unit": "requests"
+    },
+    {
+      "name": "active-passive failed requests (min)",
+      "value": 102,
+      "unit": "requests"
+    },
+    {
+      "name": "active-passive failed requests (max)",
+      "value": 148,
+      "unit": "requests"
+    },
+    {
+      "name": "active-passive outage gap (first failure to first success of any request) (median)",
+      "value": 2217.2,
+      "unit": "ms"
+    },
+    {
+      "name": "active-passive outage gap (first failure to first success of any request) (min)",
+      "value": 2101.1,
+      "unit": "ms"
+    },
+    {
+      "name": "active-passive outage gap (first failure to first success of any request) (max)",
+      "value": 2994.8,
+      "unit": "ms"
+    },
+    {
+      "name": "active-passive recovery latency (first failure to first success of a newly sent request) (median)",
+      "value": 2217.2,
+      "unit": "ms"
+    },
+    {
+      "name": "active-passive recovery latency (first failure to first success of a newly sent request) (min)",
+      "value": 2101.1,
+      "unit": "ms"
+    },
+    {
+      "name": "active-passive recovery latency (first failure to first success of a newly sent request) (max)",
+      "value": 2994.8,
+      "unit": "ms"
+    },
+    {
+      "name": "active-passive p95 latency before kill (median)",
+      "value": 92.2,
+      "unit": "ms"
+    },
+    {
+      "name": "active-passive p95 latency before kill (min)",
+      "value": 82.2,
+      "unit": "ms"
+    },
+    {
+      "name": "active-passive p95 latency before kill (max)",
+      "value": 126.1,
+      "unit": "ms"
+    },
+    {
+      "name": "active-passive p95 latency first second after takeover (median)",
+      "value": 259.2,
+      "unit": "ms"
+    },
+    {
+      "name": "active-passive p95 latency first second after takeover (min)",
+      "value": 250.3,
+      "unit": "ms"
+    },
+    {
+      "name": "active-passive p95 latency first second after takeover (max)",
+      "value": 353.3,
+      "unit": "ms"
+    },
+    {
+      "name": "active-passive p95 latency steady after kill (median)",
+      "value": 90.3,
+      "unit": "ms"
+    },
+    {
+      "name": "active-passive p95 latency steady after kill (min)",
+      "value": 80.6,
+      "unit": "ms"
+    },
+    {
+      "name": "active-passive p95 latency steady after kill (max)",
+      "value": 93.1,
+      "unit": "ms"
+    },
+    {
+      "name": "active-active failed requests (median)",
+      "value": 1,
+      "unit": "requests"
+    },
+    {
+      "name": "active-active failed requests (min)",
+      "value": 1,
+      "unit": "requests"
+    },
+    {
+      "name": "active-active failed requests (max)",
+      "value": 1,
+      "unit": "requests"
+    },
+    {
+      "name": "active-active outage gap (first failure to first success of any request) (median)",
+      "value": 35.9,
+      "unit": "ms"
+    },
+    {
+      "name": "active-active outage gap (first failure to first success of any request) (min)",
+      "value": 0.9,
+      "unit": "ms"
+    },
+    {
+      "name": "active-active outage gap (first failure to first success of any request) (max)",
+      "value": 80.3,
+      "unit": "ms"
+    },
+    {
+      "name": "active-active recovery latency (first failure to first success of a newly sent request) (median)",
+      "value": 53.3,
+      "unit": "ms"
+    },
+    {
+      "name": "active-active recovery latency (first failure to first success of a newly sent request) (min)",
+      "value": 35.9,
+      "unit": "ms"
+    },
+    {
+      "name": "active-active recovery latency (first failure to first success of a newly sent request) (max)",
+      "value": 80.3,
+      "unit": "ms"
+    },
+    {
+      "name": "active-active p95 latency before kill (median)",
+      "value": 79.1,
+      "unit": "ms"
+    },
+    {
+      "name": "active-active p95 latency before kill (min)",
+      "value": 75.5,
+      "unit": "ms"
+    },
+    {
+      "name": "active-active p95 latency before kill (max)",
+      "value": 85.1,
+      "unit": "ms"
+    },
+    {
+      "name": "active-active p95 latency first second after takeover (median)",
+      "value": 78.3,
+      "unit": "ms"
+    },
+    {
+      "name": "active-active p95 latency first second after takeover (min)",
+      "value": 66.5,
+      "unit": "ms"
+    },
+    {
+      "name": "active-active p95 latency first second after takeover (max)",
+      "value": 106,
+      "unit": "ms"
+    },
+    {
+      "name": "active-active p95 latency steady after kill (median)",
+      "value": 87.8,
+      "unit": "ms"
+    },
+    {
+      "name": "active-active p95 latency steady after kill (min)",
+      "value": 81.5,
+      "unit": "ms"
+    },
+    {
+      "name": "active-active p95 latency steady after kill (max)",
+      "value": 94.8,
+      "unit": "ms"
+    }
+  ],
+  "conclusion": "Killing the primary cost active-passive a median 111 failed requests over a 2217.2 ms gap with no successes, while active-active lost only 1 and kept serving (gap 35.9 ms), but its surviving server's p95 latency rose from 79.1 ms to 87.8 ms under double load.",
+  "setup": "in-process simulation, virtual clock; 50 req/s for 30 s, primary killed at 10 s; 2 servers x 2 workers, service 8 ms + exp(mean 22 ms), hop 1 ms; active-passive: health check every 1000 ms, switch after 3 failures, cold standby +30 ms fading over 50 requests; active-active: round-robin, drop server on first failed request, no retries; 5 runs per mode, seeds 1100 to 1104, median, min and max reported for every measurement"
+}

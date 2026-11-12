@@ -8,6 +8,8 @@ Run one: `cd labs/<name>` and follow its README (usually `node run.mjs` or `pyth
 
 | Lab | Article |
 |---|---|
+| [`labs/failover-lab`](labs/failover-lab) | [Server failover: active-passive vs active-active](https://systemdesignsimple.com/main-server-dies-at-3am/) |
+| [`labs/kv-cache-bench`](labs/kv-cache-bench) | [1,000 people ask AI at once. Who gets an answer first? KV cache and continuous batching](https://systemdesignsimple.com/1000-people-ask-ai-at-once/) |
 | [`labs/ai-2`](labs/ai-2) | [Streaming AI replies: why text arrives before completion](https://systemdesignsimple.com/why-ai-starts-answering-before-done/) |
 | [`labs/ai-3`](labs/ai-3) | [Context window: why a long AI chat forgets your name](https://systemdesignsimple.com/my-chat-forgot-my-name/) |
 | [`labs/ai-4`](labs/ai-4) | [RAG retrieval: how AI finds one line in 100 pages](https://systemdesignsimple.com/how-ai-finds-one-line-in-100-pages/) |
